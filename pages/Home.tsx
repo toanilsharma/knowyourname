@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 import { AdUnit } from '../components/AdUnit';
 import { HomeFeatures } from '../components/HomeFeatures';
+import { HomeFamousNames } from '../components/HomeFamousNames';
 import { HomeCaseStudy } from '../components/HomeCaseStudy';
 import { HomeFAQ } from '../components/HomeFAQ';
 
@@ -320,6 +321,8 @@ export const Home: React.FC = () => {
                     <HomeFeatures />
 
                     <AdUnit slotId="home-mid" label="Sponsored" />
+
+                    <HomeFamousNames />
 
                     <HomeCaseStudy />
 

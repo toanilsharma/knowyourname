@@ -52,6 +52,22 @@ export const HomeFAQ: React.FC = () => {
                     question="Does spelling matter, or just sound?"
                     answer="Our primary engine uses CMUdict to convert text to Phonemes (Sound), so 'Philly' and 'Filly' analyze identically for acoustics. However, our Visual Analysis tracks Graphemes (Look), where spelling does matter for 'Information Entropy' and 'Typing Ergonomics'."
                 />
+                <FAQItem
+                    question="Do nicknames count?"
+                    answer="Yes! Nicknames often 'correct' the acoustic problems of a full name. For example, 'Robert' is hard and serious (low frequency), while 'Bobby' is soft and friendly (bilabial bounces). Analyze both to see your 'Professional' vs 'Personal' acoustics."
+                />
+                <FAQItem
+                    question="Does my middle name matter?"
+                    answer="Acoustically, usually no. In 90% of social interactions, you are known by 'First Name' or 'First + Last'. Middle names act as written 'buffers' but rarely affect the daily spoken obsession of your name."
+                />
+                <FAQItem
+                    question="Why do I hate my own voice?"
+                    answer="This is called 'Voice Confrontation'. You hear your voice through your skull (bone conduction), which adds bass. Recordings show only air conduction. Our 'Melody' tool plays your name as pure musical notes, helping you hear the objective beauty of the pattern without the self-consciousness."
+                />
+                <FAQItem
+                    question="What about accents?"
+                    answer="We use 'General American English' (GenAm) as the baseline standard (like news anchors). While accents change vowel qualities, the 'Skeleton' of the name (Consonants like K, T, P, M) remain identical across almost all accents."
+                />
             </div>
         </div>
     );

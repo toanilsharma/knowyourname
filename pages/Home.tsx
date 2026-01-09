@@ -13,6 +13,9 @@ import { SocialMatrix } from '../components/SocialMatrix';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 import { AdUnit } from '../components/AdUnit';
+import { HomeFeatures } from '../components/HomeFeatures';
+import { HomeCaseStudy } from '../components/HomeCaseStudy';
+import { HomeFAQ } from '../components/HomeFAQ';
 
 const ExplanationBlock: React.FC<{ text: string; linkTo?: string; linkLabel?: string }> = ({ text, linkTo, linkLabel }) => (
     <div className="mt-4 p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg text-sm leading-relaxed no-print">
@@ -303,7 +306,7 @@ export const Home: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="w-full border-y border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm mb-24">
+                    <div className="w-full border-y border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
                         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
                             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Research methodology based on papers from:</span>
                             <div className="flex gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
@@ -314,47 +317,21 @@ export const Home: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Scientific FAQ (AdSense: Adds crawler-readable text content) */}
-                    <div className="max-w-4xl mx-auto px-6 mb-24 text-left">
-                        <h3 className="text-2xl font-serif text-slate-900 dark:text-white mb-8 text-center">Scientific Methods</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                            <div className="space-y-6">
-                                <div>
-                                    <h4 className="font-bold text-slate-800 dark:text-white mb-2">How does this work?</h4>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                                        We use the <strong className="text-slate-900 dark:text-white">Carnegie Mellon University Pronouncing Dictionary (CMUdict)</strong> to break your name into phonetic units (phonemes). We then analyze these units using the International Phonetic Alphabet (IPA) standards for articulatory effort, sonority (loudness), and acoustic frequency.
-                                    </p>
-                                </div>
-                                <div>
-                                    <h4 className="font-bold text-slate-800 dark:text-white mb-2">Is this numerology?</h4>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                                        <strong className="text-slate-900 dark:text-white">Absolutely not.</strong> Numerology is a pseudoscientific belief in divine relationships between numbers. This tool relies on <strong className="text-slate-900 dark:text-white">Sound Symbolism</strong> (a branch of linguistics) and statistical distributions found in US Census data. We measure physical sound properties, not mystical "vibrations."
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="space-y-6">
-                                <div>
-                                    <h4 className="font-bold text-slate-800 dark:text-white mb-2">What is the "Bouba/Kiki" effect?</h4>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                                        It's a famous psychological experiment showing that 95% of people associate round shapes with sounds like "Bouba" and spiky shapes with sounds like "Kiki." Your name lies somewhere on this spectrum, influencing how strangers subconsciously perceive your "acoustic shape."
-                                    </p>
-                                </div>
-                                <div>
-                                    <h4 className="font-bold text-slate-800 dark:text-white mb-2">Why do names "feel" a certain way?</h4>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                                        This is due to <strong className="text-slate-900 dark:text-white">Implicit Egotism</strong> and <strong className="text-slate-900 dark:text-white">Phonosemantics</strong>. Certain sounds trigger biological responses (e.g., a "growl" sound triggers alertness). We map these biological triggers to your specific name combination.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="text-center mt-12">
-                            <Link to="/science" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline font-bold text-sm uppercase tracking-wide">
-                                Read the Research Papers →
-                            </Link>
-                        </div>
-                    </div>
+                    <HomeFeatures />
 
                     <AdUnit slotId="home-mid" label="Sponsored" />
+
+                    <HomeCaseStudy />
+
+                    <HomeFAQ />
+
+                    <div className="text-center pb-24">
+                        <Link to="/science" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline font-bold text-sm uppercase tracking-wide">
+                            Read the Full Research Papers →
+                        </Link>
+                    </div>
+
+
 
                     {/* ... Rest of Marketing Content ... */}
                     {/* Truncated for brevity, assuming standard content blocks remain same as before */}

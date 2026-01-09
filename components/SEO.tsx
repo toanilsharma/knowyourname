@@ -5,9 +5,10 @@ interface Props {
   title: string;
   description: string;
   keywords?: string;
+  noIndex?: boolean;
 }
 
-export const SEO: React.FC<Props> = ({ title, description, keywords }) => {
+export const SEO: React.FC<Props> = ({ title, description, keywords, noIndex = false }) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -37,13 +38,34 @@ export const SEO: React.FC<Props> = ({ title, description, keywords }) => {
     // Canonical Tag Update
     let linkCanonical = document.querySelector('link[rel="canonical"]');
     if (!linkCanonical) {
-        linkCanonical = document.createElement('link');
-        linkCanonical.setAttribute('rel', 'canonical');
-        document.head.appendChild(linkCanonical);
+      linkCanonical = document.createElement('link');
+      linkCanonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(linkCanonical);
     }
     linkCanonical.setAttribute('href', `https://knowyourname.co.in${location.pathname}`);
 
   }, [title, description, keywords, location]);
+
+  useEffect(() => {
+    // Robots Meta Tag
+    let metaRobots = document.querySelector('meta[name="robots"]');
+    if (!metaRobots) {
+      metaRobots = document.createElement('meta');
+      metaRobots.setAttribute('name', 'robots');
+      document.head.appendChild(metaRobots);
+    }
+
+    if (noIndex) {
+      metaRobots.setAttribute('content', 'noindex, nofollow');
+    } else {
+      metaRobots.setAttribute('content', 'index, follow, max-image-preview:large');
+    }
+
+    // Cleanup to default on unmount
+    return () => {
+      metaRobots?.setAttribute('content', 'index, follow, max-image-preview:large');
+    }
+  }, [noIndex]);
 
   return null;
 };

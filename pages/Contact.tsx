@@ -12,45 +12,23 @@ export const Contact: React.FC = () => {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="flex flex-col items-center gap-12">
         {/* Contact Info */}
-        <div className="space-y-8">
-           <div className="glass-panel p-6 rounded-xl">
-             <h3 className="font-bold text-slate-900 dark:text-white mb-2">General Inquiries</h3>
-             <p className="text-sm mb-4">For general questions regarding the tool or partnerships.</p>
-             <a href="mailto:info.onesharma@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline font-mono">info.onesharma@gmail.com</a>
-           </div>
+        <div className="w-full max-w-xl space-y-8">
+          <div className="glass-panel p-8 rounded-xl text-center border border-slate-200 dark:border-slate-800 shadow-lg">
+            <div className="text-4xl mb-4">📧</div>
+            <h3 className="font-bold text-2xl text-slate-900 dark:text-white mb-2">Email Us</h3>
+            <p className="text-slate-500 mb-6">For collaborations, methodology questions, or data privacy requests.</p>
+            <a href="mailto:info.onesharma@gmail.com" className="inline-block px-8 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors shadow-blue-500/20 shadow-lg">
+              info.onesharma@gmail.com
+            </a>
+          </div>
 
-           <div className="glass-panel p-6 rounded-xl">
-             <h3 className="font-bold text-slate-900 dark:text-white mb-2">Privacy & Data</h3>
-             <p className="text-sm mb-4">For concerns regarding cookies, data privacy, or removal requests.</p>
-             <a href="mailto:info.onesharma@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline font-mono">info.onesharma@gmail.com</a>
-           </div>
-
-           <div className="text-xs text-slate-500">
-             <p>Know Your Name Labs</p>
-             <p>Created by A Sharma</p>
-           </div>
+          <div className="text-center text-sm text-slate-400 mt-8">
+            <p>Know Your Name Labs • Research Division</p>
+            <p className="mt-2">Response time: Usually within 48 hours.</p>
+          </div>
         </div>
-
-        {/* Mock Form (Visual Only for Trust) */}
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wide text-slate-500 mb-2">Name</label>
-            <input type="text" className="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded px-4 py-3 outline-none focus:border-blue-500 transition-colors" placeholder="Jane Doe" />
-          </div>
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wide text-slate-500 mb-2">Email</label>
-            <input type="email" className="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded px-4 py-3 outline-none focus:border-blue-500 transition-colors" placeholder="jane@example.com" />
-          </div>
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wide text-slate-500 mb-2">Message</label>
-            <textarea rows={4} className="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded px-4 py-3 outline-none focus:border-blue-500 transition-colors" placeholder="How does the phonetic algorithm work?" />
-          </div>
-          <button className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 rounded hover:opacity-90 transition-opacity">
-            Send Message
-          </button>
-        </form>
       </div>
     </div>
   );

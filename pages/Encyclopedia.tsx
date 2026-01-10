@@ -6,136 +6,204 @@ import { AdUnit } from '../components/AdUnit';
 export const Encyclopedia: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-16 text-slate-700 dark:text-slate-300 space-y-16 animate-fade-in-up">
-      <SEO 
-        title="Encyclopedia of Onomastics & Phonosemantics"
-        description="A comprehensive scientific reference on naming laws, the Bouba/Kiki effect, nominative determinism, and the linguistics of personal identity."
-        keywords="onomastics, phonosemantics, naming laws, bouba kiki effect, nominative determinism, linguistic relativity"
+      <SEO
+        title="Encyclopedia of Onomastics | Global Naming Systems"
+        description="A scientific deep-dive into Vedic Namkaran, Chinese 5-Elements, Japanese Seimei Handan, and global naming laws. Understand the math and culture behind names."
+        keywords="onomastics, vedic naming, chinese five elements name, seimei handan, arabic naming structure, naming laws, bouba kiki"
       />
 
       <header className="border-b border-slate-200 dark:border-slate-800 pb-8 text-center">
         <div className="inline-block px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full text-xs font-mono mb-4 border border-amber-200 dark:border-amber-500/20">
-          REFERENCE LIBRARY
+          GLOBAL ONOMASTICS INDEX
         </div>
-        <h1 className="text-4xl md:text-5xl font-serif text-slate-900 dark:text-white mb-6">Naming Encyclopedia</h1>
+        <h1 className="text-4xl md:text-5xl font-serif text-slate-900 dark:text-white mb-6">The Science of Names</h1>
         <p className="text-xl text-slate-500 dark:text-slate-400 font-light max-w-2xl mx-auto">
-          A compendium of naming laws, mathematical distributions, and phonosemantic theories.
+          From the movement of stars in India to the stroke counts of Japan, and the strict laws of Iceland. A comprehensive guide to how the world defines identity.
         </p>
       </header>
-      
-      {/* Article 1: Naming Laws */}
+
+      {/* SECTION: Global Regulations */}
       <article className="space-y-6">
-        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-blue-500 pl-4" id="naming-laws">Strict Naming Laws by Country</h2>
+        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-blue-500 pl-4" id="naming-laws">1. Global Naming Regulations</h2>
         <p className="leading-relaxed text-lg">
-          While many cultures allow parents freedom in naming, several nations enforce strict legal lists to preserve cultural heritage and prevent embarrassment. These laws often dictate the phonotactic structure of allowed names.
+          While many Western nations prioritize creative freedom, many countries treat personal names as a matter of national heritage and public interest, enforcing strict legal frameworks to prevent mockery and preserve linguistic integrity.
         </p>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
           <div className="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
-            <h3 className="font-bold text-slate-900 dark:text-white text-xl mb-3">Iceland: Mannanafnanefnd</h3>
+            <h3 className="font-bold text-slate-900 dark:text-white text-xl mb-3">Iceland: The Approved Registry</h3>
             <p className="text-sm leading-relaxed mb-4">
-              The <strong>Icelandic Naming Committee</strong> maintains a register of approved names. Names must be capable of having Icelandic grammatical case endings (declensions) and must not conflict with the linguistic structure of Icelandic.
+              The <strong>Mannanafnanefnd</strong> (Naming Committee) enforces a strict list. Names must declinate correctly according to Icelandic grammar cases.
             </p>
-            <ul className="list-disc pl-5 text-sm space-y-1 mb-4">
-              <li>No letter 'C', 'Q', or 'W' (not in alphabet).</li>
-              <li>Must clearly indicate gender (historically).</li>
+            <ul className="list-disc pl-5 text-sm space-y-1 mb-4 text-slate-600 dark:text-slate-400">
+              <li><strong>Rule 1:</strong> Must contain only letters in the Icelandic alphabet (No C, Q, W, Z).</li>
+              <li><strong>Rule 2:</strong> Must not cause the bearer embarrassment.</li>
+              <li><strong>Example:</strong> "Duncan" is banned because it cannot be conjugated in Icelandic cases.</li>
             </ul>
-            <cite className="text-xs text-slate-500 block">Source: Lög um mannanöfn (Personal Names Act), No. 45/1996.</cite>
           </div>
 
           <div className="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
-            <h3 className="font-bold text-slate-900 dark:text-white text-xl mb-3">Portugal: Approved Lists</h3>
+            <h3 className="font-bold text-slate-900 dark:text-white text-xl mb-3">Malaysia: "MyKid" Restrictions</h3>
             <p className="text-sm leading-relaxed mb-4">
-              Portugal is perhaps the most strict, requiring names to be traditional Portuguese, gender-specific, and fully spelled out (no nicknames). The <em>Instituto dos Registos e do Notariado</em> publishes an 80+ page document of allowed and forbidden names.
+              In 2006, the Malaysian National Registration Department clamped down on an increasing trend of "unusual" names.
             </p>
-            <ul className="list-disc pl-5 text-sm space-y-1 mb-4">
-              <li><strong>Forbidden:</strong> Tom (must be Tomás).</li>
-              <li><strong>Forbidden:</strong> Ben (must be Benjamim).</li>
+            <ul className="list-disc pl-5 text-sm space-y-1 mb-4 text-slate-600 dark:text-slate-400">
+              <li><strong>Banned:</strong> "007" (Numbers are strictly forbidden).</li>
+              <li><strong>Banned:</strong> "Sor Chai" (Insane), "Khiow Khoo" (Hunchback).</li>
+              <li><strong>Banned:</strong> Names of animals, insects, or fruits, to prevent bullying.</li>
             </ul>
-            <cite className="text-xs text-slate-500 block">Source: IRN, Lista de Nomes Próprios.</cite>
+          </div>
+
+          <div className="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+            <h3 className="font-bold text-slate-900 dark:text-white text-xl mb-3">Portugal: Traditionalism</h3>
+            <p className="text-sm leading-relaxed mb-4">
+              Portugal requires names to be traditional, Portuguese in origin, and gender-specific. Nicknames on birth certificates are forbidden.
+            </p>
+            <ul className="list-disc pl-5 text-sm space-y-1 mb-4 text-slate-600 dark:text-slate-400">
+              <li><strong>Enforced:</strong> "Tom" is rejected; it must be "Tomás".</li>
+              <li><strong>Enforced:</strong> "Sam" is rejected; it must be "Samuel".</li>
+            </ul>
+          </div>
+
+          <div className="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+            <h3 className="font-bold text-slate-900 dark:text-white text-xl mb-3">New Zealand: Anti-Title Law</h3>
+            <p className="text-sm leading-relaxed mb-4">
+              The Registrar of Births, Deaths and Marriages routinely blocks names that resemble official titles or ranks.
+            </p>
+            <ul className="list-disc pl-5 text-sm space-y-1 mb-4 text-slate-600 dark:text-slate-400">
+              <li><strong>Rejected List:</strong> Justice, King, Prince, Royal, Duke, Major.</li>
+              <li><strong>Rationale:</strong> Prevents confusion with official government roles.</li>
+            </ul>
           </div>
         </div>
       </article>
 
       <AdUnit slotId="article-middle" />
 
-      {/* Article 2: Zipf's Law */}
+      {/* SECTION: Indian / Vedic */}
       <article className="space-y-6">
-        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-emerald-500 pl-4" id="zipfs-law">The Mathematics of Names: Zipf's Law</h2>
+        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-orange-500 pl-4" id="vedic-system">2. The Vedic System (India)</h2>
         <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
           <p>
-            <strong>Zipf's law</strong> is an empirical law formulated using mathematical statistics. It states that given some corpus of natural language utterances, the frequency of any word is inversely proportional to its rank in the frequency table.
+            In Hindu tradition, naming is not merely labeling; it is the <strong>Namkaran</strong> (Naming Ceremony), one of the essential 16 Samskaras (rites of passage). The name is believed to influence the child's destiny and vibrational energy.
           </p>
-          <p>
-            Surprisingly, this power-law distribution applies to <strong>First Names</strong> as well. In almost every country, a very small number of names (e.g., James, Mary, Mohamed, Wei) account for a disproportionately large percentage of the population, while the "long tail" of unique names stretches out infinitely.
-          </p>
-          <p className="bg-emerald-50 dark:bg-emerald-900/10 p-4 rounded-lg border border-emerald-100 dark:border-emerald-800/30 text-sm">
-            <strong>The Implications:</strong> Parents often strive for uniqueness, pushing naming trends further down the "long tail." This accelerates name turnover (fashion cycles), a phenomenon studied quantitatively in sociology. This explains why names like "Jennifer" (top of curve) can suddenly feel dated, while "rare" names become the new status signal.
-          </p>
-          <cite className="text-xs text-slate-500 block mt-2 not-italic">Reference: Hahn, H. & Bentley, R. A. (2003). "Drift as a mechanism for cultural change: An example from baby names". *Proceedings of the Royal Society*.</cite>
-        </div>
-      </article>
-
-      {/* Article 3: Phonosemantics */}
-      <article className="space-y-6">
-        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-indigo-500 pl-4" id="phonosemantics">Phonosemantics: Meaning in Sound</h2>
-        <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
-          <p>
-            <strong>Phonosemantics</strong> (or sound symbolism) suggests that vocal sounds carry meaning in and of themselves, separate from the etymological history of the word. This field challenges the Saussurean concept that the signifier (sound) and signified (meaning) have an arbitrary relationship.
-          </p>
-          <p>
-            For example, the <strong>GL-</strong> cluster in English is disproportionately associated with light or vision: <em>glitter, gleam, glow, glint, glare, glass, glimpse</em>.
-          </p>
-          <p>
-            The <strong>SN-</strong> cluster is often associated with the nose or mouth: <em>snout, sneeze, snore, sniff, snack, snarl</em>.
-          </p>
-          <p>
-            When analyzing names, our engine looks for these "Phonesthemes." A name like "Gloria" subconsciously triggers the "light/vision" association of the GL- cluster, making it feel "radiant" purely through sound, even if the listener doesn't know the Latin root.
-          </p>
-          <cite className="text-xs text-slate-500 block mt-2 not-italic">Reference: Magnus, M. (2001). *What's in a Word? Studies in Phonosemantics*.</cite>
-        </div>
-      </article>
-
-      {/* Article 4: Nominative Determinism */}
-      <article className="space-y-6">
-        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-rose-500 pl-4" id="determinism">Nominative Determinism & Implicit Egotism</h2>
-        <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
-          <p>
-            <strong>Nominative determinism</strong> is the hypothesis that people tend to gravitate towards areas of work that fit their names. The term was first used in the magazine *New Scientist* in 1994, after the discovery of a book on polar explorations by Daniel <em>Snowman</em> and an article on urology by researchers <em>Splatt</em> and <em>Weedon</em>.
-          </p>
-          <p>
-             While often dismissed as coincidence, researchers Pelham, Mirenberg, and Jones (2002) found a statistically significant preference for people to live in places (e.g., people named Louis living in St. Louis) or choose careers (e.g., people named Dennis becoming dentists) that share letters with their names. This is attributed to <strong>Implicit Egotism</strong>—the unconscious preference for things we associate with ourselves.
-          </p>
-          <div className="my-4 p-4 bg-slate-100 dark:bg-slate-900 rounded-lg">
-              <h4 className="font-bold text-sm mb-2">The Name-Letter Effect</h4>
-              <p className="text-sm">
-                  People also tend to prefer brands, partners, and even street names that share their initials. This subtle psychological bias suggests that a name acts as a "filter" for how we interact with the world, guiding micro-decisions over a lifetime.
+          <div className="my-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 bg-orange-50 dark:bg-orange-900/10 rounded-lg border border-orange-100 dark:border-orange-800/30">
+              <h4 className="font-bold text-orange-800 dark:text-orange-400 mb-2">Nakshatra (Star)</h4>
+              <p className="text-xs">
+                The name's starting syllable is determined by the birth star (Nakshatra). For example, a child born under <em>Rohini</em> might be required to start their name with 'O' or 'Va'.
               </p>
+            </div>
+            <div className="p-4 bg-orange-50 dark:bg-orange-900/10 rounded-lg border border-orange-100 dark:border-orange-800/30">
+              <h4 className="font-bold text-orange-800 dark:text-orange-400 mb-2">Swar Siddhanta</h4>
+              <p className="text-xs">
+                The science of sound. Sanskrit names are chosen for their specific phonetic vibration, which is believed to resonate with the individual's chakras.
+              </p>
+            </div>
+            <div className="p-4 bg-orange-50 dark:bg-orange-900/10 rounded-lg border border-orange-100 dark:border-orange-800/30">
+              <h4 className="font-bold text-orange-800 dark:text-orange-400 mb-2">Meaning</h4>
+              <p className="text-xs">
+                Names almost universally refer to qualities (e.g., <em>Anil</em> - Wind/Air), deities, or nature, acting as a lifelong invocation of that attribute.
+              </p>
+            </div>
           </div>
-          <cite className="text-xs text-slate-500 block mt-2 not-italic">Reference: Pelham, B. W., et al. (2002). "Why Susie sells seashells by the seashore: Implicit egotism and major life decisions."</cite>
         </div>
       </article>
 
-      {/* Article 5: The Bouba/Kiki Effect */}
+      {/* SECTION: Chinese / Sinitic */}
       <article className="space-y-6">
-        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-purple-500 pl-4" id="bouba-kiki">The Bouba/Kiki Effect</h2>
+        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-red-500 pl-4" id="sinitic-system">3. Sinitic Traditions (China)</h2>
         <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
           <p>
-             The <strong>Bouba/Kiki effect</strong> is a non-arbitrary mapping between speech sounds and the visual shape of objects. It was first documented by Wolfgang Köhler in 1929 using nonsense words.
+            Chinese naming is a complex interplay of genealogy, hope, and cosmic balance. A typical name consists of three characters: [Surname] + [Generation Name] + [Given Name].
           </p>
-          <p>
-             When shown a curvy shape and a spiky shape, and asked which is "Bouba" and which is "Kiki," over 95% of people across cultures (including those without written language) identify the curvy shape as Bouba and the spiky one as Kiki.
-          </p>
-          <ul className="list-disc pl-5 space-y-2">
-             <li><strong>Bouba Sounds:</strong> Voiced bilabial stops (/b/, /m/) and back rounded vowels (/u/, /o/). These require the mouth to make a rounded shape.</li>
-             <li><strong>Kiki Sounds:</strong> Unvoiced velar or dental stops (/k/, /t/) and high front vowels (/i/). These feel "sharp" in the throat and mouth.</li>
+          <ul className="list-disc pl-5 space-y-2 mt-4">
+            <li><strong>Banci (Generation Name):</strong> Historically, families had a "Generation Poem." Each generation would use the next character in the poem as the middle part of their name, instantly identifying their rank in the family hierarchy, even among distant cousins.</li>
+            <li><strong>Tone Balance:</strong> A name must sound melodically pleasing. Parents avoid combining characters with "clashing" tones (e.g., using only Fourth Tone "falling" sounds which sound aggressive).</li>
+            <li><strong>The Five Elements (Wu Xing):</strong> If a child's birth chart (Bazi) lacks an element (e.g., Water), the name will often include a character with the "Water" radical (like Ocean or River) to restore cosmic equilibrium.</li>
           </ul>
-          <p>
-              In personal naming, this creates an "Acoustic Personality." A name like "Molly" (Bouba) is perceived as softer and more approachable, while a name like "Beatrix" (Kiki) is perceived as sharper, more energetic, and more competent.
-          </p>
-          <cite className="text-xs text-slate-500 block mt-2 not-italic">Reference: Ramachandran, V.S. & Hubbard, E.M. (2001). "Synaesthesia: A window into perception, thought and language".</cite>
         </div>
       </article>
-      
+
+      {/* SECTION: Japanese Seimei Handan */}
+      <article className="space-y-6">
+        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-pink-500 pl-4" id="japan-system">4. Seimei Handan (Japan)</h2>
+        <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
+          <p>
+            <strong>Seimei Handan</strong> is the Japanese art of "Name Diagnosis." Unlike phonetic systems, this focuses on the visual biology of the Kanji characters—specifically the <strong>Stroke Count</strong>.
+          </p>
+          <p>
+            Japanese parents will often calculate the total strokes of the surname and given name. Certain totals (like 11, 21, 31) are considered "Great Luck" (Daikichi), bringing leadership and prosperity. Others (like 4, 9, 19) are historically associated with hardship and are avoided.
+          </p>
+          <p className="bg-pink-50 dark:bg-pink-900/10 p-4 rounded-lg border border-pink-100 dark:border-pink-800/30 text-sm mt-4">
+            <strong>Kira-Kira Names:</strong> A modern phenomenon where parents give children names with "sparkly" or non-standard readings (e.g., the Kanji for "Light" but pronounced "Pikachu"). The Japanese government is currently debating laws to restrict readings to those generally recognized in society.
+          </p>
+        </div>
+      </article>
+
+      {/* SECTION: Arabic Structure */}
+      <article className="space-y-6">
+        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-emerald-500 pl-4" id="arabic-system">5. Arabic Naming Chain</h2>
+        <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
+          <p>
+            Arabic names are patrilineal chains that serve as a precise GPS of identity. They do not follow the Western [First] [Last] structure.
+          </p>
+          <div className="mt-4 space-y-3">
+            <div className="flex gap-4 items-start">
+              <span className="font-bold text-emerald-600 w-24 shrink-0">Ism</span>
+              <span>The personal name (e.g., <em>Muhammad</em>). The given name at birth.</span>
+            </div>
+            <div className="flex gap-4 items-start">
+              <span className="font-bold text-emerald-600 w-24 shrink-0">Nasab</span>
+              <span> The pedigree. Indicated by "ibn" (son of) or "bint" (daughter of). A full name recites the lineage: <em>Ahmed ibn Yusuf ibn Hassan</em> (Ahmed, son of Yusuf, son of Hassan).</span>
+            </div>
+            <div className="flex gap-4 items-start">
+              <span className="font-bold text-emerald-600 w-24 shrink-0">Kunya</span>
+              <span>An honorific indicating parenthood, often used daily instead of the Ism. E.g., <em>Abu Bakr</em> (Father of Bakr). Using a Kunya is a sign of respect.</span>
+            </div>
+            <div className="flex gap-4 items-start">
+              <span className="font-bold text-emerald-600 w-24 shrink-0">Laqab</span>
+              <span>A descriptive epithet or religious title (e.g., <em>Al-Rashid</em>, "The Rightly Guided").</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div className="w-full h-px bg-slate-200 dark:bg-slate-800 my-12"></div>
+
+      {/* SECTION: Scientific Theories (Zipf, Phonosemantics, Bouba/Kiki) */}
+      <article className="space-y-6">
+        <h2 className="text-3xl font-serif text-slate-900 dark:text-white border-l-4 border-violet-500 pl-4" id="science">6. The Mathematics of Names</h2>
+        <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 space-y-8">
+
+          {/* Zipfs */}
+          <div>
+            <h3 className="text-xl font-bold mb-2 text-slate-800 dark:text-slate-200">Zipf's Law in Demographics</h3>
+            <p>
+              <strong>Zipf's law</strong> is a power-law distribution. In names, it predicts that a tiny handful of names (e.g., James, Wei, Mohamed) will account for a huge percentage of the population, while the "long tail" of unique names stretches infinitely. This explains why trying to be "unique" is statistically difficult—the tail is crowded.
+            </p>
+          </div>
+
+          {/* Nominative Determinism */}
+          <div>
+            <h3 className="text-xl font-bold mb-2 text-slate-800 dark:text-slate-200">Nominative Determinism</h3>
+            <p>
+              The hypothesis that people gravitate toward careers that fit their names (e.g., Usain Bolt running fast, or a dentist named Dennis). Researchers attribute this to <strong>Implicit Egotism</strong>: we subconsciously prefer things that share letters with our own name, influencing where we live, who we marry, and what we do.
+            </p>
+          </div>
+
+          {/* Bouba Kiki */}
+          <div>
+            <h3 className="text-xl font-bold mb-2 text-slate-800 dark:text-slate-200">The Bouba/Kiki Effect</h3>
+            <p>
+              A universal phenomenon where 95% of humans, regardless of language, associate round shapes with words like "Bouba" (round vowels, soft consonants) and spiky shapes with "Kiki" (sharp vowels, hard stops). This proves that sound is not arbitrary—it carries intrinsic distinctive meaning.
+            </p>
+            <cite className="text-xs text-slate-500 block mt-2 not-italic">Reference: Ramachandran, V.S. & Hubbard, E.M. (2001).</cite>
+          </div>
+
+        </div>
+      </article>
+
       <div className="pt-12 border-t border-slate-200 dark:border-slate-800 text-center">
         <Link to="/" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline font-medium">
           ← Return to Analysis Lab

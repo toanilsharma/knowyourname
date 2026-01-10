@@ -478,6 +478,11 @@ export const Home: React.FC = () => {
                             </AnalysisCard>
                         </div>
 
+                        {/* NEW: Advanced Aesthetics (Synesthesia, Rhythm, Travel Score) */}
+                        <div className="mb-8">
+                            {analysis && <AestheticsCard analysis={analysis} />}
+                        </div>
+
                         {/* SECTION 1: ACOUSTICS */}
                         <div id="section-acoustics" className="scroll-mt-32">
                             <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">

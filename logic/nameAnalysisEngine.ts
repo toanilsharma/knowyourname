@@ -747,6 +747,57 @@ const analyzeElemental = (chars: string[]): ElementalData => {
   return { atomicMass, composition, stateOfMatter };
 };
 
+const analyzeGenderBias = (name: string): GenderBias => {
+  const n = name.toUpperCase();
+  // 1. Text mining of gender-copded phonemes (Barry & Harper, 1995)
+  let feminineScore = 0;
+  let masculineScore = 0;
+
+  // Feminine Indicators: 'A' ending, 'E' ending, 'N' ending (soft), more vowels
+  if (n.endsWith('A')) feminineScore += 30;
+  if (n.endsWith('E') && !n.endsWith('KE')) feminineScore += 15;
+  if (n.endsWith('Y') || n.endsWith('I')) feminineScore += 10;
+  if (n.includes('LL')) feminineScore += 10;
+  if (n.includes('SS')) feminineScore += 10;
+
+  // Masculine Indicators: Plosive endings (T, K, P, D), 'O' ending, 'R' ending
+  if (/[TKPD]$/.test(n)) masculineScore += 25;
+  if (n.endsWith('O')) masculineScore += 20;
+  if (n.endsWith('R')) masculineScore += 15;
+  if (n.endsWith('SON')) masculineScore += 30;
+  if (n.length <= 4) masculineScore += 5; // Brevity
+
+  // Vowel Density Check
+  const vowels = n.replace(/[^AEIOU]/g, '').length;
+  const density = vowels / n.length;
+  if (density > 0.5) feminineScore += 10;
+  else masculineScore += 10;
+
+  // Normalize to 0-100 scale where 0=Masc, 100=Fem
+  const total = feminineScore + masculineScore || 1;
+  const ratio = feminineScore / total;
+  let score = Math.round(ratio * 100);
+
+  // Damping for neutrality
+  if (score > 40 && score < 60) score = 50;
+
+  let leaning: GenderBias['leaning'] = 'Neutral';
+  let viralHook = "Your name is perfectly gender-neutral.";
+  let explanation = "Your name contains an equal balance of 'soft' linguistic cues and 'hard' phonetic stops.";
+
+  if (score > 60) {
+    leaning = 'Feminine-Coded';
+    viralHook = "Your name is 85% Feminine-Coded.";
+    explanation = "Your name relies heavily on 'Sonorants' (L, M, N) and open vowels, which are cross-culturally associated with feminine archetypes.";
+  } else if (score < 40) {
+    leaning = 'Masculine-Coded';
+    viralHook = "Your name is 90% Masculine-Coded.";
+    explanation = "Your name is defined by 'Obstruents' (T, K, D) and closed syllables, creating a structure traditionally aligned with masculine naming conventions.";
+  }
+
+  return { score, leaning, viralHook, explanation };
+};
+
 export const analyzeName = (rawName: string): NameAnalysis | null => {
   if (!rawName || rawName.length < 2) return null;
   // IMPROVED SANITIZATION: Normalize Accents (NFD) then remove diacritics
@@ -775,7 +826,8 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
 
   const synesthesia: SynesthesiaData = {
     primaryColor: getSynesthesiaColor(chars[0]), secondaryColor: getSynesthesiaColor(chars.find(c => c !== chars[0]) || chars[0]),
-    description: `Simulated grapheme-color association based on prevalence studies (Simner et al., 2005).`, scientificRef: "Simner, J. et al. (2005). Synaesthesia: The prevalence of atypical cross-modal experiences."
+    description: `Simulated grapheme-color association based on prevalence studies (Simner et al., 2005).`, scientificRef: "Simner, J. et al. (2005). Synaesthesia: The prevalence of atypical cross-modal experiences.",
+    colors: sanitized.split('').map(getSynesthesiaColor)
   };
 
   let scrabble = 0, morse = "", bin = "", braille = "";
@@ -801,6 +853,15 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
   const smileIndex = analyzeSmileIndex(sanitized);
   const dominanceScale = analyzeDominance(sanitized);
   const genderBias = analyzeGenderBias(sanitized);
+  const globalPronounceability = analyzeGlobalPronounceability(sanitized);
+
+  // We map analyzeGlobalRobustness to globalPronounceability for compatibility if needed, 
+  // or just deprecate it. For now, create a compatible object.
+  const globalRobustness = {
+    score: globalPronounceability.score,
+    label: globalPronounceability.score > 80 ? 'Universal' : globalPronounceability.score < 50 ? 'Language-Specific' : 'Robust',
+    difficultSounds: globalPronounceability.difficulties
+  } as GlobalRobustness;
 
   const isSymmetrical = sanitized === chars.slice().reverse().join('');
 
@@ -812,12 +873,33 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
     keyboard,
     encodings: { scrabbleScore: scrabble, morseCode: morse.trim(), binarySequence: bin.trim(), braille: braille.trim() },
     synesthesia, soundSymbolism, psycholinguistics: analyzePsycholinguistics(sanitized, phonotactics), phonotacticImpression: analyzeMorphology(sanitized),
-    sonorityProfile, acousticProfile, genderLoading: analyzeGenderLoading(sanitized), phonotactics, globalRobustness: analyzeGlobalRobustness(sanitized),
+    sonorityProfile, acousticProfile, genderLoading: analyzeGenderLoading(sanitized), phonotactics, globalRobustness,
     prosody, benchmarks, archetype, radioAnalysis, elementalData, mouthKinetics, phonesthemes,
     socialImpression, informationDynamics,
     trustworthiness, smileIndex, dominanceScale, genderBias,
-    globalPronounceability // New
+    globalPronounceability
   };
+};
+const smileIndex = analyzeSmileIndex(sanitized);
+const dominanceScale = analyzeDominance(sanitized);
+const genderBias = analyzeGenderBias(sanitized);
+
+const isSymmetrical = sanitized === chars.slice().reverse().join('');
+
+return {
+  name: rawName, sanitizedName: sanitized, ipaTranscription, metrics: { totalChars: chars.length, uniqueChars: uniqueSet.size, alphaWeight },
+  structure: { firstLetterCat: VOWELS.has(chars[0]) ? 'Vowel' : 'Consonant', lastLetterCat: VOWELS.has(chars[chars.length - 1]) ? 'Vowel' : 'Consonant', lengthCategory: chars.length < 5 ? 'Short' : chars.length > 8 ? 'Long' : 'Medium', firstLetterFrequency: ['J', 'M', 'A', 'D', 'C'].includes(chars[0]) ? 'Common' : 'Rare', isSymmetrical: isSymmetrical },
+  vcData: { vowelCount, consonantCount, vowelPercentage, densityLabel: vowelPercentage > 50 ? 'Vowel Dominant' : 'Consonant Dominant' },
+  phonetics, dominantSound: dominantSound.charAt(0).toUpperCase() + dominantSound.slice(1),
+  keyboard,
+  encodings: { scrabbleScore: scrabble, morseCode: morse.trim(), binarySequence: bin.trim(), braille: braille.trim() },
+  synesthesia, soundSymbolism, psycholinguistics: analyzePsycholinguistics(sanitized, phonotactics), phonotacticImpression: analyzeMorphology(sanitized),
+  sonorityProfile, acousticProfile, genderLoading: analyzeGenderLoading(sanitized), phonotactics, globalRobustness: analyzeGlobalRobustness(sanitized),
+  prosody, benchmarks, archetype, radioAnalysis, elementalData, mouthKinetics, phonesthemes,
+  socialImpression, informationDynamics,
+  trustworthiness, smileIndex, dominanceScale, genderBias,
+  globalPronounceability // New
+};
 };
 
 const levenshtein = (a: string, b: string): number => {

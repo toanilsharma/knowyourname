@@ -880,27 +880,7 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
     globalPronounceability
   };
 };
-const smileIndex = analyzeSmileIndex(sanitized);
-const dominanceScale = analyzeDominance(sanitized);
-const genderBias = analyzeGenderBias(sanitized);
 
-const isSymmetrical = sanitized === chars.slice().reverse().join('');
-
-return {
-  name: rawName, sanitizedName: sanitized, ipaTranscription, metrics: { totalChars: chars.length, uniqueChars: uniqueSet.size, alphaWeight },
-  structure: { firstLetterCat: VOWELS.has(chars[0]) ? 'Vowel' : 'Consonant', lastLetterCat: VOWELS.has(chars[chars.length - 1]) ? 'Vowel' : 'Consonant', lengthCategory: chars.length < 5 ? 'Short' : chars.length > 8 ? 'Long' : 'Medium', firstLetterFrequency: ['J', 'M', 'A', 'D', 'C'].includes(chars[0]) ? 'Common' : 'Rare', isSymmetrical: isSymmetrical },
-  vcData: { vowelCount, consonantCount, vowelPercentage, densityLabel: vowelPercentage > 50 ? 'Vowel Dominant' : 'Consonant Dominant' },
-  phonetics, dominantSound: dominantSound.charAt(0).toUpperCase() + dominantSound.slice(1),
-  keyboard,
-  encodings: { scrabbleScore: scrabble, morseCode: morse.trim(), binarySequence: bin.trim(), braille: braille.trim() },
-  synesthesia, soundSymbolism, psycholinguistics: analyzePsycholinguistics(sanitized, phonotactics), phonotacticImpression: analyzeMorphology(sanitized),
-  sonorityProfile, acousticProfile, genderLoading: analyzeGenderLoading(sanitized), phonotactics, globalRobustness: analyzeGlobalRobustness(sanitized),
-  prosody, benchmarks, archetype, radioAnalysis, elementalData, mouthKinetics, phonesthemes,
-  socialImpression, informationDynamics,
-  trustworthiness, smileIndex, dominanceScale, genderBias,
-  globalPronounceability // New
-};
-};
 
 const levenshtein = (a: string, b: string): number => {
   const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));

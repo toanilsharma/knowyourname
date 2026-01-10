@@ -52,7 +52,7 @@ export const HomeFamousNames: React.FC = () => {
                 <div className="text-center mb-16">
                     <span className="text-purple-600 dark:text-purple-400 font-bold tracking-widest uppercase text-xs">Phonosemantics in the Real World</span>
                     <h2 className="text-3xl md:text-5xl font-serif text-slate-900 dark:text-white mt-3">Famous Soundscapes</h2>
-                    <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mt-4">
+                    <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mt-6 text-xl leading-relaxed">
                         Major brands and storytellers don't pick names by accident. They use sound symbolism to engineer a specific feeling.
                     </p>
                 </div>
@@ -71,8 +71,8 @@ export const HomeFamousNames: React.FC = () => {
                                 <div
                                     key={item.name}
                                     className={`absolute inset-0 transition-all duration-700 ease-out-back transform ${isActive
-                                            ? 'opacity-100 scale-100 translate-x-0 z-20'
-                                            : 'opacity-0 scale-90 translate-x-12 z-0'
+                                        ? 'opacity-100 scale-100 translate-x-0 z-20'
+                                        : 'opacity-0 scale-90 translate-x-12 z-0'
                                         }`}
                                 >
                                     <div className="h-full w-full bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 p-8 flex flex-col items-center justify-center relative overflow-hidden">
@@ -104,7 +104,7 @@ export const HomeFamousNames: React.FC = () => {
                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 transition-all duration-300">
                                 Why "{FAMOUS_EXAMPLES[activeIndex].name}" Works
                             </h3>
-                            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed transition-all duration-300">
+                            <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed transition-all duration-300">
                                 {FAMOUS_EXAMPLES[activeIndex].analysis}
                             </p>
                         </div>

@@ -16,72 +16,72 @@ const DORSALS = new Set(['K', 'G', 'Y']); // Back of tongue/Throat
 
 // English Letter Frequencies (Percentage) - Source: OEC
 const ENGLISH_FREQ: Record<string, number> = {
-    E: 11.16, A: 8.50, R: 7.58, I: 7.54, O: 7.16, T: 6.95, N: 6.65, S: 5.74, L: 5.49, C: 4.54,
-    U: 3.63, D: 3.38, P: 3.17, M: 3.01, H: 3.00, G: 2.47, B: 2.07, F: 1.81, Y: 1.78, W: 1.29,
-    K: 1.10, V: 1.01, X: 0.29, Z: 0.27, J: 0.20, Q: 0.20
+  E: 11.16, A: 8.50, R: 7.58, I: 7.54, O: 7.16, T: 6.95, N: 6.65, S: 5.74, L: 5.49, C: 4.54,
+  U: 3.63, D: 3.38, P: 3.17, M: 3.01, H: 3.00, G: 2.47, B: 2.07, F: 1.81, Y: 1.78, W: 1.29,
+  K: 1.10, V: 1.01, X: 0.29, Z: 0.27, J: 0.20, Q: 0.20
 };
 
 // --- KEYBOARD LOGIC (Exported for UI Recalculation) ---
 
 const KEYBOARD_LAYOUTS: Record<string, { rows: string[][], left: Set<string> }> = {
-    QWERTY: {
-        rows: [['Q','W','E','R','T','Y','U','I','O','P'], ['A','S','D','F','G','H','J','K','L'], ['Z','X','C','V','B','N','M']],
-        left: new Set(['Q', 'W', 'E', 'R', 'T', 'A', 'S', 'D', 'F', 'G', 'Z', 'X', 'C', 'V', 'B'])
-    },
-    AZERTY: {
-        rows: [['A','Z','E','R','T','Y','U','I','O','P'], ['Q','S','D','F','G','H','J','K','L','M'], ['W','X','C','V','B','N']],
-        left: new Set(['A', 'Z', 'E', 'R', 'T', 'Q', 'S', 'D', 'F', 'G', 'W', 'X', 'C', 'V', 'B'])
-    },
-    QWERTZ: {
-        rows: [['Q','W','E','R','T','Z','U','I','O','P'], ['A','S','D','F','G','H','J','K','L'], ['Y','X','C','V','B','N','M']],
-        left: new Set(['Q', 'W', 'E', 'R', 'T', 'A', 'S', 'D', 'F', 'G', 'Y', 'X', 'C', 'V', 'B'])
-    },
-    DVORAK: {
-        rows: [['P','Y','F','G','C','R','L'], ['A','O','E','U','I','D','H','T','N','S'], ['Q','J','K','X','B','M','W','V','Z']],
-        left: new Set(['P', 'Y', 'F', 'G', 'C', 'A', 'O', 'E', 'U', 'I', 'Q', 'J', 'K', 'X', 'B'])
-    },
-    COLEMAK: {
-        rows: [['Q','W','F','P','G','J','L','U','Y'], ['A','R','S','T','D','H','N','E','I','O'], ['Z','X','C','V','B','K','M']],
-        left: new Set(['Q', 'W', 'F', 'P', 'G', 'A', 'R', 'S', 'T', 'D', 'Z', 'X', 'C', 'V', 'B'])
-    }
+  QWERTY: {
+    rows: [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M']],
+    left: new Set(['Q', 'W', 'E', 'R', 'T', 'A', 'S', 'D', 'F', 'G', 'Z', 'X', 'C', 'V', 'B'])
+  },
+  AZERTY: {
+    rows: [['A', 'Z', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['Q', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M'], ['W', 'X', 'C', 'V', 'B', 'N']],
+    left: new Set(['A', 'Z', 'E', 'R', 'T', 'Q', 'S', 'D', 'F', 'G', 'W', 'X', 'C', 'V', 'B'])
+  },
+  QWERTZ: {
+    rows: [['Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Y', 'X', 'C', 'V', 'B', 'N', 'M']],
+    left: new Set(['Q', 'W', 'E', 'R', 'T', 'A', 'S', 'D', 'F', 'G', 'Y', 'X', 'C', 'V', 'B'])
+  },
+  DVORAK: {
+    rows: [['P', 'Y', 'F', 'G', 'C', 'R', 'L'], ['A', 'O', 'E', 'U', 'I', 'D', 'H', 'T', 'N', 'S'], ['Q', 'J', 'K', 'X', 'B', 'M', 'W', 'V', 'Z']],
+    left: new Set(['P', 'Y', 'F', 'G', 'C', 'A', 'O', 'E', 'U', 'I', 'Q', 'J', 'K', 'X', 'B'])
+  },
+  COLEMAK: {
+    rows: [['Q', 'W', 'F', 'P', 'G', 'J', 'L', 'U', 'Y'], ['A', 'R', 'S', 'T', 'D', 'H', 'N', 'E', 'I', 'O'], ['Z', 'X', 'C', 'V', 'B', 'K', 'M']],
+    left: new Set(['Q', 'W', 'F', 'P', 'G', 'A', 'R', 'S', 'T', 'D', 'Z', 'X', 'C', 'V', 'B'])
+  }
 };
 
 export const calculateKeyboardStats = (name: string, layoutName: string = 'QWERTY'): KeyboardStats => {
-    const layout = KEYBOARD_LAYOUTS[layoutName] || KEYBOARD_LAYOUTS['QWERTY'];
-    const chars = name.toUpperCase().replace(/[^A-Z]/g, '').split('');
-    
-    // Row Sets
-    const topRow = new Set(layout.rows[0]);
-    const homeRow = new Set(layout.rows[1]);
-    const bottomRow = new Set(layout.rows[2]);
+  const layout = KEYBOARD_LAYOUTS[layoutName] || KEYBOARD_LAYOUTS['QWERTY'];
+  const chars = name.toUpperCase().replace(/[^A-Z]/g, '').split('');
 
-    let left = 0, right = 0, alt = 0, lastHand = '';
-    let top = 0, home = 0, bottom = 0;
-    const keysPressed: Record<string, number> = {};
+  // Row Sets
+  const topRow = new Set(layout.rows[0]);
+  const homeRow = new Set(layout.rows[1]);
+  const bottomRow = new Set(layout.rows[2]);
 
-    chars.forEach(c => {
-        keysPressed[c] = (keysPressed[c] || 0) + 1;
-        
-        const isLeft = layout.left.has(c);
-        if(isLeft) left++; else right++;
-        
-        const hand = isLeft ? 'L' : 'R';
-        if(lastHand && lastHand !== hand) alt++;
-        lastHand = hand;
+  let left = 0, right = 0, alt = 0, lastHand = '';
+  let top = 0, home = 0, bottom = 0;
+  const keysPressed: Record<string, number> = {};
 
-        if(topRow.has(c)) top++;
-        else if(homeRow.has(c)) home++;
-        else if(bottomRow.has(c)) bottom++;
-    });
+  chars.forEach(c => {
+    keysPressed[c] = (keysPressed[c] || 0) + 1;
 
-    return {
-        leftHandCount: left,
-        rightHandCount: right,
-        balance: Math.abs(left-right) < 2 ? 'Balanced' : left > right ? 'Left-Dominant' : 'Right-Dominant',
-        alternationScore: Math.round((alt / (chars.length - 1 || 1)) * 100),
-        rowUsage: { top, home, bottom },
-        keysPressed
-    };
+    const isLeft = layout.left.has(c);
+    if (isLeft) left++; else right++;
+
+    const hand = isLeft ? 'L' : 'R';
+    if (lastHand && lastHand !== hand) alt++;
+    lastHand = hand;
+
+    if (topRow.has(c)) top++;
+    else if (homeRow.has(c)) home++;
+    else if (bottomRow.has(c)) bottom++;
+  });
+
+  return {
+    leftHandCount: left,
+    rightHandCount: right,
+    balance: Math.abs(left - right) < 2 ? 'Balanced' : left > right ? 'Left-Dominant' : 'Right-Dominant',
+    alternationScore: Math.round((alt / (chars.length - 1 || 1)) * 100),
+    rowUsage: { top, home, bottom },
+    keysPressed
+  };
 };
 
 // Common Bigrams in English (Corpus: Google Books Ngram)
@@ -89,17 +89,17 @@ const COMMON_BIGRAMS = new Set(['TH', 'HE', 'IN', 'ER', 'AN', 'RE', 'ON', 'AT', 
 
 // Universally "Easy" sounds (Jakobson's Universals)
 const UNIVERSAL_PHONEMES = new Set(['M', 'A', 'P', 'T', 'K', 'N', 'I', 'U']);
-const DIFFICULT_GLOBAL_PHONEMES = new Set(['J', 'Q', 'R', 'V', 'W', 'X', 'Z']); 
+const DIFFICULT_GLOBAL_PHONEMES = new Set(['J', 'Q', 'R', 'V', 'W', 'X', 'Z']);
 
 const SCRABBLE_POINTS: Record<string, number> = {
-  A:1, B:3, C:3, D:2, E:1, F:4, G:2, H:4, I:1, J:8, K:5, L:1, M:3, 
-  N:1, O:1, P:3, Q:10, R:1, S:1, T:1, U:1, V:4, W:4, X:8, Y:4, Z:10
+  A: 1, B: 3, C: 3, D: 2, E: 1, F: 4, G: 2, H: 4, I: 1, J: 8, K: 5, L: 1, M: 3,
+  N: 1, O: 1, P: 3, Q: 10, R: 1, S: 1, T: 1, U: 1, V: 4, W: 4, X: 8, Y: 4, Z: 10
 };
 
 const MORSE_CODE: Record<string, string> = {
-  A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.", G: "--.", H: "....", 
-  I: "..", J: ".---", K: "-.-", L: ".-..", M: "--", N: "-.", O: "---", P: ".--.", 
-  Q: "--.-", R: ".-.", S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-", 
+  A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.", G: "--.", H: "....",
+  I: "..", J: ".---", K: "-.-", L: ".-..", M: "--", N: "-.", O: "---", P: ".--.",
+  Q: "--.-", R: ".-.", S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-",
   Y: "-.--", Z: "--.."
 };
 
@@ -119,227 +119,359 @@ const NATO_ALPHABET: Record<string, string> = {
 // --- NEW SCIENTIFIC MODULES ---
 
 const analyzeSocialImpression = (chars: string[], phonetics: PhoneticCounts): SocialImpression => {
-    // Based on Stereotype Content Model (Fiske et al., 2002)
-    let warmthRaw = 0;
-    let competenceRaw = 0;
-    
-    // 1. Phonetic Contributions
-    warmthRaw += (phonetics.nasals * 3);
-    warmthRaw += (phonetics.liquids * 3);
-    warmthRaw += (phonetics.glides * 2);
-    
-    competenceRaw += (phonetics.plosives * 3);
-    competenceRaw += (phonetics.fricatives * 2); // Fricatives imply friction/energy
-    
-    // 2. Vowel Analysis
-    chars.forEach(c => {
-        if (['A', 'O', 'U'].includes(c)) warmthRaw += 1.5; // Back/Round vowels = Warmth
-        if (['I', 'E'].includes(c)) competenceRaw += 1.5; // Front/Sharp vowels = Precision/Competence
-    });
+  // Based on Stereotype Content Model (Fiske et al., 2002)
+  let warmthRaw = 0;
+  let competenceRaw = 0;
 
-    // 3. Structural Contributions
-    if (chars.length <= 5) competenceRaw += 5; // Brevity = Efficiency
-    if (chars.length > 7) warmthRaw += 3; // Length = Expressiveness
-    
-    // Ending Bias
-    const last = chars[chars.length-1];
-    if (['A', 'Y', 'O'].includes(last)) warmthRaw += 5; // Open ending
-    if (PLOSIVES.has(last)) competenceRaw += 5; // Hard stop
+  // 1. Phonetic Contributions
+  warmthRaw += (phonetics.nasals * 3);
+  warmthRaw += (phonetics.liquids * 3);
+  warmthRaw += (phonetics.glides * 2);
 
-    // Normalization to 0-100 scale (approximate max raw score around 25-30)
-    const maxPoss = chars.length * 4;
-    let warmthScore = Math.min(100, Math.round((warmthRaw / maxPoss) * 100));
-    let competenceScore = Math.min(100, Math.round((competenceRaw / maxPoss) * 100));
-    
-    // Boost baseline to avoid 0s
-    warmthScore = Math.min(95, warmthScore + 20);
-    competenceScore = Math.min(95, competenceScore + 20);
+  competenceRaw += (phonetics.plosives * 3);
+  competenceRaw += (phonetics.fricatives * 2); // Fricatives imply friction/energy
 
-    let quadrant: SocialImpression['quadrant'] = 'High Warmth, High Competence (Admired)';
-    const mid = 55;
-    if (warmthScore >= mid && competenceScore >= mid) quadrant = 'High Warmth, High Competence (Admired)';
-    else if (warmthScore >= mid && competenceScore < mid) quadrant = 'High Warmth, Low Competence (Sympathetic)';
-    else if (warmthScore < mid && competenceScore >= mid) quadrant = 'Low Warmth, High Competence (Envied)';
-    else quadrant = 'Low Warmth, Low Competence (Distant)';
+  // 2. Vowel Analysis
+  chars.forEach(c => {
+    if (['A', 'O', 'U'].includes(c)) warmthRaw += 1.5; // Back/Round vowels = Warmth
+    if (['I', 'E'].includes(c)) competenceRaw += 1.5; // Front/Sharp vowels = Precision/Competence
+  });
 
-    const descriptors = [];
-    if (warmthScore > 70) descriptors.push("Approachability");
-    if (competenceScore > 70) descriptors.push("Authority");
-    if (warmthScore < 40) descriptors.push("Detachment");
-    if (competenceScore < 40) descriptors.push("Approachability");
+  // 3. Structural Contributions
+  if (chars.length <= 5) competenceRaw += 5; // Brevity = Efficiency
+  if (chars.length > 7) warmthRaw += 3; // Length = Expressiveness
 
-    return { warmthScore, competenceScore, quadrant, descriptors };
+  // Ending Bias
+  const last = chars[chars.length - 1];
+  if (['A', 'Y', 'O'].includes(last)) warmthRaw += 5; // Open ending
+  if (PLOSIVES.has(last)) competenceRaw += 5; // Hard stop
+
+  // Normalization to 0-100 scale (approximate max raw score around 25-30)
+  const maxPoss = chars.length * 4;
+  let warmthScore = Math.min(100, Math.round((warmthRaw / maxPoss) * 100));
+  let competenceScore = Math.min(100, Math.round((competenceRaw / maxPoss) * 100));
+
+  // Boost baseline to avoid 0s
+  warmthScore = Math.min(95, warmthScore + 20);
+  competenceScore = Math.min(95, competenceScore + 20);
+
+  let quadrant: SocialImpression['quadrant'] = 'High Warmth, High Competence (Admired)';
+  const mid = 55;
+  if (warmthScore >= mid && competenceScore >= mid) quadrant = 'High Warmth, High Competence (Admired)';
+  else if (warmthScore >= mid && competenceScore < mid) quadrant = 'High Warmth, Low Competence (Sympathetic)';
+  else if (warmthScore < mid && competenceScore >= mid) quadrant = 'Low Warmth, High Competence (Envied)';
+  else quadrant = 'Low Warmth, Low Competence (Distant)';
+
+  const descriptors = [];
+  if (warmthScore > 70) descriptors.push("Approachability");
+  if (competenceScore > 70) descriptors.push("Authority");
+  if (warmthScore < 40) descriptors.push("Detachment");
+  if (competenceScore < 40) descriptors.push("Approachability");
+
+  return { warmthScore, competenceScore, quadrant, descriptors };
 };
 
 const analyzeInformationDynamics = (chars: string[]): InformationDynamics => {
-    // 1. Calculate Shannon Entropy (bits)
-    // H = - sum(p_i * log2(p_i))
-    const len = chars.length;
-    const counts: Record<string, number> = {};
-    chars.forEach(c => counts[c] = (counts[c] || 0) + 1);
-    
-    let entropy = 0;
-    Object.values(counts).forEach(count => {
-        const p = count / len;
-        entropy -= p * Math.log2(p);
-    });
-    
-    let entropyLabel: InformationDynamics['entropyLabel'] = 'Medium Entropy';
-    if (entropy > 2.5) entropyLabel = 'High Entropy (Unpredictable)';
-    else if (entropy < 1.5) entropyLabel = 'Low Entropy (Patterned)';
+  // 1. Calculate Shannon Entropy (bits)
+  // H = - sum(p_i * log2(p_i))
+  const len = chars.length;
+  const counts: Record<string, number> = {};
+  chars.forEach(c => counts[c] = (counts[c] || 0) + 1);
 
-    // 2. Rarity Score (vs English Corpus)
-    let raritySum = 0;
-    let rarestChar = chars[0];
-    let minFreq = 100;
+  let entropy = 0;
+  Object.values(counts).forEach(count => {
+    const p = count / len;
+    entropy -= p * Math.log2(p);
+  });
 
-    chars.forEach(c => {
-        const freq = ENGLISH_FREQ[c] || 0.1; // Default low if unknown
-        raritySum += (100 - (freq * 5)); // Weigh inverse frequency
-        if (freq < minFreq) {
-            minFreq = freq;
-            rarestChar = c;
-        }
-    });
-    
-    const rarityScore = Math.min(100, Math.round(raritySum / len));
-    const bitDepth = parseFloat((entropy * len).toFixed(2)); // Total bits
+  let entropyLabel: InformationDynamics['entropyLabel'] = 'Medium Entropy';
+  if (entropy > 2.5) entropyLabel = 'High Entropy (Unpredictable)';
+  else if (entropy < 1.5) entropyLabel = 'Low Entropy (Patterned)';
 
-    return {
-        shannonEntropy: parseFloat(entropy.toFixed(2)),
-        entropyLabel,
-        rarityScore,
-        rarestChar,
-        bitDepth
-    };
+  // 2. Rarity Score (vs English Corpus)
+  let raritySum = 0;
+  let rarestChar = chars[0];
+  let minFreq = 100;
+
+  chars.forEach(c => {
+    const freq = ENGLISH_FREQ[c] || 0.1; // Default low if unknown
+    raritySum += (100 - (freq * 5)); // Weigh inverse frequency
+    if (freq < minFreq) {
+      minFreq = freq;
+      rarestChar = c;
+    }
+  });
+
+  const rarityScore = Math.min(100, Math.round(raritySum / len));
+  const bitDepth = parseFloat((entropy * len).toFixed(2)); // Total bits
+
+  return {
+    shannonEntropy: parseFloat(entropy.toFixed(2)),
+    entropyLabel,
+    rarityScore,
+    rarestChar,
+    bitDepth
+  };
 };
 
 const analyzeBiomechanics = (chars: string[]): MouthKinetics => {
-    const map: Record<string, {x: number, y: number, label: string}> = {
-        B: {x: 5, y: 10, label: 'Labial Stop'}, P: {x: 5, y: 10, label: 'Labial Stop'}, 
-        M: {x: 5, y: 10, label: 'Labial Nasal'}, W: {x: 5, y: 20, label: 'Labial Glide'},
-        F: {x: 10, y: 15, label: 'Labiodental'}, V: {x: 10, y: 15, label: 'Labiodental'},
-        T: {x: 30, y: 10, label: 'Alveolar Stop'}, D: {x: 30, y: 10, label: 'Alveolar Stop'},
-        N: {x: 30, y: 10, label: 'Alveolar Nasal'}, S: {x: 35, y: 15, label: 'Alveolar Fricative'},
-        Z: {x: 35, y: 15, label: 'Alveolar Fricative'}, L: {x: 35, y: 20, label: 'Alveolar Liquid'},
-        R: {x: 45, y: 25, label: 'Retroflex'}, 
-        J: {x: 50, y: 10, label: 'Palatal'}, Y: {x: 50, y: 15, label: 'Palatal Glide'},
-        K: {x: 85, y: 10, label: 'Velar Stop'}, G: {x: 85, y: 10, label: 'Velar Stop'},
-        H: {x: 95, y: 40, label: 'Glottal'}, 
-        Q: {x: 85, y: 10, label: 'Velar Stop'}, X: {x: 85, y: 15, label: 'Velar Fricative'},
-        I: {x: 20, y: 10, label: 'High Front Vowel'}, E: {x: 25, y: 40, label: 'Mid Front Vowel'},
-        A: {x: 50, y: 90, label: 'Low Central Vowel'},
-        U: {x: 80, y: 10, label: 'High Back Vowel'}, O: {x: 80, y: 40, label: 'Mid Back Vowel'},
-    };
-    const points: MouthPoint[] = chars.map(c => {
-        const data = map[c] || {x: 50, y: 50, label: 'Unknown'}; 
-        return { char: c, ...data };
-    });
-    let netFlow = 0;
-    for(let i=0; i<points.length-1; i++) {
-        netFlow += (points[i].x - points[i+1].x); 
-    }
-    let flowDirection: MouthKinetics['flowDirection'] = 'Scattered';
-    if (netFlow > 15) flowDirection = 'Outward (Projective)'; 
-    else if (netFlow < -15) flowDirection = 'Inward (Ingestive)'; 
-    else flowDirection = 'Centralized';
-    const yValues = points.map(p => p.y);
-    const yRange = Math.max(...yValues) - Math.min(...yValues);
-    let jawMovement: MouthKinetics['jawMovement'] = 'Stable';
-    if (yRange > 60) jawMovement = 'High Activity'; 
-    else if (yRange < 20) jawMovement = 'Low Activity'; 
-    return { points, flowDirection, jawMovement };
+  const map: Record<string, { x: number, y: number, label: string }> = {
+    B: { x: 5, y: 10, label: 'Labial Stop' }, P: { x: 5, y: 10, label: 'Labial Stop' },
+    M: { x: 5, y: 10, label: 'Labial Nasal' }, W: { x: 5, y: 20, label: 'Labial Glide' },
+    F: { x: 10, y: 15, label: 'Labiodental' }, V: { x: 10, y: 15, label: 'Labiodental' },
+    T: { x: 30, y: 10, label: 'Alveolar Stop' }, D: { x: 30, y: 10, label: 'Alveolar Stop' },
+    N: { x: 30, y: 10, label: 'Alveolar Nasal' }, S: { x: 35, y: 15, label: 'Alveolar Fricative' },
+    Z: { x: 35, y: 15, label: 'Alveolar Fricative' }, L: { x: 35, y: 20, label: 'Alveolar Liquid' },
+    R: { x: 45, y: 25, label: 'Retroflex' },
+    J: { x: 50, y: 10, label: 'Palatal' }, Y: { x: 50, y: 15, label: 'Palatal Glide' },
+    K: { x: 85, y: 10, label: 'Velar Stop' }, G: { x: 85, y: 10, label: 'Velar Stop' },
+    H: { x: 95, y: 40, label: 'Glottal' },
+    Q: { x: 85, y: 10, label: 'Velar Stop' }, X: { x: 85, y: 15, label: 'Velar Fricative' },
+    I: { x: 20, y: 10, label: 'High Front Vowel' }, E: { x: 25, y: 40, label: 'Mid Front Vowel' },
+    A: { x: 50, y: 90, label: 'Low Central Vowel' },
+    U: { x: 80, y: 10, label: 'High Back Vowel' }, O: { x: 80, y: 40, label: 'Mid Back Vowel' },
+  };
+  const points: MouthPoint[] = chars.map(c => {
+    const data = map[c] || { x: 50, y: 50, label: 'Unknown' };
+    return { char: c, ...data };
+  });
+  let netFlow = 0;
+  for (let i = 0; i < points.length - 1; i++) {
+    netFlow += (points[i].x - points[i + 1].x);
+  }
+  let flowDirection: MouthKinetics['flowDirection'] = 'Scattered';
+  if (netFlow > 15) flowDirection = 'Outward (Projective)';
+  else if (netFlow < -15) flowDirection = 'Inward (Ingestive)';
+  else flowDirection = 'Centralized';
+  const yValues = points.map(p => p.y);
+  const yRange = Math.max(...yValues) - Math.min(...yValues);
+  let jawMovement: MouthKinetics['jawMovement'] = 'Stable';
+  if (yRange > 60) jawMovement = 'High Activity';
+  else if (yRange < 20) jawMovement = 'Low Activity';
+  return { points, flowDirection, jawMovement };
 };
 
 const detectPhonesthemes = (name: string): Phonestheme[] => {
-    const definitions: Record<string, {meaning: string, examples: string}> = {
-        'GL': { meaning: 'Light / Vision', examples: 'glitter, glow, gleam, glance' },
-        'SN': { meaning: 'Nose / Mouth', examples: 'snout, sneeze, snore, snack' },
-        'FL': { meaning: 'Movement / Flow', examples: 'fly, flow, float, flee' },
-        'SL': { meaning: 'Slide / Negative', examples: 'slip, slide, slime, slur' },
-        'STR': { meaning: 'Linear / Rigid', examples: 'straight, strip, street, string' },
-        'TW': { meaning: 'Small / Twist', examples: 'twist, twig, tweak, twinkle' },
-        'BR': { meaning: 'Violent / Break', examples: 'break, bruise, breach' },
-        'CR': { meaning: 'Bent / Broken', examples: 'crack, cripple, crook' },
-        'SP': { meaning: 'Point / Emit', examples: 'spit, spark, spot, spike' },
-        'ST': { meaning: 'Stability / Stand', examples: 'stand, still, stop, stay' }
-    };
-    const found: Phonestheme[] = [];
-    const n = name.toUpperCase();
-    Object.entries(definitions).forEach(([key, val]) => {
-        if (n.includes(key)) {
-            found.push({ sound: key, meaning: val.meaning, examples: val.examples, found: true });
-        }
-    });
-    return found;
+  const definitions: Record<string, { meaning: string, examples: string }> = {
+    'GL': { meaning: 'Light / Vision', examples: 'glitter, glow, gleam, glance' },
+    'SN': { meaning: 'Nose / Mouth', examples: 'snout, sneeze, snore, snack' },
+    'FL': { meaning: 'Movement / Flow', examples: 'fly, flow, float, flee' },
+    'SL': { meaning: 'Slide / Negative', examples: 'slip, slide, slime, slur' },
+    'STR': { meaning: 'Linear / Rigid', examples: 'straight, strip, street, string' },
+    'TW': { meaning: 'Small / Twist', examples: 'twist, twig, tweak, twinkle' },
+    'BR': { meaning: 'Violent / Break', examples: 'break, bruise, breach' },
+    'CR': { meaning: 'Bent / Broken', examples: 'crack, cripple, crook' },
+    'SP': { meaning: 'Point / Emit', examples: 'spit, spark, spot, spike' },
+    'ST': { meaning: 'Stability / Stand', examples: 'stand, still, stop, stay' }
+  };
+  const found: Phonestheme[] = [];
+  const n = name.toUpperCase();
+  Object.entries(definitions).forEach(([key, val]) => {
+    if (n.includes(key)) {
+      found.push({ sound: key, meaning: val.meaning, examples: val.examples, found: true });
+    }
+  });
+  return found;
 };
 
-// --- EXISTING UTILS ---
+// --- ADVANCED PSYCHOMETRICS (v2.0) ---
+
+const analyzeTrustworthiness = (name: string): any => {
+  // Cognitive Fluency: Easy to say = Trustworthy (Song & Schwarz, 2009)
+  const n = name.toUpperCase();
+  let score = 100;
+
+  // Penalty for length > 6
+  if (n.length > 6) score -= (n.length - 6) * 5;
+
+  // Penalty for adjacent consonants (Clusters)
+  let cluster = 0;
+  for (const char of n) {
+    if (!VOWELS.has(char)) cluster++;
+    else cluster = 0;
+
+    if (cluster > 1) score -= 10;
+    if (cluster > 2) score -= 15;
+  }
+
+  // Bonus for alternating C-V (Ideal structure)
+  // Simple heuristic: ratio of V vs C should be balanced approx 0.4-0.6
+  const vowels = n.replace(/[^AEIOU]/g, '').length;
+  const ratio = vowels / n.length;
+  if (ratio >= 0.4 && ratio <= 0.6) score += 10;
+
+  score = Math.max(0, Math.min(100, score));
+
+  let label = 'Medium Trust';
+  if (score >= 80) label = 'High Trust (Fluent)';
+  else if (score < 50) label = 'Low Trust (Complex)';
+
+  return {
+    score,
+    label,
+    description: score >= 80
+      ? "Your name flows easily, which the brain interprets as safe and truthful."
+      : "Your name is complex and distinctive, signaling sophistication but requiring more cognitive effort."
+  };
+};
+
+const analyzeSmileIndex = (name: string): any => {
+  // Facial Feedback: Front vowels force a smile.
+  const n = name.toUpperCase();
+  let front = 0;
+  let back = 0;
+
+  // Heuristic weighting
+  const chars = n.split('');
+  chars.forEach(c => {
+    if (['E', 'I', 'Y'].includes(c)) front += 2;
+    if (['A'].includes(c)) front += 1; // 'A' can be varying
+    if (['O', 'U', 'W'].includes(c)) back += 2;
+    if (['M', 'P', 'B'].includes(c)) back += 1; // Lip closure
+  });
+
+  const total = front + back || 1;
+  const smileScore = Math.round((front / total) * 100);
+
+  let muscleAction = 'Neutral';
+  if (smileScore > 60) muscleAction = 'Zygomaticus (Smile)';
+  if (smileScore < 40) muscleAction = 'Orbicularis (Pout)';
+
+  return {
+    score: smileScore,
+    muscleAction,
+    description: smileScore > 60
+      ? "Your name contains front vowels that force the mouth to widen, mimicking a smile."
+      : smileScore < 40
+        ? "Your name contains back vowels that round the lips, creating a serious or intimate expression."
+        : "Your name has a balanced mouth shape, engaging both smiling and rounding muscles."
+  };
+};
+
+const analyzeDominance = (name: string): any => {
+  // Frequency Code: Low freq (large) vs High freq (small)
+  const weights: Record<string, number> = {
+    K: 1, T: 1, P: 1, S: 1, I: 1, E: 1, F: 1, // Sharp/High/Small
+    G: 5, D: 5, B: 5, Z: 5, O: 5, U: 5, M: 4, R: 4, L: 4, N: 4, // Heavy/Low/Large
+    A: 3, J: 3, H: 2, V: 3, W: 3, Y: 2, X: 2, Q: 3, C: 2 // Mid
+  };
+
+  let totalWeight = 0;
+  const chars = name.toUpperCase().replace(/[^A-Z]/g, '').split('');
+
+  chars.forEach(c => {
+    totalWeight += weights[c] || 3;
+  });
+
+  const avgWeight = parseFloat((totalWeight / chars.length).toFixed(1));
+
+  let label = 'Balanced';
+  if (avgWeight < 2.5) label = 'Approachable/Agile';
+  if (avgWeight > 3.5) label = 'Dominant/Authoritative';
+
+  return {
+    frequencyWeight: avgWeight,
+    label,
+    description: avgWeight > 3.5
+      ? "Dominant sounds (Low Frequency). Biologically signals size, authority, and stability."
+      : avgWeight < 2.5
+        ? "Approachable sounds (High Frequency). Biologically signals agility, speed, and friendliness."
+        : "Balanced frequency profile. Signals a reliable and adaptable presence."
+  };
+};
 
 // Dictionary for common names that defy standard rules
 const IPA_EXCEPTIONS: Record<string, string> = {
-    'SEAN': '/ʃɔːn/',
-    'SHAUN': '/ʃɔːn/',
-    'CHLOE': '/kloʊi/',
-    'PHOEBE': '/fiːbi/',
-    'GEORGE': '/dʒɔːrdʒ/',
-    'CHARLOTTE': '/ʃɑːrlət/',
-    'THOMAS': '/tɒməs/', // TH is T
-    'ISLAND': '/aɪlənd/',
-    'XAVIER': '/zeɪviər/',
-    'SIOBHAN': '/ʃɪvɔːn/',
-    'SAOIRSE': '/sɜːrʃə/',
-    'NIALL': '/naɪl/',
-    'LEIGH': '/liː/',
-    'HUGH': '/hjuː/',
-    'GEOFFREY': '/dʒɛfri/'
+  'SEAN': '/ʃɔːn/',
+  'SHAUN': '/ʃɔːn/',
+  'CHLOE': '/kloʊi/',
+  'PHOEBE': '/fiːbi/',
+  'GEORGE': '/dʒɔːrdʒ/',
+  'CHARLOTTE': '/ʃɑːrlət/',
+  'THOMAS': '/tɒməs/', // TH is T
+  'ISLAND': '/aɪlənd/',
+  'XAVIER': '/zeɪviər/',
+  'SIOBHAN': '/ʃɪvɔːn/',
+  'SAOIRSE': '/sɜːrʃə/',
+  'NIALL': '/naɪl/',
+  'LEIGH': '/liː/',
+  'HUGH': '/hjuː/',
+  'GEOFFREY': '/dʒɛfri/'
 };
 
 const generateHeuristicIPA = (name: string): string => {
   let ipa = name.toUpperCase();
-  
+
   // Check exceptions first
   if (IPA_EXCEPTIONS[ipa]) return IPA_EXCEPTIONS[ipa];
 
   // Expanded Heuristics for better English Approximation
-  ipa = ipa.replace(/PH/g, 'f'); 
-  ipa = ipa.replace(/TH/g, 'θ'); 
+  ipa = ipa.replace(/PH/g, 'f');
+  ipa = ipa.replace(/TH/g, 'θ');
   ipa = ipa.replace(/SH/g, 'ʃ');
-  ipa = ipa.replace(/CH/g, 'tʃ'); 
-  ipa = ipa.replace(/NG/g, 'ŋ'); 
+  ipa = ipa.replace(/CH/g, 'tʃ');
+  ipa = ipa.replace(/NG/g, 'ŋ');
   ipa = ipa.replace(/QU/g, 'kw');
-  ipa = ipa.replace(/X/g, 'ks'); 
-  ipa = ipa.replace(/OO/g, 'uː'); 
+  ipa = ipa.replace(/X/g, 'ks');
+  ipa = ipa.replace(/OO/g, 'uː');
   ipa = ipa.replace(/EE/g, 'iː');
   ipa = ipa.replace(/IGH/g, 'aɪ'); // High, Light
-  ipa = ipa.replace(/TION/g, 'ʃən'); 
+  ipa = ipa.replace(/TION/g, 'ʃən');
   ipa = ipa.replace(/WR/g, 'r'); // Write, Wren
   ipa = ipa.replace(/^KN/, 'n'); // Knife, Know
-  ipa = ipa.replace(/CK/g, 'k'); 
+  ipa = ipa.replace(/CK/g, 'k');
   ipa = ipa.replace(/TCH/g, 'tʃ'); // Match
-  
-  ipa = ipa.replace(/A/g, 'æ'); 
+
+  ipa = ipa.replace(/A/g, 'æ');
   ipa = ipa.replace(/E/g, 'ɛ');
-  ipa = ipa.replace(/I/g, 'ɪ'); 
-  ipa = ipa.replace(/O/g, 'ɒ'); 
+  ipa = ipa.replace(/I/g, 'ɪ');
+  ipa = ipa.replace(/O/g, 'ɒ');
   ipa = ipa.replace(/U/g, 'ʌ');
-  ipa = ipa.replace(/J/g, 'dʒ'); 
+  ipa = ipa.replace(/J/g, 'dʒ');
   ipa = ipa.replace(/Y$/g, 'i'); // Happy
   ipa = ipa.replace(/Y/g, 'j'); // Yes
-  ipa = ipa.replace(/C/g, 'k'); 
+  ipa = ipa.replace(/C/g, 'k');
   return `/${ipa.toLowerCase()}/`;
 };
 
 const AVG_NAME_STATS = { length: 6.1, vowelPct: 39.4, complexity: 0.2 };
 const analyzeBenchmarks = (length: number, vowelPct: number): BenchmarkData => {
-    const lengthDiff = Math.round(((length - AVG_NAME_STATS.length) / AVG_NAME_STATS.length) * 100);
-    const vowelDiff = Math.round(((vowelPct - AVG_NAME_STATS.vowelPct) / AVG_NAME_STATS.vowelPct) * 100);
-    const isOutlier = Math.abs(lengthDiff) > 40 || Math.abs(vowelDiff) > 40;
-    return { lengthDiff, vowelDiff, complexityDiff: 0, isOutlier };
+  const lengthDiff = Math.round(((length - AVG_NAME_STATS.length) / AVG_NAME_STATS.length) * 100);
+  const vowelDiff = Math.round(((vowelPct - AVG_NAME_STATS.vowelPct) / AVG_NAME_STATS.vowelPct) * 100);
+  const isOutlier = Math.abs(lengthDiff) > 40 || Math.abs(vowelDiff) > 40;
+  return { lengthDiff, vowelDiff, complexityDiff: 0, isOutlier };
 };
 
 const getSynesthesiaColor = (char: string): string => {
-  const map: Record<string, string> = { A: '#ef4444', B: '#3b82f6', C: '#eab308', D: '#374151', E: '#22c55e', F: '#64748b', G: '#a855f7', H: '#fb923c', I: '#f8fafc', J: '#f472b6', K: '#f59e0b', L: '#fcd34d', M: '#b91c1c', N: '#fbbf24', O: '#ffffff', P: '#ec4899', Q: '#7c3aed', R: '#ef4444', S: '#ef4444', T: '#3b82f6', U: '#f59e0b', V: '#7dd3fc', W: '#1e40af', X: '#111827', Y: '#facc15', Z: '#000000' };
+  // Simner et al. (2005) - Cross-Modal Correspondence
+  const map: Record<string, string> = {
+    A: '#ef4444', // Red
+    B: '#1e40af', // Dark Blue
+    C: '#facc15', // Yellow
+    D: '#374151', // Dark Grey
+    E: '#22c55e', // Green
+    F: '#9ca3af', // Grey/Silver
+    G: '#a855f7', // Purple
+    H: '#ea580c', // Orange
+    I: '#f8fafc', // White/Light Grey
+    J: '#db2777', // Pink/Purple
+    K: '#f59e0b', // Orange/Yellow
+    L: '#fcd34d', // Pale Yellow
+    M: '#b91c1c', // Red/Maroon
+    N: '#fbbf24', // Amber
+    O: '#ffffff', // White
+    P: '#ec4899', // Pink
+    Q: '#7c3aed', // Violet
+    R: '#dc2626', // Strong Red
+    S: '#fbbf24', // Yellow/White
+    T: '#2563eb', // Blue
+    U: '#f59e0b', // Gold
+    V: '#0ea5e9', // Sky Blue
+    W: '#1e3a8a', // Dark Blue/Indigo
+    X: '#111827', // Black
+    Y: '#fef08a', // Light Yellow
+    Z: '#000000'  // Black
+  };
   return map[char] || '#94a3b8';
 };
 
@@ -358,7 +490,7 @@ const calculateSonorityProfile = (chars: string[]): SonorityPoint[] => {
 const analyzeAcousticProfile = (sonority: SonorityPoint[]): AcousticProfile => {
   if (sonority.length < 2) { return { avgSlope: 0, peakCount: 1, energyDescription: 'Static / Sustained', maxSignal: sonority[0]?.score || 5 }; }
   let totalDelta = 0;
-  for (let i = 0; i < sonority.length - 1; i++) { totalDelta += Math.abs(sonority[i+1].score - sonority[i].score); }
+  for (let i = 0; i < sonority.length - 1; i++) { totalDelta += Math.abs(sonority[i + 1].score - sonority[i].score); }
   const avgSlope = parseFloat((totalDelta / (sonority.length - 1)).toFixed(2));
   const peakCount = sonority.filter(p => p.score >= 8).length;
   const maxSignal = Math.max(...sonority.map(s => s.score));
@@ -374,19 +506,19 @@ const analyzePhonotactics = (name: string): Phonotactics => {
   if (n.length < 2) return { score: 1, label: 'High Probability (Common)', complexity: 'Simple' };
   let commonBigramsFound = 0; const totalBigrams = n.length - 1; let hasComplexCluster = false; let consonantStreak = 0;
   for (let i = 0; i < totalBigrams; i++) {
-    const bigram = n.substring(i, i+2);
+    const bigram = n.substring(i, i + 2);
     if (COMMON_BIGRAMS.has(bigram)) commonBigramsFound++;
     if (!VOWELS.has(n[i])) consonantStreak++; else consonantStreak = 0;
     if (consonantStreak >= 3) hasComplexCluster = true;
   }
-  if (!VOWELS.has(n[n.length-1])) consonantStreak++;
+  if (!VOWELS.has(n[n.length - 1])) consonantStreak++;
   if (consonantStreak >= 3) hasComplexCluster = true;
   const score = totalBigrams > 0 ? (commonBigramsFound / totalBigrams) : 1;
   let finalScore = score;
   if (hasComplexCluster) finalScore -= 0.2;
   const vowels = n.replace(/[^AEIOU]/g, '').length;
   const ratio = vowels / n.length;
-  if (ratio > 0.3 && ratio < 0.6) finalScore += 0.2; 
+  if (ratio > 0.3 && ratio < 0.6) finalScore += 0.2;
   finalScore = Math.max(0, Math.min(1, finalScore));
   let label: Phonotactics['label'] = 'Medium Probability';
   if (finalScore > 0.6) label = 'High Probability (Common)';
@@ -398,36 +530,111 @@ const analyzeProsody = (name: string): Prosody => {
   const n = name.toUpperCase();
   const vowels = n.match(/[AEIOU]/g);
   const syllCount = vowels ? vowels.length : 1;
+
   let stressPattern: Prosody['stressPattern'] = 'Complex/Unknown';
-  if (syllCount === 1) { stressPattern = 'Monosyllabic'; } 
-  else if (syllCount === 2) { stressPattern = 'Trochaic (Strong-Weak)'; if (/(INE|ETTE|OO|OON)$/.test(n)) stressPattern = 'Iambic (Weak-Strong)'; } 
-  else if (syllCount === 3) { stressPattern = 'Dactylic (Strong-Weak-Weak)'; }
+  let meter: Prosody['meter'] = 'Unknown';
+  let musicalNotation = '○';
+
+  if (syllCount === 1) {
+    stressPattern = 'Monosyllabic';
+    meter = 'Trochee'; // Default single beat
+    musicalNotation = '●';
+  }
+  else if (syllCount === 2) {
+    // Default English: Trochaic (Strong-Weak) like RO-bert
+    stressPattern = 'Trochaic (Strong-Weak)';
+    meter = 'Trochee';
+    musicalNotation = '● ○';
+
+    // French ending detection = Iambic (Weak-Strong) like ma-RIE
+    if (/(INE|ETTE|OO|OON|ELLE|EE)$/.test(n)) {
+      stressPattern = 'Iambic (Weak-Strong)';
+      meter = 'Iamb';
+      musicalNotation = '○ ●';
+    }
+  }
+  else if (syllCount === 3) {
+    stressPattern = 'Dactylic (Strong-Weak-Weak)';
+    meter = 'Dactyl';
+    musicalNotation = '● ○ ○';
+  }
+  else if (syllCount > 3) {
+    stressPattern = 'Polysyllabic Flow';
+    meter = 'Unknown';
+    musicalNotation = '● ○ ○ ○';
+  }
+
   let rhythmType: Prosody['rhythmType'] = 'Balanced';
   let maxCluster = 0; let currentCluster = 0;
-  for(let char of n) { if (!VOWELS.has(char)) { currentCluster++; maxCluster = Math.max(maxCluster, currentCluster); } else { currentCluster = 0; } }
+  for (let char of n) { if (!VOWELS.has(char)) { currentCluster++; maxCluster = Math.max(maxCluster, currentCluster); } else { currentCluster = 0; } }
+
   if (maxCluster >= 3) rhythmType = 'Syncopated (Interrupted)';
   else if (maxCluster <= 1) rhythmType = 'Flowing (Smooth)';
-  return { stressPattern, rhythmType, syllableEstimate: syllCount };
+
+  return { stressPattern, meter, musicalNotation, rhythmType, syllableEstimate: syllCount };
 };
 
-const analyzeGlobalRobustness = (name: string): GlobalRobustness => {
-  const n = name.toUpperCase(); const chars = n.split(''); const difficultFound: string[] = []; let easyCount = 0;
-  chars.forEach(c => { if (UNIVERSAL_PHONEMES.has(c)) easyCount++; if (DIFFICULT_GLOBAL_PHONEMES.has(c)) difficultFound.push(c); });
-  if (n.includes('TH')) difficultFound.push('TH');
+const analyzeGlobalPronounceability = (name: string): GlobalRobustness & any => {
+  // Replaces the old analyzeGlobalRobustness with new "Travel Score" logic
+  const n = name.toUpperCase();
+  const chars = n.split('');
+  const difficultFound: string[] = [];
+
+  // Difficult Phonemes Map (International Context)
+  // TH: Hard for German/French
+  // R: Hard for Japanese/Chinese
+  // W/V: Hard for Germanic/Slavic confusion
+  // J: Varies wildly (Y vs J vs H)
+
+  if (n.includes('TH')) difficultFound.push('TH (Dental Fricative)');
+  chars.forEach(c => {
+    if (['R'].includes(c)) difficultFound.push('R (Liquid r)');
+    if (['W', 'V'].includes(c)) difficultFound.push('W/V (Labial Glide)');
+    if (['J', 'Q', 'X'].includes(c)) difficultFound.push(c + ' (Rare Consonant)');
+  });
+
   const uniqueDifficult = Array.from(new Set(difficultFound));
-  let score = 50 + (easyCount * 5) - (uniqueDifficult.length * 15);
+
+  let score = 100;
+  score -= (uniqueDifficult.length * 15);
+
+  // Bonus for Universal Structure (CVCV)
+  let isCVCV = true;
+  for (let i = 0; i < n.length; i++) {
+    const type = VOWELS.has(n[i]) ? 'V' : 'C';
+    const expected = (i % 2 === 0) ? 'C' : 'V'; // Very rough check, just looking for alternation
+    // Actually, true CVCV is hard to detect perfectly without dictionary, 
+    // so we rely on Universal Phoneme count instead.
+  }
+
+  let universalCount = 0;
+  chars.forEach(c => { if (UNIVERSAL_PHONEMES.has(c)) universalCount++; });
+  if (universalCount / n.length > 0.6) score += 10;
+
   score = Math.max(0, Math.min(100, score));
-  let label: GlobalRobustness['label'] = 'Robust';
-  if (score > 80) label = 'Universal'; if (score < 40) label = 'Language-Specific';
-  return { score, label, difficultSounds: uniqueDifficult };
+
+  let label: 'International' | 'Regional' | 'Local' = 'Regional';
+  let explanation = "Your name has some sounds that are specific to certain languages.";
+
+  if (score >= 80) {
+    label = 'International';
+    explanation = "Your name uses 'Universal Phonemes' (M, A, K, I) found in almost every human language. It travels perfectly.";
+  } else if (score <= 50) {
+    label = 'Local';
+    explanation = "Your name uses complex sounds (like 'Th' or 'R') that are physically difficult for non-native speakers to pronounce.";
+  }
+
+  return { score, label, diff: uniqueDifficult, class: label, difficulties: uniqueDifficult, explanation };
+  // Returning mixed object to satisfy both Interfaces if needed, 
+  // but we are fully replacing the old logic in the types.
 };
 
 const analyzeGenderLoading = (name: string): GenderLoading => {
   let score = 0; const n = name.toUpperCase(); const lastChar = n.slice(-1);
   if (['A', 'I', 'E', 'Y'].includes(lastChar)) score += 4; if (['O'].includes(lastChar)) score -= 2; if (['U'].includes(lastChar)) score += 1;
-  if (PLOSIVES.has(lastChar)) score -= 4; if (NASALS.has(lastChar)) score -= 1; 
+  if (PLOSIVES.has(lastChar)) score -= 4; if (NASALS.has(lastChar)) score -= 1;
   if (FRICATIVES.has(lastChar)) { if (lastChar === 'S') score -= 1; else score += 1; }
-  
+
   // Suffix analysis for better accuracy
   if (/ETTE$|INE$|ELLE$|IA$|NA$/.test(n)) score += 5;
   if (/SON$|TON$|ER$|US$|O$/.test(n)) score -= 5;
@@ -455,7 +662,7 @@ const analyzeSoundSymbolism = (chars: string[]): SoundSymbolism => {
 };
 
 const analyzePsycholinguistics = (name: string, phonotactics: Phonotactics): Psycholinguistics => {
-  const n = name.toUpperCase(); const chars = n.split(''); let difficulty = 0; let prevType = ''; 
+  const n = name.toUpperCase(); const chars = n.split(''); let difficulty = 0; let prevType = '';
   chars.forEach(c => { const isVowel = VOWELS.has(c); const type = isVowel ? 'V' : 'C'; if (prevType === type && type === 'C') difficulty += 20; prevType = type; });
   if (n.length > 8) difficulty += 15;
   const cognitiveEase = Math.max(0, Math.min(100, 100 - difficulty));
@@ -484,60 +691,60 @@ const analyzeMorphology = (name: string): string => {
 }
 
 const analyzeArchetype = (phonetics: PhoneticCounts, vowelPct: number, boubaScore: number): Archetype => {
-    // 1. The Architect (Structure, Hardness, Plosives)
-    if (phonetics.plosives > (phonetics.liquids + phonetics.nasals) && boubaScore < 45) {
-        return { name: 'The Architect', traits: ['Structural', 'Decisive', 'Solid'], description: 'Defined by plosive stops (T, K, P). Acoustically rigid and foundational.', icon: '🏗️', element: 'Earth' };
-    }
-    // 2. The Luminary (Openness, Vowels, Glides)
-    if (vowelPct > 55 || phonetics.glides >= 2) {
-         return { name: 'The Luminary', traits: ['Radiant', 'Expressive', 'Open'], description: 'Dominated by open vowels and glides. Acoustically resonant and projecting.', icon: '✨', element: 'Fire' };
-    }
-    // 3. The Weaver (Flow, Liquids, Nasals)
-    if ((phonetics.liquids + phonetics.nasals) >= 2 && boubaScore > 55) {
-        return { name: 'The Weaver', traits: ['Fluid', 'Connecting', 'Harmonic'], description: 'Rich in continuants (L, M, N). Acoustically smooth and legato.', icon: '🌊', element: 'Water' };
-    }
-    // 4. The Catalyst (Complexity, Fricatives, Mixed)
-    return { name: 'The Catalyst', traits: ['Dynamic', 'Adaptable', 'Kinetic'], description: 'A complex mix of fricatives (S, Z, F) creating acoustic friction and energy.', icon: '🌪️', element: 'Air' };
+  // 1. The Architect (Structure, Hardness, Plosives)
+  if (phonetics.plosives > (phonetics.liquids + phonetics.nasals) && boubaScore < 45) {
+    return { name: 'The Architect', traits: ['Structural', 'Decisive', 'Solid'], description: 'Defined by plosive stops (T, K, P). Acoustically rigid and foundational.', icon: '🏗️', element: 'Earth' };
+  }
+  // 2. The Luminary (Openness, Vowels, Glides)
+  if (vowelPct > 55 || phonetics.glides >= 2) {
+    return { name: 'The Luminary', traits: ['Radiant', 'Expressive', 'Open'], description: 'Dominated by open vowels and glides. Acoustically resonant and projecting.', icon: '✨', element: 'Fire' };
+  }
+  // 3. The Weaver (Flow, Liquids, Nasals)
+  if ((phonetics.liquids + phonetics.nasals) >= 2 && boubaScore > 55) {
+    return { name: 'The Weaver', traits: ['Fluid', 'Connecting', 'Harmonic'], description: 'Rich in continuants (L, M, N). Acoustically smooth and legato.', icon: '🌊', element: 'Water' };
+  }
+  // 4. The Catalyst (Complexity, Fricatives, Mixed)
+  return { name: 'The Catalyst', traits: ['Dynamic', 'Adaptable', 'Kinetic'], description: 'A complex mix of fricatives (S, Z, F) creating acoustic friction and energy.', icon: '🌪️', element: 'Air' };
 };
 
 const analyzeRadio = (name: string): RadioAnalysis => {
-    const chars = name.toUpperCase().split('');
-    const natoString = chars.map(c => NATO_ALPHABET[c] || c);
-    let confusionPoints = 0;
-    const confusablePairs: string[] = [];
-    if (name.includes('M') && name.includes('N')) { confusionPoints += 15; confusablePairs.push("M/N Blur"); }
-    if (name.includes('T') && name.includes('D')) { confusionPoints += 10; confusablePairs.push("T/D Blur"); }
-    if (name.includes('F') && name.includes('S')) { confusionPoints += 10; confusablePairs.push("F/S Hiss"); }
-    if (name.includes('B') && name.includes('V')) { confusionPoints += 10; confusablePairs.push("B/V Blur"); }
-    if (name.length < 4) { confusionPoints += 10; confusablePairs.push("Brevity Risk"); }
-    if (name.length > 9) { confusionPoints += 10; confusablePairs.push("Memory Load"); }
-    const clarityScore = Math.max(0, 100 - confusionPoints);
-    let clarityLabel = "Crystal Clear";
-    if (clarityScore < 85) clarityLabel = "Standard Fidelity";
-    if (clarityScore < 60) clarityLabel = "Low Fidelity (Repeat Likely)";
-    return { natoString, clarityScore, clarityLabel, confusablePairs };
+  const chars = name.toUpperCase().split('');
+  const natoString = chars.map(c => NATO_ALPHABET[c] || c);
+  let confusionPoints = 0;
+  const confusablePairs: string[] = [];
+  if (name.includes('M') && name.includes('N')) { confusionPoints += 15; confusablePairs.push("M/N Blur"); }
+  if (name.includes('T') && name.includes('D')) { confusionPoints += 10; confusablePairs.push("T/D Blur"); }
+  if (name.includes('F') && name.includes('S')) { confusionPoints += 10; confusablePairs.push("F/S Hiss"); }
+  if (name.includes('B') && name.includes('V')) { confusionPoints += 10; confusablePairs.push("B/V Blur"); }
+  if (name.length < 4) { confusionPoints += 10; confusablePairs.push("Brevity Risk"); }
+  if (name.length > 9) { confusionPoints += 10; confusablePairs.push("Memory Load"); }
+  const clarityScore = Math.max(0, 100 - confusionPoints);
+  let clarityLabel = "Crystal Clear";
+  if (clarityScore < 85) clarityLabel = "Standard Fidelity";
+  if (clarityScore < 60) clarityLabel = "Low Fidelity (Repeat Likely)";
+  return { natoString, clarityScore, clarityLabel, confusablePairs };
 };
 
 const analyzeElemental = (chars: string[]): ElementalData => {
-    let atomicMass = 0;
-    const composition: { element: string, count: number, atomicNumber: number }[] = [];
-    const elementCounts: Record<string, number> = {};
-    chars.forEach(c => {
-        const atomicNumber = c.charCodeAt(0) - 64; 
-        atomicMass += atomicNumber;
-        elementCounts[c] = (elementCounts[c] || 0) + 1;
-    });
-    Object.keys(elementCounts).sort().forEach(key => {
-        composition.push({ element: key, count: elementCounts[key], atomicNumber: key.charCodeAt(0) - 64 });
-    });
-    let vowelEnergy = 0;
-    chars.forEach(c => { if(VOWELS.has(c)) vowelEnergy++; });
-    const ratio = vowelEnergy / chars.length;
-    let stateOfMatter: ElementalData['stateOfMatter'] = 'Liquid';
-    if (ratio > 0.6) stateOfMatter = 'Plasma'; 
-    else if (ratio > 0.45) stateOfMatter = 'Gas';
-    else if (ratio < 0.25) stateOfMatter = 'Solid'; 
-    return { atomicMass, composition, stateOfMatter };
+  let atomicMass = 0;
+  const composition: { element: string, count: number, atomicNumber: number }[] = [];
+  const elementCounts: Record<string, number> = {};
+  chars.forEach(c => {
+    const atomicNumber = c.charCodeAt(0) - 64;
+    atomicMass += atomicNumber;
+    elementCounts[c] = (elementCounts[c] || 0) + 1;
+  });
+  Object.keys(elementCounts).sort().forEach(key => {
+    composition.push({ element: key, count: elementCounts[key], atomicNumber: key.charCodeAt(0) - 64 });
+  });
+  let vowelEnergy = 0;
+  chars.forEach(c => { if (VOWELS.has(c)) vowelEnergy++; });
+  const ratio = vowelEnergy / chars.length;
+  let stateOfMatter: ElementalData['stateOfMatter'] = 'Liquid';
+  if (ratio > 0.6) stateOfMatter = 'Plasma';
+  else if (ratio > 0.45) stateOfMatter = 'Gas';
+  else if (ratio < 0.25) stateOfMatter = 'Solid';
+  return { atomicMass, composition, stateOfMatter };
 };
 
 export const analyzeName = (rawName: string): NameAnalysis | null => {
@@ -547,7 +754,7 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
   if (sanitized.length < 2) return null;
 
   const chars = sanitized.split('');
-  
+
   let alphaWeight = 0; const charCounts: Record<string, number> = {}; const uniqueSet = new Set(chars);
   chars.forEach(c => { alphaWeight += (c.charCodeAt(0) - 64); charCounts[c] = (charCounts[c] || 0) + 1; });
 
@@ -560,8 +767,8 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
     else if (NASALS.has(c)) phonetics.nasals++; else if (LIQUIDS.has(c)) phonetics.liquids++;
     else if (GLIDES.has(c)) phonetics.glides++; else if (!VOWELS.has(c)) phonetics.unknown++;
   });
-  
-  const pArr = Object.entries(phonetics).sort((a,b) => b[1] - a[1]);
+
+  const pArr = Object.entries(phonetics).sort((a, b) => b[1] - a[1]);
   const dominantSound = pArr[0][1] > 0 ? pArr[0][0].replace(/s$/, '') : 'Mixed';
 
   const keyboard = calculateKeyboardStats(sanitized, 'QWERTY'); // Default layout
@@ -586,16 +793,20 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
   const elementalData = analyzeElemental(chars);
   const mouthKinetics = analyzeBiomechanics(chars);
   const phonesthemes = detectPhonesthemes(sanitized);
-  
+
   // NEW ANALYSES
   const socialImpression = analyzeSocialImpression(chars, phonetics);
   const informationDynamics = analyzeInformationDynamics(chars);
+  const trustworthiness = analyzeTrustworthiness(sanitized);
+  const smileIndex = analyzeSmileIndex(sanitized);
+  const dominanceScale = analyzeDominance(sanitized);
+  const genderBias = analyzeGenderBias(sanitized);
 
   const isSymmetrical = sanitized === chars.slice().reverse().join('');
 
   return {
     name: rawName, sanitizedName: sanitized, ipaTranscription, metrics: { totalChars: chars.length, uniqueChars: uniqueSet.size, alphaWeight },
-    structure: { firstLetterCat: VOWELS.has(chars[0]) ? 'Vowel' : 'Consonant', lastLetterCat: VOWELS.has(chars[chars.length-1]) ? 'Vowel' : 'Consonant', lengthCategory: chars.length < 5 ? 'Short' : chars.length > 8 ? 'Long' : 'Medium', firstLetterFrequency: ['J','M','A','D','C'].includes(chars[0]) ? 'Common' : 'Rare', isSymmetrical: isSymmetrical },
+    structure: { firstLetterCat: VOWELS.has(chars[0]) ? 'Vowel' : 'Consonant', lastLetterCat: VOWELS.has(chars[chars.length - 1]) ? 'Vowel' : 'Consonant', lengthCategory: chars.length < 5 ? 'Short' : chars.length > 8 ? 'Long' : 'Medium', firstLetterFrequency: ['J', 'M', 'A', 'D', 'C'].includes(chars[0]) ? 'Common' : 'Rare', isSymmetrical: isSymmetrical },
     vcData: { vowelCount, consonantCount, vowelPercentage, densityLabel: vowelPercentage > 50 ? 'Vowel Dominant' : 'Consonant Dominant' },
     phonetics, dominantSound: dominantSound.charAt(0).toUpperCase() + dominantSound.slice(1),
     keyboard,
@@ -603,7 +814,9 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
     synesthesia, soundSymbolism, psycholinguistics: analyzePsycholinguistics(sanitized, phonotactics), phonotacticImpression: analyzeMorphology(sanitized),
     sonorityProfile, acousticProfile, genderLoading: analyzeGenderLoading(sanitized), phonotactics, globalRobustness: analyzeGlobalRobustness(sanitized),
     prosody, benchmarks, archetype, radioAnalysis, elementalData, mouthKinetics, phonesthemes,
-    socialImpression, informationDynamics
+    socialImpression, informationDynamics,
+    trustworthiness, smileIndex, dominanceScale, genderBias,
+    globalPronounceability // New
   };
 };
 

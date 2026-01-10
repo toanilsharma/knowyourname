@@ -35,14 +35,14 @@ export interface KeyboardStats {
   balance: 'Left-Dominant' | 'Right-Dominant' | 'Balanced';
   alternationScore: number; // 0-100 score of how often hands switch
   rowUsage: { top: number; home: number; bottom: number };
-  keysPressed: Record<string, number>; 
+  keysPressed: Record<string, number>;
 }
 
 export interface Encodings {
   scrabbleScore: number;
   morseCode: string;
   binarySequence: string;
-  braille: string; 
+  braille: string;
 }
 
 export interface SynesthesiaData {
@@ -50,6 +50,7 @@ export interface SynesthesiaData {
   secondaryColor: string; // Hex
   description: string;
   scientificRef: string;
+  colors?: string[]; // Added for Simner Map
 }
 
 export interface SoundSymbolism {
@@ -77,7 +78,9 @@ export interface Phonotactics {
 }
 
 export interface Prosody {
-  stressPattern: 'Trochaic (Strong-Weak)' | 'Iambic (Weak-Strong)' | 'Dactylic (Strong-Weak-Weak)' | 'Monosyllabic' | 'Complex/Unknown';
+  stressPattern: 'Trochaic (Strong-Weak)' | 'Iambic (Weak-Strong)' | 'Dactylic (Strong-Weak-Weak)' | 'Monosyllabic' | 'Complex/Unknown' | 'Polysyllabic Flow';
+  meter?: 'Trochee' | 'Iamb' | 'Dactyl' | 'Unknown';
+  musicalNotation?: string;
   rhythmType: 'Flowing (Smooth)' | 'Syncopated (Interrupted)' | 'Balanced';
   syllableEstimate: number;
 }
@@ -174,10 +177,43 @@ export interface InformationDynamics {
   bitDepth: number; // Total bits to encode name
 }
 
+// NEW: Advanced Psychometrics (v2.0)
+export interface TrustworthinessScore {
+  score: number; // 0-100 (Cognitive Fluency)
+  label: 'High Trust (Fluent)' | 'Medium Trust' | 'Low Trust (Complex)';
+  description: string;
+}
+
+export interface SmileIndex {
+  score: number; // 0-100
+  muscleAction: 'Zygomaticus (Smile)' | 'Orbicularis (Pout)' | 'Neutral';
+  description: string;
+}
+
+export interface DominanceScale {
+  frequencyWeight: number; // 1 (High/Small) to 5 (Low/Large)
+  label: 'Approachable/Agile' | 'Dominant/Authoritative' | 'Balanced';
+  description: string;
+}
+
+export interface GenderBias {
+  score: number; // 0 (Masc) - 100 (Fem)
+  leaning: 'Feminine-Coded' | 'Masculine-Coded' | 'Neutral';
+  viralHook: string;
+  explanation: string;
+}
+
+export interface GlobalPronounceability {
+  score: number; // 0-100
+  class: 'International' | 'Regional' | 'Local';
+  difficulties: string[];
+  explanation: string;
+}
+
 export interface NameAnalysis {
   name: string;
   sanitizedName: string;
-  ipaTranscription: string; 
+  ipaTranscription: string;
   metrics: AnalysisMetrics;
   structure: StructuralData;
   vcData: VowelConsonantData;
@@ -185,24 +221,30 @@ export interface NameAnalysis {
   dominantSound: string;
   keyboard: KeyboardStats;
   encodings: Encodings;
-  synesthesia: SynesthesiaData; 
+  synesthesia: SynesthesiaData;
   phonotacticImpression: string;
-  soundSymbolism: SoundSymbolism; 
+  soundSymbolism: SoundSymbolism;
   psycholinguistics: Psycholinguistics;
   sonorityProfile: SonorityPoint[];
   genderLoading: GenderLoading;
-  phonotactics: Phonotactics; 
+  phonotactics: Phonotactics;
   globalRobustness: GlobalRobustness;
   prosody: Prosody;
   acousticProfile: AcousticProfile;
-  benchmarks: BenchmarkData; 
-  archetype: Archetype; 
-  radioAnalysis: RadioAnalysis; 
-  elementalData: ElementalData; 
-  mouthKinetics: MouthKinetics; 
+  benchmarks: BenchmarkData;
+  archetype: Archetype;
+  radioAnalysis: RadioAnalysis;
+  elementalData: ElementalData;
+  mouthKinetics: MouthKinetics;
   phonesthemes: Phonestheme[];
   socialImpression: SocialImpression; // New
   informationDynamics: InformationDynamics; // New
+  // Advanced Psychometrics
+  trustworthiness: TrustworthinessScore;
+  smileIndex: SmileIndex;
+  dominanceScale: DominanceScale;
+  genderBias: GenderBias;
+  globalPronounceability: GlobalPronounceability; // New
 }
 
 export interface CompatibilityAnalysis {

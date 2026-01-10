@@ -19,7 +19,7 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
             <div
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100 pb-6' : 'max-h-0 opacity-0'}`}
             >
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-base md:text-lg">
                     {answer}
                 </p>
             </div>

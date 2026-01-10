@@ -16,7 +16,7 @@ export const HomeCaseStudy: React.FC = () => {
                         <h2 className="text-3xl md:text-5xl font-serif text-slate-900 dark:text-white">
                             Why does <span className="italic">"Tesla"</span> sound faster than <span className="italic">"Ford"</span>?
                         </h2>
-                        <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed">
                             It's not just marketing. It's <strong>Phonosemantics</strong>. High-frequency sounds (like 'S' and 'T') mimic the physics of speed and electricity. Low-frequency sounds (like 'O' and 'R') mimic weight and durability.
                         </p>
 

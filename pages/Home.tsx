@@ -10,7 +10,9 @@ import { KeyboardHeatmap } from '../components/KeyboardHeatmap';
 import { SonorityChart } from '../components/SonorityChart';
 import { MouthMap } from '../components/MouthMap';
 import { SocialMatrix } from '../components/SocialMatrix';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { PsychometricCard } from '../components/PsychometricCard';
+import { AestheticsCard } from '../components/AestheticsCard';
 import { SEO } from '../components/SEO';
 import { AdUnit } from '../components/AdUnit';
 import { HomeFeatures } from '../components/HomeFeatures';
@@ -21,8 +23,8 @@ import { HomeFAQ } from '../components/HomeFAQ';
 const ExplanationBlock: React.FC<{ text: string; linkTo?: string; linkLabel?: string }> = ({ text, linkTo, linkLabel }) => (
     <div className="mt-4 p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg text-sm leading-relaxed no-print">
         <p>
-            <span className="font-bold text-slate-800 dark:text-slate-200 mr-1">In Simple Language:</span>
-            <span className="text-slate-600 dark:text-slate-400">{text}</span>
+            <span className="font-bold text-slate-900 dark:text-white mr-1">In Simple Language:</span>
+            <span className="text-slate-700 dark:text-slate-300">{text}</span>
         </p>
         {linkTo && (
             <div className="mt-2 text-right">
@@ -39,6 +41,7 @@ const EXAMPLE_NAMES = [
 ];
 
 export const Home: React.FC = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [mode, setMode] = useState<'single' | 'compatibility'>('single');
     const [inputName, setInputName] = useState('');
     const [inputName2, setInputName2] = useState('');
@@ -62,6 +65,16 @@ export const Home: React.FC = () => {
             }
         }
     }, []);
+
+    // Deep Linking: Auto-run if URL has ?name=X
+    useEffect(() => {
+        const nameParam = searchParams.get('name');
+        if (nameParam) {
+            setInputName(nameParam);
+            // Small timeout to allow UI to settle before running heavy analysis
+            setTimeout(() => runAnalysis(nameParam), 500);
+        }
+    }, [searchParams]);
 
     const addToHistory = (name: string) => {
         const sanitized = name.trim();
@@ -200,12 +213,12 @@ export const Home: React.FC = () => {
                             Linguistic Analysis Engine v7.5
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-8">
-                            Reveal the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600">hidden architecture</span><br className="hidden md:block" />
+                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-medium text-slate-900 dark:text-white tracking-tight leading-[1] mb-8 relative z-20">
+                            Reveal the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 animate-gradient-x">hidden architecture</span><br className="hidden md:block" />
                             of your name.
                         </h1>
 
-                        <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light max-w-3xl mx-auto leading-relaxed mb-10">
+                        <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-light max-w-3xl mx-auto leading-relaxed mb-12 relative z-20">
                             Measure the <strong>Phonetics</strong>, <strong>Keyboard Ergonomics</strong>, and <strong>Acoustic Psychology</strong> of your personal identity. No horoscopes. Just data.
                         </p>
 
@@ -238,29 +251,31 @@ export const Home: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <form onSubmit={handleAnalyze} className="flex flex-col gap-3 px-2 pb-2">
-                                    <div className="relative">
+                                <form onSubmit={handleAnalyze} className="flex flex-col gap-4 px-2 pb-2">
+                                    <div className="relative group/input">
+                                        <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl opacity-0 group-hover/input:opacity-50 transition duration-500 blur"></div>
                                         <input
                                             type="text"
                                             value={inputName}
                                             onChange={(e) => setInputName(e.target.value)}
                                             placeholder={mode === 'single' ? "Enter a first name..." : "Name A (e.g. You)"}
                                             aria-label="Name 1"
-                                            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 px-6 py-5 text-xl outline-none font-serif rounded-xl focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                                            className="relative w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 px-6 py-6 text-2xl outline-none font-serif rounded-xl focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all shadow-inner"
                                             autoComplete="off"
                                         />
                                     </div>
 
                                     {mode === 'compatibility' && (
-                                        <div className="relative animate-fade-in-up">
-                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-slate-200 dark:bg-slate-800 rounded-full p-1 text-[10px] font-bold text-slate-500 border border-white dark:border-slate-900">&</div>
+                                        <div className="relative animate-fade-in-up group/input">
+                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-slate-200 dark:bg-slate-800 rounded-full p-1.5 text-[10px] font-bold text-slate-500 border-2 border-white dark:border-slate-900">&</div>
+                                            <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl opacity-0 group-hover/input:opacity-50 transition duration-500 blur"></div>
                                             <input
                                                 type="text"
                                                 value={inputName2}
                                                 onChange={(e) => setInputName2(e.target.value)}
                                                 placeholder="Name B (e.g. Partner)"
                                                 aria-label="Name 2"
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 px-6 py-5 text-xl outline-none font-serif rounded-xl focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                                                className="relative w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 px-6 py-6 text-2xl outline-none font-serif rounded-xl focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all shadow-inner"
                                                 autoComplete="off"
                                             />
                                         </div>
@@ -269,10 +284,10 @@ export const Home: React.FC = () => {
                                     <button
                                         type="submit"
                                         aria-label="Analyze"
-                                        className="mt-2 w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90 font-bold text-sm tracking-[0.15em] uppercase py-5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
+                                        className="mt-4 w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:scale-[1.02] active:scale-[0.98] font-bold text-base tracking-[0.15em] uppercase py-5 rounded-xl shadow-xl shadow-slate-900/10 dark:shadow-white/5 transition-all flex items-center justify-center gap-3"
                                     >
                                         <span>Initialize Analysis</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 animate-pulse">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 animate-pulse">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                                         </svg>
                                     </button>
@@ -309,7 +324,7 @@ export const Home: React.FC = () => {
 
                     <div className="w-full border-y border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
                         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Research methodology based on papers from:</span>
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Research methodology based on papers from:</span>
                             <div className="flex gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
                                 <span className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300">Oxford Linguistics</span>
                                 <span className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300">MIT Brain & CogSci</span>

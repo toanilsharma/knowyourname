@@ -104,6 +104,12 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://knowyourname.co.in/sitemap</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://knowyourname.co.in/editorial-policy</loc>
     <lastmod>2026-01-24</lastmod>
     <changefreq>yearly</changefreq>

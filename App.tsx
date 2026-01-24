@@ -11,6 +11,14 @@ import { Disclaimer } from './pages/Disclaimer';
 import { Contact } from './pages/Contact';
 import { NotFound } from './pages/NotFound';
 import { Sitemap } from './pages/Sitemap';
+import { Methods } from './pages/Methods';
+import { ResearchIndex } from './pages/ResearchIndex';
+import { SoundSymbolism } from './pages/research/SoundSymbolism';
+import { BoubaKiki } from './pages/research/BoubaKiki';
+import { Phonotactics } from './pages/research/Phonotactics';
+import { AcousticFrequency } from './pages/research/AcousticFrequency';
+import { TypingEffort } from './pages/research/TypingEffort';
+import { EditorialPolicy } from './pages/EditorialPolicy';
 import { CookieConsent } from './components/CookieConsent';
 
 // --- Theme Context ---
@@ -114,6 +122,8 @@ const App: React.FC = () => {
                   {[
                     { name: 'Analysis Lab', path: '/' },
                     { name: 'The Science', path: '/science' },
+                    { name: 'Research', path: '/research' },
+                    { name: 'Methods', path: '/methods' },
                     { name: 'Encyclopedia', path: '/encyclopedia' },
                   ].map((link) => (
                     <Link
@@ -177,6 +187,8 @@ const App: React.FC = () => {
                   {[
                     { name: 'Analysis Lab', path: '/' },
                     { name: 'The Science', path: '/science' },
+                    { name: 'Research', path: '/research' },
+                    { name: 'Methods', path: '/methods' },
                     { name: 'Encyclopedia', path: '/encyclopedia' },
                     { name: 'Contact', path: '/contact' },
                   ].map((link) => (
@@ -200,6 +212,7 @@ const App: React.FC = () => {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/science" element={<Science />} />
+              <Route path="/methods" element={<Methods />} />
               <Route path="/encyclopedia" element={<Encyclopedia />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy-policy" element={<Privacy />} />
@@ -207,6 +220,14 @@ const App: React.FC = () => {
               <Route path="/cookie-policy" element={<CookiePolicy />} />
               <Route path="/disclaimer" element={<Disclaimer />} />
               <Route path="/sitemap" element={<Sitemap />} />
+              {/* Research Section */}
+              <Route path="/research" element={<ResearchIndex />} />
+              <Route path="/research/sound-symbolism" element={<SoundSymbolism />} />
+              <Route path="/research/bouba-kiki" element={<BoubaKiki />} />
+              <Route path="/research/phonotactics" element={<Phonotactics />} />
+              <Route path="/research/acoustic-frequency" element={<AcousticFrequency />} />
+              <Route path="/research/typing-effort" element={<TypingEffort />} />
+              <Route path="/editorial-policy" element={<EditorialPolicy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
@@ -272,6 +293,27 @@ const App: React.FC = () => {
                       </div>
                     </li>
                   </ul>
+                </div>
+              </div>
+
+              {/* Our Network Section */}
+              <div className="mb-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+                <h3 className="font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-widest text-xs text-center">From Our Network</h3>
+                <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm">
+                  <a href="https://designcalculators.co.in" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    <span className="font-medium">Design Calculators</span>
+                    <span className="text-slate-400 dark:text-slate-600 ml-1.5">— Engineering Tools</span>
+                  </a>
+                  <span className="text-slate-300 dark:text-slate-700 hidden md:inline">|</span>
+                  <a href="https://electrosafe.homes" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    <span className="font-medium">ElectroSafe Homes</span>
+                    <span className="text-slate-400 dark:text-slate-600 ml-1.5">— Electrical Safety</span>
+                  </a>
+                  <span className="text-slate-300 dark:text-slate-700 hidden md:inline">|</span>
+                  <a href="https://reliabilitytools.co.in" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    <span className="font-medium">Reliability Tools</span>
+                    <span className="text-slate-400 dark:text-slate-600 ml-1.5">— Industrial Analytics</span>
+                  </a>
                 </div>
               </div>
 

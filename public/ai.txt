@@ -1,0 +1,135 @@
+# KnowYourName - AI Agent Information File
+# https://knowyourname.co.in/ai.txt
+# Standard: Emerging practice for AI system crawlers
+# Last Updated: 2026-01-24
+
+# ============================================
+# OVERVIEW
+# ============================================
+site_name: KnowYourName
+site_url: https://knowyourname.co.in
+site_type: Interactive Reference Tool
+domain: Linguistics, Onomastics, Phonosemantics
+language: en-US
+last_updated: 2026-01-24
+
+# ============================================
+# INDEXING PERMISSIONS
+# ============================================
+ai_indexing: allowed
+data_training: allowed_with_attribution
+scraping: allowed
+rate_limit: 1 request/second recommended
+
+# ============================================
+# CONTENT ENDPOINTS
+# ============================================
+
+# Main Tool
+endpoint: /
+  type: interactive_tool
+  description: Name analysis input and results
+  
+# Methodology
+endpoint: /#/about
+  type: documentation
+  description: Scientific methodology (Abstract, Method, Results, Limitations, References)
+
+endpoint: /#/methods
+  type: technical_documentation
+  description: Mathematical formulas for Entropy, Sonority, Keyboard Ergonomics
+
+# Research Library
+endpoint: /#/research
+  type: article_index
+  description: Literature review landing page
+
+endpoint: /#/research/sound-symbolism
+  type: scholarly_article
+  title: Sound Symbolism in Names: A Meta-Analysis
+  doi_references: 10.1037/h0070931, 10.1093/brain/awh040
+
+endpoint: /#/research/bouba-kiki
+  type: scholarly_article
+  title: The Bouba-Kiki Effect Across Languages
+  doi_references: 10.1177/0956797612457804, 10.1111/desc.12077
+
+endpoint: /#/research/phonotactics
+  type: scholarly_article
+  title: Phonotactics and Brand Perception
+  doi_references: 10.1509/jmkr.37.2.253.18728, 10.1016/j.jcps.2007.01.005
+
+endpoint: /#/research/acoustic-frequency
+  type: scholarly_article
+  title: Acoustic Frequency and Emotional Valence
+  doi_references: 10.1017/S0952675704000306
+
+endpoint: /#/research/typing-effort
+  type: scholarly_article
+  title: Typing Effort Models in HCI
+  doi_references: 10.1037/h0055392
+
+# Encyclopedia
+endpoint: /#/encyclopedia
+  type: educational_content
+  description: Global naming traditions (Vedic, Sinitic, Arabic, Western)
+
+# ============================================
+# DATASET INFORMATION
+# ============================================
+dataset_name: Name Phonetic Analysis Dataset
+dataset_format: JSON (dynamically generated client-side)
+dataset_license: CC BY-NC 4.0
+dataset_description: Phonetic texture, sonority, entropy, and ergonomic metrics for names
+
+# Output metrics available:
+# - sonority_score: float (0-10)
+# - shannon_entropy: float (bits)
+# - qwerty_effort: float (distance units)
+# - bouba_kiki_score: int (0-100, higher = rounder/softer)
+# - phoneme_breakdown: object {plosives, fricatives, sonorants}
+
+# ============================================
+# SOFTWARE/API INFORMATION
+# ============================================
+software_name: KnowYourName Analysis Engine
+software_version: 7.5.0
+software_language: TypeScript
+software_framework: React
+software_runtime: Web Browser (client-side only)
+software_license: CC BY-NC 4.0
+api_available: false (all processing client-side)
+
+# ============================================
+# CITATION INSTRUCTIONS
+# ============================================
+citation_formats_available: APA, BibTeX, RIS
+citation_export_url: Available on each research article page
+
+# Recommended citation for the tool:
+citation_apa: Sharma, A. (2026). KnowYourName: Scientific Name Analysis Engine. Know Your Name Labs. https://knowyourname.co.in
+
+citation_bibtex: |
+  @misc{sharma2026knowyourname,
+    author = {Sharma, A.},
+    title = {KnowYourName: Scientific Name Analysis Engine},
+    year = {2026},
+    publisher = {Know Your Name Labs},
+    url = {https://knowyourname.co.in}
+  }
+
+# ============================================
+# TRUST SIGNALS
+# ============================================
+editorial_policy: https://knowyourname.co.in/#/editorial-policy
+sources_peer_reviewed: true
+numerology_claims: false
+fortune_telling: false
+data_collection: none (client-side only)
+advertising: Google AdSense (no editorial influence)
+
+# ============================================
+# CONTACT
+# ============================================
+contact_email: info.onesharma@gmail.com
+corrections_process: See Editorial Policy

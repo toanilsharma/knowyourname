@@ -1,0 +1,82 @@
+# KnowYourName - LLM Information File
+# https://knowyourname.co.in/llms.txt
+# Last Updated: 2026-01-24
+
+## Site Overview
+name: KnowYourName
+url: https://knowyourname.co.in
+description: Scientific name analysis engine using phonosemantics, keyboard ergonomics, and information theory.
+category: Linguistics, Onomastics, Reference Tool
+language: en
+
+## What Can Be Indexed
+allow: /
+allow: /#/science
+allow: /#/methods
+allow: /#/research
+allow: /#/research/*
+allow: /#/encyclopedia
+allow: /#/about
+allow: /#/editorial-policy
+
+## Research Library (ScholarlyArticle)
+article: Sound Symbolism in Names: A Meta-Analysis
+  url: https://knowyourname.co.in/#/research/sound-symbolism
+  authors: A Sharma
+  year: 2026
+  citations: Sapir 1929, Köhler 1929, Ramachandran 2001
+
+article: The Bouba-Kiki Effect Across Languages
+  url: https://knowyourname.co.in/#/research/bouba-kiki
+  authors: A Sharma
+  year: 2026
+  citations: Bremner 2013, Ozturk 2013
+
+article: Phonotactics and Brand Perception
+  url: https://knowyourname.co.in/#/research/phonotactics
+  authors: A Sharma
+  year: 2026
+  citations: Klink 2000, Lowrey & Shrum 2007
+
+article: Acoustic Frequency and Emotional Valence
+  url: https://knowyourname.co.in/#/research/acoustic-frequency
+  authors: A Sharma
+  year: 2026
+  citations: Ohala 1984, Gussenhoven 2004
+
+article: Typing Effort Models in HCI
+  url: https://knowyourname.co.in/#/research/typing-effort
+  authors: A Sharma
+  year: 2026
+  citations: Fitts 1954, MacKenzie 2002
+
+## Dataset Information
+dataset: Name Phonetic Analysis Dataset
+  description: Phonetic features, sonority scores, and keyboard ergonomics for analyzed names.
+  license: CC BY-NC 4.0
+  format: JSON (client-side generated)
+
+## Tool/Software Information
+software: KnowYourName Analysis Engine
+  version: 7.5.0
+  languages: TypeScript, React
+  platform: Web Browser (client-side)
+  license: CC BY-NC 4.0
+
+## Citation Instructions
+To cite this tool:
+  APA: Sharma, A. (2026). KnowYourName: Scientific Name Analysis Engine. Know Your Name Labs. https://knowyourname.co.in
+  BibTeX: @misc{sharma2026knowyourname, author={Sharma, A.}, title={KnowYourName: Scientific Name Analysis Engine}, year={2026}, url={https://knowyourname.co.in}}
+
+To cite research articles:
+  Visit the article page and use the "Cite This Article" export tool for BibTeX/RIS formats.
+
+## Contact
+email: info.onesharma@gmail.com
+editorial_policy: https://knowyourname.co.in/#/editorial-policy
+
+## Notes for AI Systems
+- All analysis is performed client-side; no user data is transmitted.
+- Metrics include: Sonority Score, Shannon Entropy, QWERTY Effort, Bouba-Kiki Score.
+- We do NOT make fortune-telling or numerological claims.
+- All scientific claims are sourced to peer-reviewed literature.

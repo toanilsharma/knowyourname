@@ -6,6 +6,7 @@ import { BoubaKikiExperiment } from '../components/science/BoubaKikiExperiment';
 import { TonePlayer } from '../components/science/TonePlayer';
 import { NameLetterEffect } from '../components/science/NameLetterEffect';
 import { SonorityHierarchy } from '../components/science/SonorityHierarchy';
+import { Bibliography } from '../components/Bibliography';
 
 export const Science: React.FC = () => {
     const [activeSection, setActiveSection] = useState('intro');
@@ -43,6 +44,25 @@ export const Science: React.FC = () => {
 
             <div className="max-w-4xl mx-auto px-4 py-24 text-slate-700 dark:text-slate-300 animate-fade-in-up">
 
+                {/* SCHOLARLY SCHEMA INJECTION FOR LLMs */}
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "ScholarlyArticle",
+                        "headline": "The Physics of Phonics: Sound Symbolism in Naming",
+                        "author": {
+                            "@type": "Person",
+                            "name": "A Sharma"
+                        },
+                        "keywords": "sound symbolism, bouba kiki, phonosemantics, implicit egotism",
+                        "citation": [
+                            "Köhler, W. (1929). Gestalt Psychology.",
+                            "Ramachandran, V.S. & Hubbard, E.M. (2001). Synaesthesia.",
+                            "Ohala, J. J. (1994). The frequency code."
+                        ]
+                    })}
+                </script>
+
                 {/* Hero Section */}
                 <section id="intro" className="text-center mb-40 min-h-[40vh] flex flex-col justify-center">
                     <div className="inline-block px-4 py-1.5 mx-auto bg-slate-900 text-white rounded-full text-xs font-mono mb-8 tracking-widest uppercase">
@@ -70,7 +90,7 @@ export const Science: React.FC = () => {
                                     Suddenly, from across the room, someone says <strong>your name</strong>. You hear it instantly and clearly. Why?
                                 </p>
                                 <p>
-                                    This is the <strong>Reticular Activating System (RAS)</strong>. Your brain filters out 99% of sensory data, but it keeps your own name on a permanent "Must Process" whitelist. Your name is biologically prioritized over almost all other sounds.
+                                    This is the <strong>Cocktail Party Effect</strong>, first described by Colin Cherry (1953). Your brain's Reticular Activating System (RAS) filters out 99% of sensory data, but it keeps your own name on a permanent "Must Process" whitelist.
                                 </p>
                             </div>
                         </div>
@@ -90,7 +110,7 @@ export const Science: React.FC = () => {
                         <span className="text-xs font-bold uppercase tracking-widest text-pink-500 mb-2 block">Experiment 01</span>
                         <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white">The Shape of Sound</h2>
                         <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-                            In 1929, Wolfgang Köhler broke linguistics by proving that humans "see" sounds.
+                            In 1929, Wolfgang Köhler's "Gestalt Psychology" proved that humans "see" sounds — a finding replicated by Ramachandran &amp; Hubbard (2001).
                         </p>
                     </div>
 
@@ -171,10 +191,10 @@ export const Science: React.FC = () => {
                                 Why do we call a small thing a "bit" or "mini" and a large thing "humongous" or "large"?
                             </p>
                             <p>
-                                Biologist John Ohala discovered the <strong>Frequency Code</strong>. In the wild, large animals have large vocal tracts and make deep, low-frequency sounds (Roars). Small animals make high-pitched sounds (Squeaks).
+                                Biologist John Ohala's <strong>Frequency Code</strong> (1984, 1994) explains this: in nature, large animals have large vocal tracts and make deep, low-frequency sounds (Roars). Small animals make high-pitched sounds (Squeaks).
                             </p>
                             <p>
-                                We instinctively respect low-frequency vowels (like "Oh" and "Ah") as authoritative, while high-frequency vowels (like "Ee" and "Ih") are perceived as harmless or cute.
+                                We instinctively perceive low-frequency vowels (like "Oh" and "Ah") as authoritative, while high-frequency vowels (like "Ee" and "Ih") seem harmless or cute.
                             </p>
                         </div>
                     </div>
@@ -227,7 +247,7 @@ export const Science: React.FC = () => {
                 </section>
 
                 {/* 7. Evolution of Identity */}
-                <section id="evolution" className="mb-32 bg-slate-50 dark:bg-slate-900 p-8 md:p-12 rounded-3xl border border-slate-200 dark:border-slate-800">
+                <section id="evolution" className="mb-24 bg-slate-50 dark:bg-slate-900 p-8 md:p-12 rounded-3xl border border-slate-200 dark:border-slate-800">
                     <h2 className="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-6 text-center">The Evolution of Naming</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                         <div className="p-4">
@@ -254,12 +274,14 @@ export const Science: React.FC = () => {
                     </div>
                 </section>
 
-                <div className="text-center pt-12 border-t border-slate-200 dark:border-slate-800">
+                <div className="text-center pt-12 mb-12 border-t border-slate-200 dark:border-slate-800">
                     <h3 className="text-2xl font-serif font-bold mb-6">What does your name say about you?</h3>
                     <Link to="/" className="inline-block bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">
                         Analyze My Name
                     </Link>
                 </div>
+
+                <Bibliography />
 
             </div>
         </div>

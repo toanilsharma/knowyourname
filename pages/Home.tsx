@@ -19,6 +19,8 @@ import { HomeFeatures } from '../components/HomeFeatures';
 import { HomeFamousNames } from '../components/HomeFamousNames';
 import { HomeCaseStudy } from '../components/HomeCaseStudy';
 import { HomeFAQ } from '../components/HomeFAQ';
+import { FactGenerator } from '../components/FactGenerator';
+import { ViralResultCard } from '../components/ViralResultCard';
 
 const ExplanationBlock: React.FC<{ text: string; linkTo?: string; linkLabel?: string }> = ({ text, linkTo, linkLabel }) => (
     <div className="mt-4 p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg text-sm leading-relaxed no-print">
@@ -208,7 +210,9 @@ export const Home: React.FC = () => {
                 <div className="relative z-10 flex flex-col items-center animate-fade-in-up pt-10 md:pt-20 px-4">
 
                     <div className="w-full max-w-5xl mx-auto text-center mb-16">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-slate-900/5 dark:bg-white/10 text-slate-600 dark:text-slate-300 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] mb-8 border border-slate-200 dark:border-slate-800 backdrop-blur-md">
+                        <FactGenerator />
+
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 mt-6 bg-slate-900/5 dark:bg-white/10 text-slate-600 dark:text-slate-300 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] mb-8 border border-slate-200 dark:border-slate-800 backdrop-blur-md">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                             Linguistic Analysis Engine v7.5
                         </div>
@@ -448,6 +452,11 @@ export const Home: React.FC = () => {
 
                     <div id="analysis-container" className="p-8 -m-8 rounded-3xl bg-slate-950/0">
 
+                        {/* NEW: Viral Result Card */}
+                        {analysis?.viralSummary && (
+                            <ViralResultCard summary={analysis.viralSummary} />
+                        )}
+
                         {/* Archetype */}
                         <div className="mb-8">
                             <AnalysisCard
@@ -488,7 +497,7 @@ export const Home: React.FC = () => {
                             <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="h-full">
                                     <AnalysisCard
-                                        title="Sonority & Rhythm"
+                                        title="Rhythm & Flow"
                                         icon={<span>🌊</span>}
                                         info="Based on the Sonority Sequencing Principle (Clements, 1990). The 'loudness' curve of a syllable determines its rhythmic impulse."
                                         className="h-full"
@@ -520,7 +529,7 @@ export const Home: React.FC = () => {
 
                                 <div className="h-full">
                                     <AnalysisCard
-                                        title="Tongue Trajectory"
+                                        title="Mouth Feel"
                                         icon={<span>👅</span>}
                                         info="Articulatory Biomechanics. Maps the physical movement of the tongue inside the oral cavity (Front vs. Back, Open vs. Closed)."
                                         className="h-full"
@@ -544,7 +553,7 @@ export const Home: React.FC = () => {
                             <div className="mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 {/* Social Impression Matrix */}
                                 <AnalysisCard
-                                    title="Social Psychology"
+                                    title="First Impressions"
                                     icon={<span>👥</span>}
                                     info="Based on the Stereotype Content Model (Fiske, Cuddy, Glick, & Xu, 2002). Maps names onto the universal dimensions of Warmth and Competence."
                                     className="h-full"
@@ -561,7 +570,7 @@ export const Home: React.FC = () => {
 
                                 {/* Information Entropy */}
                                 <AnalysisCard
-                                    title="Information Theory"
+                                    title="Uniqueness Score"
                                     icon={<span>💾</span>}
                                     info="Claude Shannon's Entropy. Measures the 'surprise' or 'uniqueness' of the name's letter distribution against standard English frequencies."
                                     className="h-full"

@@ -1,3 +1,41 @@
+# KnowYourName Robots.txt
+# Updated: 2026-01-24
+
+# Default: Allow all crawlers
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /private/
+
+# Google Bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+# LLM / AI Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Academic Bots
+User-agent: Scholarbot
+Allow: /
+
+User-agent: SemanticScholar
+Allow: /
+
+# Sitemap
 Sitemap: https://knowyourname.co.in/sitemap.xml
+
+# Crawl-delay suggestion (optional, not universally supported)
+Crawl-delay: 1

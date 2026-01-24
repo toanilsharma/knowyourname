@@ -244,7 +244,7 @@ export interface NameAnalysis {
   smileIndex: SmileIndex;
   dominanceScale: DominanceScale;
   genderBias: GenderBias;
-  globalPronounceability: GlobalPronounceability; // New
+  combinedFluency: number;
 }
 
 export interface CompatibilityAnalysis {
@@ -254,4 +254,49 @@ export interface CompatibilityAnalysis {
   rhythmicSync: string; // Syllable/Stress match
   placeOfArticulationMatch: string;
   combinedFluency: number;
+}
+
+export interface ViralSummary {
+  headline: string; // The "Hook" (e.g. "The CEO Name")
+  emoji: string;
+  adjectives: string[]; // 3 punchy words
+  socialVibe: string; // The description for the share card
+  shareText: string; // Pre-formatted text for clipboard
+}
+
+export interface NameAnalysis {
+  name: string;
+  sanitizedName: string;
+  ipaTranscription: string;
+  metrics: AnalysisMetrics;
+  structure: StructuralData;
+  vcData: VowelConsonantData;
+  phonetics: PhoneticCounts;
+  dominantSound: string;
+  keyboard: KeyboardStats;
+  encodings: Encodings;
+  synesthesia: SynesthesiaData;
+  phonotacticImpression: string;
+  soundSymbolism: SoundSymbolism;
+  psycholinguistics: Psycholinguistics;
+  sonorityProfile: SonorityPoint[];
+  genderLoading: GenderLoading;
+  phonotactics: Phonotactics;
+  globalRobustness: GlobalRobustness;
+  prosody: Prosody;
+  acousticProfile: AcousticProfile;
+  benchmarks: BenchmarkData;
+  archetype: Archetype;
+  radioAnalysis: RadioAnalysis;
+  elementalData: ElementalData;
+  mouthKinetics: MouthKinetics;
+  phonesthemes: Phonestheme[];
+  socialImpression: SocialImpression;
+  informationDynamics: InformationDynamics;
+  trustworthiness: TrustworthinessScore;
+  smileIndex: SmileIndex;
+  dominanceScale: DominanceScale;
+  genderBias: GenderBias;
+  globalPronounceability: GlobalPronounceability;
+  viralSummary: ViralSummary; // NEW
 }

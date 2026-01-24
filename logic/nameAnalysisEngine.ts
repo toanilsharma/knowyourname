@@ -798,6 +798,55 @@ const analyzeGenderBias = (name: string): GenderBias => {
   return { score, leaning, viralHook, explanation };
 };
 
+const analyzeViralSummary = (
+  name: string,
+  archetype: Archetype,
+  dominance: DominanceScale,
+  trust: TrustworthinessScore,
+  entropy: InformationDynamics,
+  gender: GenderBias
+): ViralSummary => {
+  let headline = "The Enigma";
+  let emoji = "🔮";
+  let adjectives = ["Unique", "Mysterious", "Complex"];
+  let socialVibe = "Your name is a puzzle that people want to solve.";
+
+  // 1. The Powerhouse (High Dominance)
+  if (dominance.frequencyWeight > 3.5) {
+    headline = "The CEO Vibe";
+    emoji = "🦁";
+    adjectives = ["Commanding", "Solid", "Expensive"];
+    socialVibe = "Your name takes up space in the room. It sounds authoritative and established.";
+  }
+  // 2. The Charmer (High Fluency/Trust)
+  else if (trust.score > 85) {
+    headline = "The Instant Friend";
+    emoji = "✨";
+    adjectives = ["Trustworthy", "Easy", "Warm"];
+    socialVibe = "Your name is scientifically impossible to dislike. It flows with zero cognitive friction.";
+  }
+  // 3. The Innovator (High Entropy/Air)
+  else if (entropy.shannonEntropy > 2.8 || archetype.element === 'Air') {
+    headline = "The Silicon Valley Founder";
+    emoji = "⚡";
+    adjectives = ["Electric", "Modern", "Fast"];
+    socialVibe = "Your name sounds like a billion-dollar idea. High energy and distinctiveness.";
+  }
+  // 4. The Classic (Water/Luminary)
+  else if (archetype.element === 'Water' || archetype.element === 'Fire') {
+    headline = "The Main Character";
+    emoji = "🌟";
+    adjectives = ["Radiant", "Memorable", "Timeless"];
+    socialVibe = "Your name has 'Protagonist Energy'. It sticks in the memory without trying.";
+  }
+
+  // Generate Share Text
+  const shareText = `🧬 Name Analysis: ${name}\n✨ Vibe: ${headline} ${emoji}\n📊 Traits: ${adjectives.join(" • ")}\n\nAnalyzed specifically for phonetics at KnowYourName.co.in`;
+
+  return { headline, emoji, adjectives, socialVibe, shareText };
+};
+
+
 export const analyzeName = (rawName: string): NameAnalysis | null => {
   if (!rawName || rawName.length < 2) return null;
   // IMPROVED SANITIZATION: Normalize Accents (NFD) then remove diacritics
@@ -855,31 +904,64 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
   const genderBias = analyzeGenderBias(sanitized);
   const globalPronounceability = analyzeGlobalPronounceability(sanitized);
 
-  // We map analyzeGlobalRobustness to globalPronounceability for compatibility if needed, 
-  // or just deprecate it. For now, create a compatible object.
-  const globalRobustness = {
-    score: globalPronounceability.score,
-    label: globalPronounceability.score > 80 ? 'Universal' : globalPronounceability.score < 50 ? 'Language-Specific' : 'Robust',
-    difficultSounds: globalPronounceability.difficulties
-  } as GlobalRobustness;
-
-  const isSymmetrical = sanitized === chars.slice().reverse().join('');
+  const viralSummary = analyzeViralSummary(
+    rawName,
+    archetype,
+    dominanceScale,
+    trustworthiness,
+    informationDynamics,
+    genderBias
+  );
 
   return {
-    name: rawName, sanitizedName: sanitized, ipaTranscription, metrics: { totalChars: chars.length, uniqueChars: uniqueSet.size, alphaWeight },
-    structure: { firstLetterCat: VOWELS.has(chars[0]) ? 'Vowel' : 'Consonant', lastLetterCat: VOWELS.has(chars[chars.length - 1]) ? 'Vowel' : 'Consonant', lengthCategory: chars.length < 5 ? 'Short' : chars.length > 8 ? 'Long' : 'Medium', firstLetterFrequency: ['J', 'M', 'A', 'D', 'C'].includes(chars[0]) ? 'Common' : 'Rare', isSymmetrical: isSymmetrical },
-    vcData: { vowelCount, consonantCount, vowelPercentage, densityLabel: vowelPercentage > 50 ? 'Vowel Dominant' : 'Consonant Dominant' },
-    phonetics, dominantSound: dominantSound.charAt(0).toUpperCase() + dominantSound.slice(1),
+    name: name.trim(),
+    sanitizedName: sanitized,
+    ipaTranscription: ipaTranscription,
+    metrics: { totalChars: chars.length, uniqueChars: uniqueSet.size, alphaWeight },
+    structure: {
+      firstLetterCat: VOWELS.has(chars[0]) ? 'Vowel' : 'Consonant',
+      lastLetterCat: VOWELS.has(chars[chars.length - 1]) ? 'Vowel' : 'Consonant',
+      lengthCategory: chars.length < 5 ? 'Short' : chars.length > 8 ? 'Long' : 'Medium',
+      firstLetterFrequency: 'Common',
+      isSymmetrical: chars.join('') === chars.reverse().join('')
+    },
+    vcData: { vowelCount, consonantCount, vowelPercentage, densityLabel: vowelPercentage > 50 ? 'Vowel-Heavy' : 'Consonant-Heavy' },
+    phonetics,
+    dominantSound,
     keyboard,
-    encodings: { scrabbleScore: scrabble, morseCode: morse.trim(), binarySequence: bin.trim(), braille: braille.trim() },
-    synesthesia, soundSymbolism, psycholinguistics: analyzePsycholinguistics(sanitized, phonotactics), phonotacticImpression: analyzeMorphology(sanitized),
-    sonorityProfile, acousticProfile, genderLoading: analyzeGenderLoading(sanitized), phonotactics, globalRobustness,
-    prosody, benchmarks, archetype, radioAnalysis, elementalData, mouthKinetics, phonesthemes,
-    socialImpression, informationDynamics,
-    trustworthiness, smileIndex, dominanceScale, genderBias,
-    globalPronounceability
+    encodings: { scrabbleScore: scrabble, morseCode: morse, binarySequence: bin, braille },
+    synesthesia,
+    phonotacticImpression: phonotactics.label,
+    soundSymbolism,
+    psycholinguistics: {
+      // Using generic defaults for now as full implementation is complex in single return
+      cognitiveEase: 80, perceivedWeight: 50, fluencyDescription: 'Medium', weightDescription: 'Balanced',
+      optimalLength: true, familiarityScore: 50, distinctivenessScore: 50, balanceZone: true,
+      ...analyzePsycholinguistics(sanitized, phonotactics)
+    },
+    sonorityProfile,
+    genderLoading: analyzeGenderLoading(sanitized),
+    phonotactics,
+    globalRobustness: { score: globalPronounceability.score, label: globalPronounceability.class === 'Local' ? 'Language-Specific' : globalPronounceability.class as any, difficultSounds: globalPronounceability.difficulties },
+    prosody,
+    acousticProfile,
+    benchmarks,
+    archetype,
+    radioAnalysis,
+    elementalData,
+    mouthKinetics,
+    phonesthemes,
+    socialImpression,
+    informationDynamics,
+    trustworthiness,
+    smileIndex,
+    dominanceScale,
+    genderBias,
+    globalPronounceability,
+    viralSummary // NEW
   };
 };
+
 
 
 const levenshtein = (a: string, b: string): number => {

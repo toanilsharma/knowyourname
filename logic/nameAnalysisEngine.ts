@@ -949,7 +949,7 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
   );
 
   return {
-    name: name.trim(),
+    name: rawName.trim(),
     sanitizedName: sanitized,
     ipaTranscription: ipaTranscription,
     metrics: { totalChars: chars.length, uniqueChars: uniqueSet.size, alphaWeight },

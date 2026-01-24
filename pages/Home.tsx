@@ -452,9 +452,13 @@ export const Home: React.FC = () => {
 
                     <div id="analysis-container" className="p-8 -m-8 rounded-3xl bg-slate-950/0">
 
-                        {/* NEW: Viral Result Card */}
+                        {/* NEW: Viral Result Card with Big Beautiful Name */}
                         {analysis?.viralSummary && (
-                            <ViralResultCard summary={analysis.viralSummary} />
+                            <ViralResultCard
+                                summary={analysis.viralSummary}
+                                name={analysis.name}
+                                primaryColor={analysis.synesthesia.primaryColor}
+                            />
                         )}
 
                         {/* Archetype */}

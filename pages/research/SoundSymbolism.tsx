@@ -10,6 +10,12 @@ export const SoundSymbolism: React.FC = () => {
                 title="Sound Symbolism in Names: A Meta-Analysis | KnowYourName Research"
                 description="A comprehensive literature review of sound symbolism research, from Sapir's 1929 experiment to modern cross-linguistic studies. Includes DOI citations."
                 keywords="sound symbolism, phonosemantics, sapir 1929, size-sound symbolism, mil mal experiment"
+                articleSchema={{
+                    headline: "Sound Symbolism in Names: A Meta-Analysis",
+                    author: "A Sharma",
+                    datePublished: "2026-01-24",
+                    keywords: ["sound symbolism", "phonosemantics", "sapir 1929", "bouba kiki"]
+                }}
             />
 
             <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose dark:prose-invert prose-slate lg:prose-lg">
@@ -139,7 +145,7 @@ export const SoundSymbolism: React.FC = () => {
                     authors={["A Sharma"]}
                     year="2026"
                     journal="Know Your Name Research Library"
-                    url="https://knowyourname.co.in/#/research/sound-symbolism"
+                    url="https://knowyourname.co.in/research/sound-symbolism"
                     abstract="A comprehensive literature review of sound symbolism research, from Sapir's 1929 experiment to modern cross-linguistic studies."
                 />
 

@@ -6,34 +6,61 @@ interface Props {
   description: string;
   keywords?: string;
   noIndex?: boolean;
+  ogImage?: string;
+  articleSchema?: {
+    headline: string;
+    author: string;
+    datePublished: string;
+    keywords?: string[];
+  };
 }
 
-export const SEO: React.FC<Props> = ({ title, description, keywords, noIndex = false }) => {
+export const SEO: React.FC<Props> = ({
+  title,
+  description,
+  keywords,
+  noIndex = false,
+  ogImage = 'https://knowyourname.co.in/og-image.png',
+  articleSchema
+}) => {
   const location = useLocation();
+  const fullUrl = `https://knowyourname.co.in${location.pathname}`;
 
   useEffect(() => {
     // Update Title
     document.title = `${title} | Know Your Name`;
 
-    // Update Meta Description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', description);
-
-    // Update Keywords (Optional but good for Bing/Yandex)
-    if (keywords) {
-      let metaKeywords = document.querySelector('meta[name="keywords"]');
-      if (!metaKeywords) {
-        metaKeywords = document.createElement('meta');
-        metaKeywords.setAttribute('name', 'keywords');
-        document.head.appendChild(metaKeywords);
+    // Helper to set meta tag
+    const setMeta = (name: string, content: string, isProperty = false) => {
+      const attr = isProperty ? 'property' : 'name';
+      let meta = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute(attr, name);
+        document.head.appendChild(meta);
       }
-      metaKeywords.setAttribute('content', keywords);
+      meta.setAttribute('content', content);
+    };
+
+    // Standard Meta Tags
+    setMeta('description', description);
+    if (keywords) {
+      setMeta('keywords', keywords);
     }
+
+    // Open Graph Tags (Facebook, LinkedIn)
+    setMeta('og:title', `${title} | Know Your Name`, true);
+    setMeta('og:description', description, true);
+    setMeta('og:url', fullUrl, true);
+    setMeta('og:type', 'website', true);
+    setMeta('og:image', ogImage, true);
+    setMeta('og:site_name', 'Know Your Name', true);
+
+    // Twitter Card Tags
+    setMeta('twitter:card', 'summary_large_image');
+    setMeta('twitter:title', `${title} | Know Your Name`);
+    setMeta('twitter:description', description);
+    setMeta('twitter:image', ogImage);
 
     // Canonical Tag Update
     let linkCanonical = document.querySelector('link[rel="canonical"]');
@@ -42,9 +69,42 @@ export const SEO: React.FC<Props> = ({ title, description, keywords, noIndex = f
       linkCanonical.setAttribute('rel', 'canonical');
       document.head.appendChild(linkCanonical);
     }
-    linkCanonical.setAttribute('href', `https://knowyourname.co.in${location.pathname}`);
+    linkCanonical.setAttribute('href', fullUrl);
 
-  }, [title, description, keywords, location]);
+    // Article Schema (JSON-LD) for research pages
+    const existingSchema = document.getElementById('page-schema');
+    if (articleSchema) {
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "ScholarlyArticle",
+        "headline": articleSchema.headline,
+        "author": {
+          "@type": "Person",
+          "name": articleSchema.author
+        },
+        "datePublished": articleSchema.datePublished,
+        "publisher": {
+          "@type": "Organization",
+          "name": "Know Your Name Labs"
+        },
+        "url": fullUrl,
+        "keywords": articleSchema.keywords || []
+      };
+
+      if (existingSchema) {
+        existingSchema.textContent = JSON.stringify(schema);
+      } else {
+        const script = document.createElement('script');
+        script.id = 'page-schema';
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(schema);
+        document.head.appendChild(script);
+      }
+    } else if (existingSchema) {
+      existingSchema.remove();
+    }
+
+  }, [title, description, keywords, fullUrl, ogImage, articleSchema]);
 
   useEffect(() => {
     // Robots Meta Tag

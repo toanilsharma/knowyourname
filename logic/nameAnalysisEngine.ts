@@ -693,18 +693,18 @@ const analyzeMorphology = (name: string): string => {
 const analyzeArchetype = (phonetics: PhoneticCounts, vowelPct: number, boubaScore: number): Archetype => {
   // 1. The Architect (Structure, Hardness, Plosives)
   if (phonetics.plosives > (phonetics.liquids + phonetics.nasals) && boubaScore < 45) {
-    return { name: 'The Architect', traits: ['Structural', 'Decisive', 'Solid'], description: 'Defined by plosive stops (T, K, P). Acoustically rigid and foundational.', icon: '🏗️', element: 'Earth' };
+    return { name: 'The Architect', traits: ['Structural', 'Decisive', 'Grounded'], description: 'Your name is built on plosive consonants (T, K, P, D)—sounds created by sudden releases of air that feel solid and definitive. Like the foundation of a building, these sounds create an impression of reliability and permanence. People instinctively sense structure in names like yours.', icon: '🏗️', element: 'Earth' };
   }
   // 2. The Luminary (Openness, Vowels, Glides)
   if (vowelPct > 55 || phonetics.glides >= 2) {
-    return { name: 'The Luminary', traits: ['Radiant', 'Expressive', 'Open'], description: 'Dominated by open vowels and glides. Acoustically resonant and projecting.', icon: '✨', element: 'Fire' };
+    return { name: 'The Luminary', traits: ['Radiant', 'Expressive', 'Magnetic'], description: 'Your name opens outward like sunlight through a window. Dominated by vowels and gliding sounds, it creates an expansive acoustic space that projects confidence and warmth. These are the kinds of names that fill a room naturally—they don\'t demand attention, they simply illuminate.', icon: '✨', element: 'Fire' };
   }
   // 3. The Weaver (Flow, Liquids, Nasals)
   if ((phonetics.liquids + phonetics.nasals) >= 2 && boubaScore > 55) {
-    return { name: 'The Weaver', traits: ['Fluid', 'Connecting', 'Harmonic'], description: 'Rich in continuants (L, M, N). Acoustically smooth and legato.', icon: '🌊', element: 'Water' };
+    return { name: 'The Weaver', traits: ['Flowing', 'Empathetic', 'Artistic'], description: 'Your name moves like water over stones—continuous, melodic, and deeply satisfying to the ear. Rich in liquid sounds (L, R) and nasals (M, N), it creates the acoustic sensation of connection and flow. Linguists call these the most "beautiful" sounds in human language because they never stop; they transition smoothly, weaving syllables together.', icon: '🌊', element: 'Water' };
   }
   // 4. The Catalyst (Complexity, Fricatives, Mixed)
-  return { name: 'The Catalyst', traits: ['Dynamic', 'Adaptable', 'Kinetic'], description: 'A complex mix of fricatives (S, Z, F) creating acoustic friction and energy.', icon: '🌪️', element: 'Air' };
+  return { name: 'The Catalyst', traits: ['Dynamic', 'Energizing', 'Distinctive'], description: 'Your name has friction—and that\'s a superpower. Built with fricative sounds (S, Z, F, V) that create audible air turbulence, your name has an inherent energy and edge. These sounds command attention through their sharpness. They accelerate conversations rather than smoothing them over.', icon: '🌪️', element: 'Air' };
 };
 
 const analyzeRadio = (name: string): RadioAnalysis => {
@@ -809,39 +809,74 @@ const analyzeViralSummary = (
   let headline = "The Enigma";
   let emoji = "🔮";
   let adjectives = ["Unique", "Mysterious", "Complex"];
-  let socialVibe = "Your name is a puzzle that people want to solve.";
+  let socialVibe = "Your name is a beautiful puzzle. People remember names they can't quite figure out—and yours has that rare quality of being both familiar enough to feel comfortable, yet distinctive enough to linger in the mind long after the conversation ends.";
 
   // 1. The Powerhouse (High Dominance)
   if (dominance.frequencyWeight > 3.5) {
-    headline = "The CEO Vibe";
+    headline = "The Natural Leader";
     emoji = "🦁";
-    adjectives = ["Commanding", "Solid", "Expensive"];
-    socialVibe = "Your name takes up space in the room. It sounds authoritative and established.";
+    adjectives = ["Commanding", "Grounded", "Unforgettable"];
+    socialVibe = "When you introduce yourself, something shifts in the room. Your name uses low-frequency sounds that humans instinctively associate with strength and stability—the same acoustic patterns found in the words we use for big, powerful things. In job interviews, first dates, or crowded networking events, this name doesn't compete for attention—it simply receives it.";
   }
   // 2. The Charmer (High Fluency/Trust)
   else if (trust.score > 85) {
-    headline = "The Instant Friend";
+    headline = "The Instant Connection";
     emoji = "✨";
-    adjectives = ["Trustworthy", "Easy", "Warm"];
-    socialVibe = "Your name is scientifically impossible to dislike. It flows with zero cognitive friction.";
+    adjectives = ["Magnetic", "Effortless", "Warm"];
+    socialVibe = "Here's a secret: people make judgments about trustworthiness within milliseconds of hearing a name, and yours passes that test beautifully. It flows with zero cognitive friction—no tongue-twisters, no awkward pauses. Research shows names like yours create an unconscious feeling of comfort and familiarity, even in strangers. You're starting every interaction with an invisible head start.";
   }
-  // 3. The Innovator (High Entropy/Air)
-  else if (entropy.shannonEntropy > 2.8 || archetype.element === 'Air') {
-    headline = "The Silicon Valley Founder";
+  // 3. The Innovator (High Entropy/Unique)
+  else if (entropy.shannonEntropy > 2.8) {
+    headline = "The Trailblazer";
     emoji = "⚡";
-    adjectives = ["Electric", "Modern", "Fast"];
-    socialVibe = "Your name sounds like a billion-dollar idea. High energy and distinctiveness.";
+    adjectives = ["Bold", "Modern", "Electric"];
+    socialVibe = "Your name breaks the mold. Mathematically, it contains more 'information entropy' than average—meaning it's genuinely surprising and distinctive. This is the acoustic signature of innovation. Think of the names behind startups, artists, and disruptors. Your name stands out in a sea of sameness, and that's exactly where breakthroughs happen.";
   }
-  // 4. The Classic (Water/Luminary)
-  else if (archetype.element === 'Water' || archetype.element === 'Fire') {
+  // 4. The Poet (Water element - flowing, melodic)
+  else if (archetype.element === 'Water') {
+    headline = "The Storyteller";
+    emoji = "🌊";
+    adjectives = ["Melodic", "Flowing", "Artistic"];
+    socialVibe = "Your name moves like water—smooth, continuous, and deeply satisfying to say out loud. It's rich in 'sonorants' (L, M, N, R sounds), which linguists call the most musical sounds in human language. People with names like yours are often perceived as creative, empathetic, and emotionally intelligent. Your name doesn't demand attention; it invites connection.";
+  }
+  // 5. The Luminary (Fire element - radiant, open)
+  else if (archetype.element === 'Fire') {
     headline = "The Main Character";
     emoji = "🌟";
-    adjectives = ["Radiant", "Memorable", "Timeless"];
-    socialVibe = "Your name has 'Protagonist Energy'. It sticks in the memory without trying.";
+    adjectives = ["Radiant", "Expressive", "Memorable"];
+    socialVibe = "Some names exist in the background. Yours doesn't. With its open vowels and resonant structure, your name has 'protagonist energy'—it projects outward, fills a room, and sticks in memory without trying too hard. You could whisper it and people would still turn their heads. That's not ego; that's acoustics.";
+  }
+  // 6. The Diplomat (Balanced warmth/competence)
+  else if (dominance.frequencyWeight >= 2.8 && dominance.frequencyWeight <= 3.2 && trust.score > 65) {
+    headline = "The Perfect Balance";
+    emoji = "⚖️";
+    adjectives = ["Versatile", "Approachable", "Professional"];
+    socialVibe = "Your name hits the rare sweet spot between warmth and authority. It's friendly enough to put people at ease, yet structured enough to command respect. Psychologists call this the 'admired' quadrant—where people are seen as both likeable AND competent. It's a powerful combination that makes you equally at home in boardrooms and barbecues.";
+  }
+  // 7. The Architect (Earth element - solid, structured)
+  else if (archetype.element === 'Earth') {
+    headline = "The Foundation";
+    emoji = "🏛️";
+    adjectives = ["Solid", "Reliable", "Timeless"];
+    socialVibe = "In a world of trends and fleeting novelty, your name is a rock. It's built on 'stops' and 'plosives'—the consonants that create structure and clarity. People trust names like yours instinctively because they feel substantial, grounded, and real. This is the acoustic architecture of names that stand the test of time.";
+  }
+  // 8. The Catalyst (Air element - dynamic, energetic)
+  else if (archetype.element === 'Air') {
+    headline = "The Spark";
+    emoji = "🌪️";
+    adjectives = ["Dynamic", "Quick", "Energizing"];
+    socialVibe = "Your name has friction—and that's a superpower. It uses fricatives (S, F, Z sounds) that create 'acoustic energy', making it feel fast, sharp, and alive. This is the naming signature of disruptors and change-makers. Your name doesn't just enter a conversation; it accelerates it.";
+  }
+  // Fallback for edge cases
+  else {
+    headline = "The Original";
+    emoji = "💫";
+    adjectives = ["Distinctive", "Intriguing", "One-of-a-Kind"];
+    socialVibe = "Your name defies easy categorization—and that's exactly what makes it special. It combines phonetic elements in a way that's genuinely uncommon, creating an acoustic fingerprint that belongs to no one else. In a world of algorithms trying to predict everything, your name is refreshingly unpredictable.";
   }
 
   // Generate Share Text
-  const shareText = `🧬 Name Analysis: ${name}\n✨ Vibe: ${headline} ${emoji}\n📊 Traits: ${adjectives.join(" • ")}\n\nAnalyzed specifically for phonetics at KnowYourName.co.in`;
+  const shareText = `🧬 Name Analysis: ${name}\n✨ Vibe: ${headline} ${emoji}\n📊 Traits: ${adjectives.join(" • ")}\n\nDiscover your name's hidden linguistics at KnowYourName.co.in`;
 
   return { headline, emoji, adjectives, socialVibe, shareText };
 };

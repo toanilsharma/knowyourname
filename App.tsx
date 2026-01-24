@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Encyclopedia } from './pages/Encyclopedia';
@@ -98,7 +98,7 @@ const App: React.FC = () => {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <HashRouter>
+      <BrowserRouter>
         <ScrollToTop />
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans text-slate-900 dark:text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-800 dark:selection:text-emerald-200 transition-colors duration-500">
 
@@ -337,7 +337,7 @@ const App: React.FC = () => {
           </footer>
 
         </div>
-      </HashRouter>
+      </BrowserRouter>
     </ThemeContext.Provider>
   );
 };

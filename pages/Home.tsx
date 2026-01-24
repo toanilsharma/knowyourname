@@ -519,9 +519,9 @@ export const Home: React.FC = () => {
                                                 </div>
                                             </div>
                                             <ExplanationBlock
-                                                text="Think of this as the sheet music of your name. High peaks are vowels (loud), low valleys are consonants (percussive). A smooth curve sounds melodic like a river; a jagged curve sounds energetic like a drum beat."
+                                                text="Imagine your name as a song that plays every time someone says it. The vowels are your sustained notes—they ring out and carry across a room. The consonants are your rhythm section—quick taps that give your name its beat. Your particular pattern creates a sonic signature that people recognize instantly, even in a crowd. It's why you sometimes 'hear' your name when no one said it—your brain is always listening for this exact melody."
                                                 linkTo="/science"
-                                                linkLabel="Learn about Acoustics"
+                                                linkLabel="Explore the Science"
                                             />
                                         </div>
                                     </AnalysisCard>
@@ -540,7 +540,7 @@ export const Home: React.FC = () => {
                                         <div className="mt-4 text-xs text-slate-500 dark:text-slate-400">
                                             Visualizes the "choreography" of the name. Does it move forward (projective) or backward (ingestive)?
                                         </div>
-                                        <ExplanationBlock text="This tracks your tongue's workout. 'Outward' flow means the sound pushes forward out of your mouth (projecting confidence). 'Inward' flow means the sound pulls back into the throat (creating intimacy)." />
+                                        <ExplanationBlock text="Speaking your name is a physical journey through your mouth. Close your eyes and say it slowly—feel how your tongue dances from one position to another, how your lips shape and release each sound. This dance is unique to you. Names that push outward feel naturally confident and projecting; names that pull inward feel intimate and personal. Neither is better—they're just different ways of entering the world." />
                                     </AnalysisCard>
                                 </div>
                             </div>
@@ -562,9 +562,9 @@ export const Home: React.FC = () => {
                                 >
                                     {analysis && <SocialMatrix data={analysis.socialImpression} />}
                                     <ExplanationBlock
-                                        text="How strangers subconsciously judge your name. 'Warmth' names (soft sounds) seem friendly and trustworthy. 'Competence' names (hard stops) seem smart and powerful."
+                                        text="Here's something fascinating: within 7 seconds of hearing your name, a stranger has already formed impressions about your personality. It happens unconsciously—soft, flowing sounds (like M, L, N) trigger feelings of warmth and approachability, while sharp, decisive sounds (like K, T, P) suggest competence and authority. Your name lands somewhere on this invisible map, shaping first impressions before you even shake hands."
                                         linkTo="/science#implicit-egotism"
-                                        linkLabel="See Implicit Egotism"
+                                        linkLabel="See the Research"
                                     />
                                 </AnalysisCard>
 
@@ -601,9 +601,9 @@ export const Home: React.FC = () => {
                                         </div>
 
                                         <ExplanationBlock
-                                            text="Is your name a 'Pattern' or a 'Puzzle'? High entropy names are mathematically unique and surprising (memorable). Low entropy names follow standard English patterns (easy to process)."
+                                            text="Think of your name as a password—some are predictable ('ABC123') and some are complex. High entropy means your name contains genuine surprise, making it memorable precisely because it doesn't follow the usual patterns. Low entropy means your name flows with familiar sounds, making it easy for others to learn and spell. Neither is better—memorable names stick because they're unusual; familiar names stick because they feel trusted."
                                             linkTo="/encyclopedia#zipfs-law"
-                                            linkLabel="Read Zipf's Law"
+                                            linkLabel="Explore the Math"
                                         />
                                     </div>
                                 </AnalysisCard>
@@ -626,9 +626,9 @@ export const Home: React.FC = () => {
 
                                     <div className="mt-4 pt-2 border-t border-slate-200 dark:border-slate-800">
                                         <ExplanationBlock
-                                            text="Mathematical properties affect subtle biases. 'Alphabetical Weight' determines if you usually appear at the top or bottom of lists. 'Vowel Density' measures the raw carrying power of your name's sound."
+                                            text="Here's a hidden advantage (or disadvantage) you've probably never thought about: if your name starts with A-D, you've likely appeared near the top of countless alphabetical lists throughout your life—roll calls, team rosters, seating charts. This 'primacy effect' means people saw your name first, and first impressions matter. Meanwhile, vowel-heavy names project further in crowded rooms because vowels carry acoustic energy—they're the engine of your name's volume."
                                             linkTo="/encyclopedia#naming-laws"
-                                            linkLabel="View Naming Laws"
+                                            linkLabel="Hidden Naming Rules"
                                         />
                                     </div>
                                 </AnalysisCard>
@@ -640,7 +640,7 @@ export const Home: React.FC = () => {
                                     confidence="High"
                                 >
                                     {analysis && <KeyboardHeatmap data={analysis.keyboard} name={analysis.sanitizedName} />}
-                                    <ExplanationBlock text="How does it feel to type your name? A 'Balanced' score means your name is satisfying to type, like a drumroll. A lopsided score means one hand does all the work." />
+                                    <ExplanationBlock text="Every day, you type your name countless times—on forms, in emails, signing off on messages. A well-balanced name creates a satisfying alternating rhythm between your hands, like playing a tiny instrument. If one hand dominates, you might notice fatigue during long typing sessions. This may seem minor, but in the age of keyboards, the 'feel' of your name has become part of your daily experience of it." />
                                 </AnalysisCard>
                             </div>
                         </div>
@@ -675,7 +675,7 @@ export const Home: React.FC = () => {
                                         <strong>Optimal Signal:</strong> High distinctive contrast between phonemes.
                                     </div>
                                 )}
-                                <ExplanationBlock text="How likely are you to have to spell your name over a bad phone connection? A high score means your name is distinct and hard to mishear." />
+                                <ExplanationBlock text="Picture this: you're on a scratchy phone line with poor reception, trying to give your name to someone who's never heard it before. Some names cut through static beautifully—their sounds are distinct enough that even with noise, they're understood. Others contain 'confusable' sounds (M/N, F/S, B/V) that blur together when signal quality drops. Your score predicts how many times you'll have to say 'that's M as in Mike, not N as in November' in your lifetime." />
                             </AnalysisCard>
 
                             {/* Elemental Chemistry */}
@@ -710,7 +710,7 @@ export const Home: React.FC = () => {
                                         <div className="w-10 h-10 flex items-center justify-center text-xs text-slate-400">+</div>
                                     )}
                                 </div>
-                                <ExplanationBlock text="A fun metric! We treat letters like chemical elements. Names with many vowels act like 'Gas' or 'Plasma' (energetic, expanding). Consonant-heavy names act like 'Solids' (stable, grounded)." />
+                                <ExplanationBlock text="Here's a playful way to think about your name: if each letter were an element on a periodic table (A=Hydrogen through Z=Iron), what kind of 'matter' would your name be? Vowel-rich names behave like gases or plasma—they're energetic, expansive, and fill the space around them. Consonant-heavy names are more solid—stable, grounded, and clearly defined. It's not scientific fate, but it's a fun lens for understanding why some names feel 'airy' and others feel 'weighty.'" />
                             </AnalysisCard>
                         </div>
 
@@ -769,7 +769,7 @@ export const Home: React.FC = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <ExplanationBlock text="We compared your name to millions of others. An 'Outlier' name is statistically rare in its construction (length or vowel count), which can make it more memorable but harder to process initially." />
+                                <ExplanationBlock text="We've analyzed your name against the statistical patterns of millions of English names. Most names cluster around certain 'norms'—average lengths, typical vowel-to-consonant ratios. If your name is an outlier, congratulations: you stand out mathematically. This can make your name more memorable (unusual things stick), but it may also require a little extra cognitive effort for others to process initially. Normative names trade memorability for instant familiarity." />
                             </AnalysisCard>
                         </div>
 
@@ -827,9 +827,9 @@ export const Home: React.FC = () => {
                                         </div>
                                     </div>
                                     <ExplanationBlock
-                                        text="Your brain likes things that are easy to say. High 'Cognitive Fluency' means your name is processed quickly, which often leads to immediate positive bias."
+                                        text="Here's a surprising truth from psychology: the easier something is to process, the more we tend to trust and like it. This 'cognitive fluency' effect applies to your name. If it rolls off the tongue without effort—no awkward consonant clusters, no unusual spellings—people unconsciously associate that ease with positive feelings. It's not fair, but it's real: in studies, people with easy-to-pronounce names were rated as more trustworthy, even when raters had never met them."
                                         linkTo="/science#fluency"
-                                        linkLabel="Read the Study"
+                                        linkLabel="Read the Research"
                                     />
                                 </AnalysisCard>
                             </div>

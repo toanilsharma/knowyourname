@@ -12,6 +12,12 @@ export const BoubaKiki: React.FC = () => {
                 title="The Bouba-Kiki Effect Across Languages | KnowYourName Research"
                 description="Cross-cultural and infant studies on the universal link between sounds and shapes. How the Bouba-Kiki effect applies to name perception."
                 keywords="bouba kiki effect, sound symbolism, shape sound mapping, cross-cultural linguistics"
+                articleSchema={{
+                    headline: "The Bouba-Kiki Effect Across Languages",
+                    author: "A Sharma",
+                    datePublished: "2026-01-24",
+                    keywords: ["bouba kiki", "sound symbolism", "cross-cultural linguistics", "gestalt psychology"]
+                }}
             />
 
             {/* Background Decorations */}
@@ -235,7 +241,7 @@ export const BoubaKiki: React.FC = () => {
                         authors={["A Sharma"]}
                         year="2026"
                         journal="Know Your Name Research Library"
-                        url="https://knowyourname.co.in/#/research/bouba-kiki"
+                        url="https://knowyourname.co.in/research/bouba-kiki"
                         abstract="Cross-cultural and infant studies on the universal link between sounds and shapes."
                     />
                 </div>

@@ -1,4 +1,4 @@
-import { NameAnalysis, AnalysisMetrics, VowelConsonantData, StructuralData, PhoneticCounts, KeyboardStats, Encodings, SynesthesiaData, Psycholinguistics, SoundSymbolism, CompatibilityAnalysis, SonorityPoint, GenderLoading, Phonotactics, GlobalRobustness, Prosody, AcousticProfile, BenchmarkData, Archetype, RadioAnalysis, ElementalData, MouthKinetics, Phonestheme, MouthPoint, SocialImpression, InformationDynamics } from '../types';
+import { NameAnalysis, AnalysisMetrics, VowelConsonantData, StructuralData, PhoneticCounts, KeyboardStats, Encodings, SynesthesiaData, Psycholinguistics, SoundSymbolism, CompatibilityAnalysis, SonorityPoint, GenderLoading, Phonotactics, GlobalRobustness, Prosody, AcousticProfile, BenchmarkData, Archetype, RadioAnalysis, ElementalData, MouthKinetics, Phonestheme, MouthPoint, SocialImpression, InformationDynamics, GenderBias, DominanceScale, TrustworthinessScore, SmileIndex, ViralSummary, GlobalPronounceability } from './types';
 
 const VOWELS = new Set(['A', 'E', 'I', 'O', 'U']);
 
@@ -968,12 +968,7 @@ export const analyzeName = (rawName: string): NameAnalysis | null => {
     synesthesia,
     phonotacticImpression: phonotactics.label,
     soundSymbolism,
-    psycholinguistics: {
-      // Using generic defaults for now as full implementation is complex in single return
-      cognitiveEase: 80, perceivedWeight: 50, fluencyDescription: 'Medium', weightDescription: 'Balanced',
-      optimalLength: true, familiarityScore: 50, distinctivenessScore: 50, balanceZone: true,
-      ...analyzePsycholinguistics(sanitized, phonotactics)
-    },
+    psycholinguistics: analyzePsycholinguistics(sanitized, phonotactics),
     sonorityProfile,
     genderLoading: analyzeGenderLoading(sanitized),
     phonotactics,

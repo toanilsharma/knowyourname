@@ -1,0 +1,25 @@
+import { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+    return {
+        name: 'Know Your Name',
+        short_name: 'KYN',
+        description: 'Scientific name analysis and phonosemantics tool.',
+        start_url: '/',
+        display: 'standalone',
+        background_color: '#0f172a',
+        theme_color: '#0f172a',
+        icons: [
+            {
+                src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='0' y='0' width='64' height='64' rx='16' fill='%230f172a'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Georgia, serif' font-size='42' font-weight='bold'%3EK%3C/text%3E%3C/svg%3E",
+                sizes: '192x192',
+                type: 'image/svg+xml',
+            },
+            {
+                src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='0' y='0' width='64' height='64' rx='16' fill='%230f172a'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Georgia, serif' font-size='42' font-weight='bold'%3EK%3C/text%3E%3C/svg%3E",
+                sizes: '512x512',
+                type: 'image/svg+xml',
+            },
+        ],
+    };
+}

@@ -210,42 +210,7 @@ export interface GlobalPronounceability {
   explanation: string;
 }
 
-export interface NameAnalysis {
-  name: string;
-  sanitizedName: string;
-  ipaTranscription: string;
-  metrics: AnalysisMetrics;
-  structure: StructuralData;
-  vcData: VowelConsonantData;
-  phonetics: PhoneticCounts;
-  dominantSound: string;
-  keyboard: KeyboardStats;
-  encodings: Encodings;
-  synesthesia: SynesthesiaData;
-  phonotacticImpression: string;
-  soundSymbolism: SoundSymbolism;
-  psycholinguistics: Psycholinguistics;
-  sonorityProfile: SonorityPoint[];
-  genderLoading: GenderLoading;
-  phonotactics: Phonotactics;
-  globalRobustness: GlobalRobustness;
-  prosody: Prosody;
-  acousticProfile: AcousticProfile;
-  benchmarks: BenchmarkData;
-  archetype: Archetype;
-  radioAnalysis: RadioAnalysis;
-  elementalData: ElementalData;
-  mouthKinetics: MouthKinetics;
-  phonesthemes: Phonestheme[];
-  socialImpression: SocialImpression; // New
-  informationDynamics: InformationDynamics; // New
-  // Advanced Psychometrics
-  trustworthiness: TrustworthinessScore;
-  smileIndex: SmileIndex;
-  dominanceScale: DominanceScale;
-  genderBias: GenderBias;
-  combinedFluency: number;
-}
+
 
 export interface CompatibilityAnalysis {
   name1: NameAnalysis;

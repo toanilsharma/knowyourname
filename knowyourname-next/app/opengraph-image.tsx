@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
+// Force static generation for export mode
+export const dynamic = 'force-static';
 
 // Image metadata
 export const alt = 'Know Your Name - Scientific Name Analysis';

@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { COMMON_NAMES } from '@/lib/commonNames';
 
+export const dynamic = 'force-static';
+
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://knowyourname.co.in';
 

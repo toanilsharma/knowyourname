@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeProvider, ThemeScript } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
@@ -226,6 +226,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Theme script - must run before hydration */}
+        <ThemeScript />
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-98QVGSVKDT"

@@ -11,19 +11,35 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+// Script to inject before hydration to prevent theme flash
+const themeScript = `
+  (function() {
+    try {
+      var savedTheme = localStorage.getItem('kyn-theme');
+      var theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(theme);
+    } catch (e) {}
+  })();
+`;
+
+export function ThemeScript() {
+  return (
+    <script
+      dangerouslySetInnerHTML={{ __html: themeScript }}
+    />
+  );
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Check localStorage and system preference
-    const savedTheme = localStorage.getItem('kyn-theme') as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-    }
+    // Read the theme from the document (already set by ThemeScript)
+    const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    setTheme(currentTheme);
   }, []);
 
   useEffect(() => {
@@ -38,8 +54,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
-
-
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

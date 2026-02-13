@@ -82,7 +82,7 @@ export const Footer: React.FC = () => {
                         <ul className="space-y-4 text-sm text-slate-600 dark:text-slate-300">
                             <li><Link href="/contact" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Contact Support</Link></li>
                             <li><a href="mailto:info.onesharma@gmail.com" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">info.onesharma@gmail.com</a></li>
-                            <li><Link href="/sitemap" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Sitemap</Link></li>
+                            <li><Link href="/site-map-page" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Sitemap</Link></li>
                             <li className="pt-2">
                                 <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium border border-emerald-200 dark:border-emerald-800">
                                     System Operational

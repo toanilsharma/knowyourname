@@ -36,6 +36,9 @@ export const metadata: Metadata = {
     default: "Analyze Your Name | Scientific Meaning & Phonetic Aesthetics",
     template: "%s | Know Your Name",
   },
+  alternates: {
+    canonical: './',
+  },
   description:
     "What does your name actually say? Reveal the hidden linguistic psychology, keyboard ergonomics, and acoustic vibration of your name. 100% Science. No Horoscopes.",
   keywords: [

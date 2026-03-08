@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { analyzeName, analyzeCompatibility } from '@/lib/nameAnalysisEngine';
@@ -13,6 +13,8 @@ import { HomeFAQ } from '@/components/HomeFAQ';
 import { Hero } from '@/components/Hero';
 import { SingleAnalysisResults } from '@/components/results/SingleAnalysisResults';
 import { CompatibilityResults } from '@/components/results/CompatibilityResults';
+import { AnalysisErrorBoundary } from '@/components/AnalysisErrorBoundary';
+import { InstallPrompt } from '@/components/InstallPrompt';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const EXAMPLE_NAMES = [
@@ -28,12 +30,17 @@ export const Home: React.FC = () => {
     const [analysis, setAnalysis] = useState<NameAnalysis | null>(null);
     const [compatibility, setCompatibility] = useState<CompatibilityAnalysis | null>(null);
     const [recentNames, setRecentNames] = useState<string[]>([]);
+    const [cachedAnalyses, setCachedAnalyses] = useState<Record<string, NameAnalysis>>({});
+    const [welcomeBack, setWelcomeBack] = useState<string | null>(null);
 
     const [error, setError] = useState('');
 
     const resultsRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const featuresRef = useRef<HTMLDivElement>(null);
+    const errorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Load history on mount
+    // Load history + cached analyses on mount
     useEffect(() => {
         const saved = localStorage.getItem('kyn-history');
         if (saved) {
@@ -43,13 +50,49 @@ export const Home: React.FC = () => {
                 console.error("Failed to parse history");
             }
         }
+        // Load cached analyses
+        const cached = localStorage.getItem('kyn-analyses');
+        if (cached) {
+            try {
+                setCachedAnalyses(JSON.parse(cached));
+            } catch (e) {
+                console.error("Failed to parse cached analyses");
+            }
+        }
+        // Welcome back
+        const lastName = localStorage.getItem('kyn-last-name');
+        if (lastName) {
+            setWelcomeBack(lastName);
+            setTimeout(() => setWelcomeBack(null), 5000);
+        }
+        // Auto-focus on desktop
+        if (window.innerWidth > 768) {
+            setTimeout(() => inputRef.current?.focus(), 800);
+        }
     }, []);
 
-    const addToHistory = (name: string) => {
+    const addToHistory = (name: string, result?: NameAnalysis) => {
         const sanitized = name.trim();
-        const updated = [sanitized, ...recentNames.filter(n => n !== sanitized)].slice(0, 5);
+        const updated = [sanitized, ...recentNames.filter(n => n !== sanitized)].slice(0, 10);
         setRecentNames(updated);
         localStorage.setItem('kyn-history', JSON.stringify(updated));
+        localStorage.setItem('kyn-last-name', sanitized);
+        // Cache the full analysis result
+        if (result) {
+            const newCache = { ...cachedAnalyses, [sanitized]: result };
+            // Cap at 10 entries to limit localStorage usage
+            const keys = Object.keys(newCache);
+            if (keys.length > 10) {
+                delete newCache[keys[0]];
+            }
+            setCachedAnalyses(newCache);
+            try {
+                localStorage.setItem('kyn-analyses', JSON.stringify(newCache));
+            } catch (e) {
+                console.warn('localStorage full, clearing analysis cache');
+                localStorage.removeItem('kyn-analyses');
+            }
+        }
     };
 
     // Focus management for results
@@ -61,56 +104,63 @@ export const Home: React.FC = () => {
     }, [analysis, compatibility]);
 
     const isValidName = (n: string) => {
-        return /^[a-zA-Z\u00C0-\u00FF\s'-]+$/.test(n);
+        // Support Latin, extended Latin, accented, Cyrillic, Devanagari, Arabic, CJK, Korean, and more
+        return /^[\p{L}\p{M}\s'-]+$/u.test(n);
     };
 
-    const runAnalysis = (name: string) => {
+    const showError = (msg: string) => {
+        setError(msg);
+        if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+        errorTimerRef.current = setTimeout(() => setError(''), 4000);
+    };
+
+    const runAnalysis = useCallback((name: string) => {
         if (!name.trim()) return;
 
         if (!isValidName(name)) {
-            setError('Please enter valid letters only. No numbers or special symbols.');
+            showError('Please enter letters only. Numbers and special symbols are not supported.');
             return;
         }
 
         if (name.length < 2 || name.length > 30) {
-            setError('Name length must be between 2 and 30 characters.');
+            showError('Name length must be between 2 and 30 characters.');
             return;
         }
 
         const result = analyzeName(name);
 
         if (!result) {
-            setError('Could not analyze this name structure. Try a standard name.');
+            showError('Could not analyze this name structure. Try a standard name.');
             return;
         }
 
         setError('');
-        addToHistory(name);
+        addToHistory(name, result);
         setAnalysis(result);
         setCompatibility(null);
-    };
+    }, [recentNames, cachedAnalyses]);
 
     // Deep Linking: Auto-run if URL has ?name=X
     useEffect(() => {
         const nameParam = searchParams.get('name');
         if (nameParam) {
             setInputName(nameParam);
-            // Small timeout to allow UI to settle before running heavy analysis
             setTimeout(() => runAnalysis(nameParam), 500);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
 
     const runCompatibility = (n1: string, n2: string) => {
         if (!n1.trim() || !n2.trim()) return;
 
         if (!isValidName(n1) || !isValidName(n2)) {
-            setError('Please enter valid letters only.');
+            showError('Please enter valid letters only.');
             return;
         }
 
         const result = analyzeCompatibility(n1, n2);
         if (!result) {
-            setError('Analysis failed. Please check inputs.');
+            showError('Analysis failed. Please check inputs.');
             return;
         }
         setCompatibility(result);
@@ -168,8 +218,8 @@ export const Home: React.FC = () => {
 
             {/* Premium Full-Screen Hero Background */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-                <img 
-                    src="/images/premium-hero.png" 
+                <img
+                    src="/images/premium-hero.png"
                     alt=""
                     aria-hidden="true"
                     className="w-full h-full object-cover opacity-40 dark:opacity-30"
@@ -190,7 +240,15 @@ export const Home: React.FC = () => {
                     >
 
                         <div className="w-full text-center mb-0">
-                            <Hero />
+                            <Hero
+                                onAnalyzeClick={() => {
+                                    inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    setTimeout(() => inputRef.current?.focus(), 500);
+                                }}
+                                onHowItWorksClick={() => {
+                                    featuresRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }}
+                            />
 
                             <div className="flex flex-wrap justify-center gap-3 mb-12 opacity-80">
                                 {[
@@ -231,6 +289,8 @@ export const Home: React.FC = () => {
                                         <div className="relative group/input">
                                             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl opacity-0 group-hover/input:opacity-50 transition duration-500 blur"></div>
                                             <input
+                                                ref={inputRef}
+                                                id="name-input"
                                                 type="text"
                                                 value={inputName}
                                                 onChange={(e) => setInputName(e.target.value)}
@@ -294,7 +354,33 @@ export const Home: React.FC = () => {
                                         </button>
                                     </div>
                                 </div>
-                                {error && <div className="absolute top-full left-0 right-0 mt-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs font-bold text-center py-2 rounded-lg border border-red-200 dark:border-red-800 animate-fade-in-up">{error}</div>}
+                                {/* Inline Error Toast */}
+                                {error && (
+                                    <div className="mt-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs font-bold text-center py-3 px-4 rounded-xl border border-red-200 dark:border-red-800 animate-fade-in-up flex items-center justify-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                        </svg>
+                                        <span>{error}</span>
+                                        <button onClick={() => setError('')} className="ml-2 text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors">
+                                            ✕
+                                        </button>
+                                    </div>
+                                )}
+                                {/* Non-Latin Disclaimer */}
+                                <p className="text-[9px] text-slate-400 dark:text-slate-600 text-center mt-3 italic">
+                                    Optimized for Latin-script names. Non-Latin names may have limited analysis coverage.
+                                </p>
+                                {/* Welcome Back Toast */}
+                                {welcomeBack && !analysis && !compatibility && (
+                                    <div className="mt-3 animate-fade-in-up">
+                                        <button
+                                            onClick={() => { setInputName(welcomeBack); runAnalysis(welcomeBack); setWelcomeBack(null); }}
+                                            className="w-full py-2.5 px-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl text-xs text-blue-700 dark:text-blue-300 font-medium hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors flex items-center justify-center gap-2"
+                                        >
+                                            <span>👋</span> Welcome back! Re-analyze <strong>{welcomeBack}</strong>?
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -303,22 +389,22 @@ export const Home: React.FC = () => {
                             <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-slate-200 dark:border-slate-800">
                                 <div className="flex flex-col md:flex-row items-center gap-8">
                                     <div className="w-full md:w-1/3 flex-shrink-0">
-                                        <img 
-                                            src="/images/happy-users.png" 
+                                        <img
+                                            src="/images/happy-users.png"
                                             alt="Happy users discovering their name insights"
                                             className="w-full h-48 object-cover rounded-2xl shadow-lg"
                                         />
                                     </div>
                                     <div className="text-center md:text-left">
                                         <div className="flex items-center justify-center md:justify-start gap-1 mb-3">
-                                            {[1,2,3,4,5].map(i => (
+                                            {[1, 2, 3, 4, 5].map(i => (
                                                 <span key={i} className="text-2xl">⭐</span>
                                             ))}
                                         </div>
                                         <p className="text-lg text-slate-700 dark:text-slate-300 italic mb-4">
                                             "I never knew my name had such fascinating properties! The acoustic analysis was mind-blowing."
                                         </p>
-                                        <p className="text-sm font-bold text-slate-500">— From our community of 50,000+ curious explorers</p>
+                                        <p className="text-sm font-bold text-slate-500">— From our growing community of name enthusiasts</p>
                                     </div>
                                 </div>
                             </div>
@@ -328,14 +414,16 @@ export const Home: React.FC = () => {
                             <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
                                 <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Research methodology based on papers from:</span>
                                 <div className="flex gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                                    <span className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300">Oxford Linguistics</span>
-                                    <span className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300">MIT Brain & CogSci</span>
-                                    <span className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300">UCSD Psychology</span>
+                                    <a href="/research/bouba-kiki" className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Ramachandran & Hubbard (2001)</a>
+                                    <a href="/research/sound-symbolism" className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Song & Schwarz (2009)</a>
+                                    <a href="/research/typing-effort" className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Simner et al. (2005)</a>
                                 </div>
                             </div>
                         </div>
 
-                        <HomeFeatures />
+                        <div ref={featuresRef}>
+                            <HomeFeatures />
+                        </div>
 
 
                         <HomeFamousNames />
@@ -343,6 +431,56 @@ export const Home: React.FC = () => {
                         <HomeCaseStudy />
 
                         <HomeFAQ />
+
+                        {/* Email Capture — Gap 34 */}
+                        <div className="max-w-2xl mx-auto px-6 py-16">
+                            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-8 md:p-12 shadow-2xl shadow-blue-900/20">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                                <div className="relative z-10 text-center">
+                                    <span className="text-5xl mb-4 block">✉️</span>
+                                    <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-3">
+                                        Get Weekly Name Insights
+                                    </h3>
+                                    <p className="text-blue-100 text-sm mb-6 max-w-md mx-auto leading-relaxed">
+                                        Fascinating name facts, new features, and linguistic curiosities — delivered free. No spam, ever.
+                                    </p>
+                                    <form
+                                        name="newsletter"
+                                        method="POST"
+                                        data-netlify="true"
+                                        className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+                                        onSubmit={(e) => {
+                                            e.preventDefault();
+                                            const form = e.target as HTMLFormElement;
+                                            const email = (form.elements.namedItem('email') as HTMLInputElement)?.value;
+                                            if (email) {
+                                                const btn = form.querySelector('button');
+                                                if (btn) btn.textContent = '✓ Subscribed!';
+                                                form.reset();
+                                            }
+                                        }}
+                                    >
+                                        <input type="hidden" name="form-name" value="newsletter" />
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            required
+                                            placeholder="your@email.com"
+                                            className="flex-1 px-5 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-blue-200 text-sm focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="px-6 py-3 bg-white text-indigo-700 font-bold text-sm rounded-xl hover:bg-blue-50 transition-colors shadow-lg whitespace-nowrap"
+                                        >
+                                            Subscribe Free
+                                        </button>
+                                    </form>
+                                    <p className="text-[10px] text-blue-200 mt-4 font-medium">
+                                        🔒 We respect your privacy. Unsubscribe anytime.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
                         <div className="text-center pb-24">
                             <Link href="/science" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline font-bold text-sm uppercase tracking-wide">
@@ -352,21 +490,26 @@ export const Home: React.FC = () => {
 
                     </motion.div>
                 ) : compatibility ? (
-                    <CompatibilityResults 
-                        key="compatibility"
-                        compatibility={compatibility} 
-                        onReset={() => { setCompatibility(null); }} 
-                    />
+                    <AnalysisErrorBoundary>
+                        <CompatibilityResults
+                            key="compatibility"
+                            compatibility={compatibility}
+                            onReset={() => { setCompatibility(null); }}
+                        />
+                    </AnalysisErrorBoundary>
                 ) : (
-                    <SingleAnalysisResults 
-                        key="single"
-                        analysis={analysis!} 
-                        onReset={() => { setAnalysis(null); setInputName(''); }}
-                        onSpeak={handleSpeak}
-                        onMelody={handleMelody}
-                    />
+                    <AnalysisErrorBoundary>
+                        <SingleAnalysisResults
+                            key="single"
+                            analysis={analysis!}
+                            onReset={() => { setAnalysis(null); setInputName(''); }}
+                            onSpeak={handleSpeak}
+                            onMelody={handleMelody}
+                        />
+                    </AnalysisErrorBoundary>
                 )}
             </AnimatePresence>
+            <InstallPrompt />
         </div>
     );
 };

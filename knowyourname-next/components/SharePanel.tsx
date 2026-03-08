@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import html2canvas from 'html2canvas';
+// html2canvas is loaded dynamically when needed (Gap 42)
 import { NameAnalysis } from '@/lib/types';
 import { LinguisticPassport } from '@/components/LinguisticPassport';
 
@@ -40,6 +40,7 @@ Analyzed via KnowYourName.co.in`;
 
     setGenerating(format);
     try {
+      const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(element, {
         scale: 2,
         backgroundColor: '#0f172a',
@@ -99,8 +100,8 @@ Analyzed via KnowYourName.co.in`;
         <button
           onClick={handleCopy}
           className={`px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 flex-1 sm:flex-none ${copied
-              ? 'bg-emerald-600 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]'
-              : 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600'
+            ? 'bg-emerald-600 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]'
+            : 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600'
             }`}
         >
           {copied ? "Copied" : "Copy Summary"}

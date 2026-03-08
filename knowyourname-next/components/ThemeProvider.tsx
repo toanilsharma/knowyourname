@@ -55,9 +55,26 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
+  // Micro-toast feedback for theme change
+  const [themeToast, setThemeToast] = useState('');
+  useEffect(() => {
+    if (mounted) {
+      setThemeToast(theme === 'dark' ? '🌙 Dark mode' : '☀️ Light mode');
+      const timer = setTimeout(() => setThemeToast(''), 1500);
+      return () => clearTimeout(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme]);
+
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
+      {/* Theme Toggle Micro-Toast */}
+      {themeToast && mounted && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold rounded-full shadow-xl animate-fade-in-up pointer-events-none" style={{ animationDuration: '0.2s' }}>
+          {themeToast}
+        </div>
+      )}
     </ThemeContext.Provider>
   );
 }

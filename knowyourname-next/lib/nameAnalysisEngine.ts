@@ -382,21 +382,72 @@ const analyzeDominance = (name: string): any => {
 
 // Dictionary for common names that defy standard rules
 const IPA_EXCEPTIONS: Record<string, string> = {
-  'SEAN': '/ʃɔːn/',
-  'SHAUN': '/ʃɔːn/',
-  'CHLOE': '/kloʊi/',
-  'PHOEBE': '/fiːbi/',
-  'GEORGE': '/dʒɔːrdʒ/',
-  'CHARLOTTE': '/ʃɑːrlət/',
-  'THOMAS': '/tɒməs/', // TH is T
-  'ISLAND': '/aɪlənd/',
-  'XAVIER': '/zeɪviər/',
-  'SIOBHAN': '/ʃɪvɔːn/',
-  'SAOIRSE': '/sɜːrʃə/',
-  'NIALL': '/naɪl/',
-  'LEIGH': '/liː/',
-  'HUGH': '/hjuː/',
-  'GEOFFREY': '/dʒɛfri/'
+  // Original 15
+  'SEAN': '/ʃɔːn/', 'SHAUN': '/ʃɔːn/', 'CHLOE': '/kloʊi/', 'PHOEBE': '/fiːbi/',
+  'GEORGE': '/dʒɔːrdʒ/', 'CHARLOTTE': '/ʃɑːrlət/', 'THOMAS': '/tɒməs/',
+  'ISLAND': '/aɪlənd/', 'XAVIER': '/zeɪviər/', 'SIOBHAN': '/ʃɪvɔːn/',
+  'SAOIRSE': '/sɜːrʃə/', 'NIALL': '/naɪl/', 'LEIGH': '/liː/',
+  'HUGH': '/hjuː/', 'GEOFFREY': '/dʒɛfri/',
+  // A
+  'AALIYAH': '/ɑːliːə/', 'AARON': '/ɛrən/', 'ABIGAIL': '/æbɪɡeɪl/',
+  'ADELAIDE': '/ædəleɪd/', 'AIDEN': '/eɪdən/', 'ALICIA': '/əlɪʃə/',
+  'AMELIA': '/əmiːliə/', 'ANDREW': '/ændruː/', 'ANGELA': '/ændʒələ/',
+  'ANNABELLE': '/ænəbɛl/', 'ANTHONY': '/æntəni/', 'ARIA': '/ɑːriə/',
+  'ARTHUR': '/ɑːrθər/', 'AURORA': '/ɔːrɔːrə/',
+  // B-C
+  'BEATRICE': '/biːətrɪs/', 'BENJAMIN': '/bɛndʒəmɪn/', 'BERNARD': '/bɜːrnɑːrd/',
+  'BROOKE': '/brʊk/', 'CALEB': '/keɪləb/', 'CAMILLE': '/kəmiːl/',
+  'CATHERINE': '/kæθrɪn/', 'CECILIA': '/sɪsɪliə/', 'CHARLES': '/tʃɑːrlz/',
+  'CHRISTINE': '/krɪstiːn/', 'CLAIRE': '/klɛr/',
+  'COLLEEN': '/kɒliːn/',
+  // D-E
+  'DAPHNE': '/dæfni/', 'DEBORAH': '/dɛbərə/', 'DIANE': '/daɪæn/',
+  'DONALD': '/dɒnəld/', 'DOROTHY': '/dɒrəθi/', 'DYLAN': '/dɪlən/',
+  'ELEANOR': '/ɛlənɔːr/', 'ELIZABETH': '/ɪlɪzəbəθ/', 'EMILY': '/ɛmɪli/',
+  'EMMA': '/ɛmə/', 'ETHAN': '/iːθən/', 'EUGENE': '/juːdʒiːn/',
+  'EVELYN': '/ɛvəlɪn/',
+  // F-G
+  'FAITH': '/feɪθ/', 'FIONA': '/fiːoʊnə/', 'FLORENCE': '/flɒrəns/',
+  'GABRIEL': '/ɡeɪbriəl/', 'GENEVIEVE': '/dʒɛnəviːv/', 'GRACE': '/ɡreɪs/',
+  'GWENDOLYN': '/ɡwɛndəlɪn/',
+  // H-J
+  'HANNAH': '/hænə/', 'HEATHER': '/hɛðər/', 'HENRY': '/hɛnri/',
+  'ISAAC': '/aɪzək/', 'ISADORA': '/ɪzədɔːrə/', 'JACQUELINE': '/dʒækəlɪn/',
+  'JAMES': '/dʒeɪmz/', 'JASMINE': '/dʒæzmɪn/', 'JENNIFER': '/dʒɛnɪfər/',
+  'JESSICA': '/dʒɛsɪkə/', 'JOHN': '/dʒɒn/', 'JOSEPH': '/dʒoʊzəf/',
+  'JOSHUA': '/dʒɒʃuːə/', 'JULIA': '/dʒuːliə/', 'JULIUS': '/dʒuːliəs/',
+  // K-L
+  'KATHERINE': '/kæθrɪn/', 'KEITH': '/kiːθ/', 'KENNETH': '/kɛnɪθ/',
+  'KEIRA': '/kɪərə/', 'KHALEESI': '/kəliːsi/', 'LACHLAN': '/lɒklən/',
+  'LAURENCE': '/lɒrəns/', 'LEAH': '/liːə/', 'LIAM': '/liːəm/',
+  'LILLIAN': '/lɪliən/', 'LOUISE': '/luːiːz/', 'LUCAS': '/luːkəs/',
+  'LYDIA': '/lɪdiə/',
+  // M-N
+  'MADELINE': '/mædəlɪn/', 'MARGARET': '/mɑːrɡərɪt/', 'MARIA': '/məriːə/',
+  'MATTHEW': '/mæθjuː/', 'MICHAEL': '/maɪkəl/', 'MADELEINE': '/mædəleɪn/',
+  'NAOMI': '/neɪoʊmi/', 'NATALIE': '/nætəli/', 'NATHANIEL': '/nəθæniəl/',
+  'NICHOLAS': '/nɪkələs/', 'NICOLE': '/nɪkoʊl/', 'NOAH': '/noʊə/',
+  // O-P
+  'OLIVER': '/ɒlɪvər/', 'OLIVIA': '/əlɪviə/', 'OPHELIA': '/oʊfiːliə/',
+  'PATRICK': '/pætrɪk/', 'PENELOPE': '/pɪnɛləpi/', 'PETER': '/piːtər/',
+  'PHILIP': '/fɪlɪp/', 'PHOENIX': '/fiːnɪks/', 'PRISCILLA': '/prɪsɪlə/',
+  // R-S
+  'RACHEL': '/reɪtʃəl/', 'RALPH': '/rælf/', 'REBECCA': '/rɪbɛkə/',
+  'RICHARD': '/rɪtʃərd/', 'ROBERT': '/rɒbərt/', 'RUTH': '/ruːθ/',
+  'SAMUEL': '/sæmjuːəl/', 'SARAH': '/sɛrə/', 'SOPHIA': '/soʊfiːə/',
+  'STEPHANIE': '/stɛfəni/', 'STEPHEN': '/stiːvən/', 'SUSAN': '/suːzən/',
+  // T-V
+  'THEODORE': '/θiːədɔːr/', 'THERESA': '/tɪriːzə/', 'TIMOTHY': '/tɪməθi/',
+  'TRISTAN': '/trɪstən/', 'VALERIE': '/vælɪri/', 'VICTORIA': '/vɪktɔːriə/',
+  'VINCENT': '/vɪnsənt/', 'VIOLET': '/vaɪələt/', 'VIVIAN': '/vɪviən/',
+  // W-Z
+  'WILLIAM': '/wɪljəm/', 'WINTER': '/wɪntər/', 'WYATT': '/waɪət/',
+  'YVONNE': '/ɪvɒn/', 'ZACHARY': '/zækəri/', 'ZOE': '/zoʊi/',
+  // Hindi/Indian common names
+  'RAVI': '/rəvi/', 'ANIL': '/ənɪl/', 'PRIYA': '/priːjɑː/',
+  'ARJUN': '/ɑːrdʒʌn/', 'MEERA': '/mɪːrɑː/', 'NEHA': '/neɪhɑː/',
+  'ROHIT': '/roːhɪt/', 'SANJAY': '/sʌndʒeɪ/', 'DEEPAK': '/diːpʌk/',
+  'ANANYA': '/ʌnʌnjɑː/', 'ISHAAN': '/ɪʃɑːn/', 'KAVYA': '/kɑːvjɑː/',
 };
 
 const generateHeuristicIPA = (name: string): string => {
@@ -876,7 +927,7 @@ const analyzeViralSummary = (
   }
 
   // Generate Share Text
-  const shareText = `🧬 Name Analysis: ${name}\n✨ Vibe: ${headline} ${emoji}\n📊 Traits: ${adjectives.join(" • ")}\n\nDiscover your name's hidden linguistics at KnowYourName.co.in`;
+  const shareText = `🧬 Name Analysis: ${name}\n✨ Vibe: ${headline} ${emoji}\n📊 Traits: ${adjectives.join(" • ")}\n\n🔗 Try yours: https://knowyourname.co.in/?name=${encodeURIComponent(name)}`;
 
   return { headline, emoji, adjectives, socialVibe, shareText };
 };

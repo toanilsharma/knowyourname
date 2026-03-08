@@ -45,12 +45,8 @@ export const Footer: React.FC = () => {
                         <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-xs">
                             A name-analysis tool that combines multiple linguistics metrics (phonotactics, sonority, and sound symbolism) into a shareable report.
                         </p>
-                        <div className="flex gap-4">
-                            {socialLinks.map(social => (
-                                <a key={social.name} href={social.url} className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:bg-slate-300 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-all" aria-label={social.name}>
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d={social.path} clipRule="evenodd" /></svg>
-                                </a>
-                            ))}
+                        <div className="flex items-center gap-3 mt-2">
+                            <span className="text-xs text-slate-400 dark:text-slate-500 italic">Social channels coming soon</span>
                         </div>
                     </div>
 
@@ -70,7 +66,7 @@ export const Footer: React.FC = () => {
                         <h3 className="font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-widest text-xs">Legal & Privacy</h3>
                         <ul className="space-y-4 text-sm text-slate-600 dark:text-slate-300">
                             <li><Link href="/terms" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Terms of Service</Link></li>
-                            <li><Link href="/privacy-policy" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Privacy Policy</Link></li>
+                            <li><Link href="/privacy" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Privacy Policy</Link></li>
                             <li><Link href="/cookie-policy" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Cookie Policy</Link></li>
                             <li><Link href="/disclaimer" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Disclaimer</Link></li>
                         </ul>

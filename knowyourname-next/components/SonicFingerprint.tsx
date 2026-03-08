@@ -35,26 +35,26 @@ export const SonicFingerprint: React.FC<Props> = ({ data }) => {
     let animationFrameId: number;
     let progress = 0; // For initial draw
     const startTime = performance.now();
-    
+
     // Living State
     let phase = 0; // For breathing animation
 
     const draw = (currentTime: number) => {
       const elapsed = currentTime - startTime;
-      
+
       // Intro Animation
       if (progress < 1) {
-          progress = prefersReducedMotion ? 1 : Math.min(elapsed / 1000, 1);
+        progress = prefersReducedMotion ? 1 : Math.min(elapsed / 1000, 1);
       }
-      
+
       const easedProgress = 1 - Math.pow(1 - progress, 3);
-      
+
       // Breathing / Pulse (Disabled if reduced motion)
       if (!prefersReducedMotion) {
-          phase += 0.05;
+        phase += 0.05;
       }
       const breath = Math.sin(phase) * 2;
-      const activityMult = isHovered && !prefersReducedMotion ? 2.5 : 1; 
+      const activityMult = isHovered && !prefersReducedMotion ? 2.5 : 1;
 
       // Clear
       ctx.clearRect(0, 0, width, height);
@@ -63,25 +63,25 @@ export const SonicFingerprint: React.FC<Props> = ({ data }) => {
 
       if (points > 0) {
         ctx.beginPath();
-        for (let i = 0; i <= points; i++) { 
+        for (let i = 0; i <= points; i++) {
           if (i > visiblePoints && i !== points) break;
 
           const index = i % points;
-          const charCode = data.sanitizedName.charCodeAt(index) - 64; 
-          
+          const charCode = data.sanitizedName.charCodeAt(index) - 64;
+
           // Organic variation
           const organicOffset = Math.sin(phase + index) * 2 * activityMult;
-          const radiusVariation = (charCode / 26) * 40 + organicOffset; 
-          
+          const radiusVariation = (charCode / 26) * 40 + organicOffset;
+
           const r = radiusBase + radiusVariation + (breath * (index % 2 === 0 ? 1 : -1));
-          
-          const x = centerX + Math.cos(index * angleStep - Math.PI/2) * r;
-          const y = centerY + Math.sin(index * angleStep - Math.PI/2) * r;
-          
+
+          const x = centerX + Math.cos(index * angleStep - Math.PI / 2) * r;
+          const y = centerY + Math.sin(index * angleStep - Math.PI / 2) * r;
+
           if (i === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        
+
         if (progress === 1) ctx.closePath();
 
         // Style
@@ -93,17 +93,17 @@ export const SonicFingerprint: React.FC<Props> = ({ data }) => {
           gradient.addColorStop(0, '#2563eb'); // Blue 600
           gradient.addColorStop(1, '#059669'); // Emerald 600
         }
-        
+
         ctx.strokeStyle = gradient;
         ctx.lineWidth = 3;
         ctx.lineJoin = 'round';
         ctx.stroke();
 
         if (progress > 0.5) {
-            ctx.fillStyle = theme === 'dark' 
-                ? `rgba(59, 130, 246, ${0.1 * ((progress - 0.5) * 2)})` 
-                : `rgba(37, 99, 235, ${0.05 * ((progress - 0.5) * 2)})`;
-            ctx.fill();
+          ctx.fillStyle = theme === 'dark'
+            ? `rgba(59, 130, 246, ${0.1 * ((progress - 0.5) * 2)})`
+            : `rgba(37, 99, 235, ${0.05 * ((progress - 0.5) * 2)})`;
+          ctx.fill();
         }
       }
 
@@ -113,38 +113,38 @@ export const SonicFingerprint: React.FC<Props> = ({ data }) => {
         const organicOffset = Math.sin(phase + i) * 2 * activityMult;
         const radiusVariation = (charCode / 26) * 40 + organicOffset;
         const r = radiusBase + radiusVariation + (breath * (i % 2 === 0 ? 1 : -1));
-        const x = centerX + Math.cos(i * angleStep - Math.PI/2) * r;
-        const y = centerY + Math.sin(i * angleStep - Math.PI/2) * r;
+        const x = centerX + Math.cos(i * angleStep - Math.PI / 2) * r;
+        const y = centerY + Math.sin(i * angleStep - Math.PI / 2) * r;
 
         // Intro Scale
-        const nodeScale = progress > (i/points) ? Math.min(1, (progress - (i/points))*5) : 0;
-        
+        const nodeScale = progress > (i / points) ? Math.min(1, (progress - (i / points)) * 5) : 0;
+
         if (nodeScale > 0) {
+          ctx.beginPath();
+          ctx.arc(x, y, 4 * nodeScale, 0, Math.PI * 2);
+          ctx.fillStyle = theme === 'dark' ? '#f8fafc' : '#1e293b';
+          ctx.fill();
+
+          // Vowels get a glow ring
+          if (['A', 'E', 'I', 'O', 'U'].includes(data.sanitizedName[i])) {
             ctx.beginPath();
-            ctx.arc(x, y, 4 * nodeScale, 0, Math.PI * 2);
-            ctx.fillStyle = theme === 'dark' ? '#f8fafc' : '#1e293b';
-            ctx.fill();
-            
-            // Vowels get a glow ring
-            if (['A','E','I','O','U'].includes(data.sanitizedName[i])) {
-              ctx.beginPath();
-              ctx.arc(x, y, 8 * nodeScale + (Math.sin(phase*2) * 2), 0, Math.PI * 2);
-              ctx.strokeStyle = theme === 'dark' ? 'rgba(251, 191, 36, 0.6)' : 'rgba(217, 119, 6, 0.6)'; 
-              ctx.lineWidth = 1;
-              ctx.stroke();
-            }
+            ctx.arc(x, y, 8 * nodeScale + (Math.sin(phase * 2) * 2), 0, Math.PI * 2);
+            ctx.strokeStyle = theme === 'dark' ? 'rgba(251, 191, 36, 0.6)' : 'rgba(217, 119, 6, 0.6)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
         }
       }
 
       // Core
       ctx.beginPath();
-      ctx.arc(centerX, centerY, 5 + Math.sin(phase)*2, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, 5 + Math.sin(phase) * 2, 0, Math.PI * 2);
       ctx.fillStyle = theme === 'dark' ? '#475569' : '#cbd5e1';
       ctx.fill();
 
       // Only loop if not reduced motion, or if initial animation isn't done
       if (!prefersReducedMotion || progress < 1) {
-          animationFrameId = requestAnimationFrame(draw);
+        animationFrameId = requestAnimationFrame(draw);
       }
     };
 
@@ -153,30 +153,85 @@ export const SonicFingerprint: React.FC<Props> = ({ data }) => {
     return () => cancelAnimationFrame(animationFrameId);
   }, [data, theme, isHovered]);
 
+  // Compute sonority values for waveform
+  const SONORITY_MAP: Record<string, number> = {
+    A: 10, E: 10, I: 10, O: 10, U: 10, // vowels
+    R: 8, L: 8, // liquids
+    M: 7, N: 7, // nasals
+    W: 6, Y: 6, // glides
+    V: 5, Z: 5, F: 5, S: 4, // fricatives
+    B: 3, D: 3, G: 3, // voiced plosives
+    P: 2, T: 2, K: 2, C: 2, // voiceless plosives
+    H: 1, Q: 2, J: 4, X: 3,
+  };
+
+  const sonorityBars = data.sanitizedName.split('').map((ch, i) => ({
+    char: ch,
+    value: SONORITY_MAP[ch] || 3,
+    isVowel: 'AEIOU'.includes(ch),
+    index: i,
+  }));
+
   return (
-    <div 
-        className="flex flex-col items-center justify-center p-6 bg-slate-100 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700/50 transition-colors duration-300 cursor-crosshair group"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+    <div
+      className="flex flex-col items-center justify-center p-6 bg-slate-100 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700/50 transition-colors duration-300 cursor-crosshair group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <h4 className="text-xs font-serif tracking-widest text-slate-500 dark:text-slate-400 uppercase mb-4 flex items-center gap-2">
-          Geometric Fingerprint
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        Sonic Fingerprint
+        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
       </h4>
-      <canvas 
-        ref={canvasRef} 
-        width={240} 
-        height={240} 
+      <canvas
+        ref={canvasRef}
+        width={240}
+        height={240}
         className="w-[200px] h-[200px]"
         role="img"
         aria-label={`Geometric fingerprint visualization for ${data.name}. A living polygon with ${data.metrics.totalChars} points.`}
       />
-      <div className="mt-4 text-center">
+
+      {/* Sonority Waveform — Gap 30 */}
+      <div className="mt-5 w-full">
+        <p className="text-[9px] text-slate-400 uppercase tracking-widest text-center mb-2 font-bold">
+          Sonority Waveform
+        </p>
+        <div className="flex items-end justify-center gap-[2px] h-16" role="img" aria-label="Sonority waveform showing the rise and fall of sound energy across each letter of the name">
+          {sonorityBars.map((bar, i) => {
+            const heightPct = (bar.value / 10) * 100;
+            const color = bar.isVowel
+              ? 'bg-amber-400 dark:bg-amber-500'
+              : bar.value >= 7
+                ? 'bg-emerald-400 dark:bg-emerald-500'
+                : bar.value >= 4
+                  ? 'bg-blue-400 dark:bg-blue-500'
+                  : 'bg-slate-300 dark:bg-slate-600';
+            return (
+              <div key={i} className="flex flex-col items-center gap-0.5">
+                <div
+                  className={`w-3 sm:w-4 rounded-t-sm ${color} transition-all duration-500 group-hover:animate-pulse`}
+                  style={{
+                    height: `${heightPct}%`,
+                    animationDelay: `${i * 80}ms`,
+                    minHeight: '4px',
+                  }}
+                  title={`${bar.char}: sonority ${bar.value}/10`}
+                />
+                <span className="text-[7px] text-slate-400 font-mono leading-none">
+                  {bar.char}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="mt-3 text-center">
         <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-1 group-hover:text-blue-500 transition-colors">
           {data.metrics.totalChars} Points • {data.structure.isSymmetrical ? 'Symmetrical' : 'Asymmetrical'}
         </p>
         <div className="mt-2 text-[9px] text-slate-400 uppercase tracking-widest border-t border-slate-200 dark:border-slate-700/50 pt-2">
-           Status: Active Bio-Rhythm
+          Status: Active Bio-Rhythm
         </div>
       </div>
     </div>

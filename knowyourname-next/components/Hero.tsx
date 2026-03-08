@@ -6,7 +6,12 @@ import { Button } from './ui/Button';
 import { Sparkles, ArrowRight, PlayCircle } from 'lucide-react';
 import { FactGenerator } from './FactGenerator';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+    onAnalyzeClick?: () => void;
+    onHowItWorksClick?: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onAnalyzeClick, onHowItWorksClick }) => {
     return (
         <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20 pb-16">
             
@@ -75,11 +80,11 @@ export const Hero: React.FC = () => {
                     transition={{ duration: 0.8, delay: 0.4 }}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
-                    <Button size="lg" className="w-full sm:w-auto text-lg px-10 py-8 rounded-2xl shadow-xl shadow-blue-500/20">
+                    <Button size="lg" className="w-full sm:w-auto text-lg px-10 py-8 rounded-2xl shadow-xl shadow-blue-500/20" onClick={onAnalyzeClick}>
                         <Sparkles className="w-5 h-5 mr-2" />
                         Analyze My Name
                     </Button>
-                    <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-10 py-8 rounded-2xl">
+                    <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-10 py-8 rounded-2xl" onClick={onHowItWorksClick}>
                         <PlayCircle className="w-5 h-5 mr-2" />
                         How It Works
                     </Button>
@@ -92,7 +97,7 @@ export const Hero: React.FC = () => {
                     transition={{ duration: 1, delay: 0.8 }}
                     className="mt-16 pt-8 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col items-center gap-4"
                 >
-                    <p className="text-sm font-medium text-slate-500 uppercase tracking-widest">Trusted by 50,000+ Researchers & Parents</p>
+                    <p className="text-sm font-medium text-slate-500 uppercase tracking-widest">Trusted by linguists, parents & the name-curious</p>
                     <div className="flex -space-x-4">
                         {[1, 2, 3, 4, 5].map((i) => (
                             <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-500">

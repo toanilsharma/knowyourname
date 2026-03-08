@@ -2,20 +2,21 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { analyzeName } from '@/lib/nameAnalysisEngine';
 import { NameAnalysis } from '@/lib/types';
 
 // MetricRow component defined at module level to avoid re-creation during render
-const MetricRow: React.FC<{ 
-    label: string; 
-    val1: number; 
-    val2: number; 
+const MetricRow: React.FC<{
+    label: string;
+    val1: number;
+    val2: number;
     unit?: string;
     higherIsBetter?: boolean;
 }> = ({ label, val1, val2, unit = '%', higherIsBetter = true }) => {
     const winner1 = higherIsBetter ? val1 > val2 : val1 < val2;
     const winner2 = higherIsBetter ? val2 > val1 : val2 < val1;
-    
+
     return (
         <div className="grid grid-cols-3 gap-4 py-3 border-b border-slate-200 dark:border-slate-700/50">
             <div className={`text-right font-bold ${winner1 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-400'}`}>
@@ -39,12 +40,22 @@ export const BattleClient: React.FC = () => {
     const [analysis1, setAnalysis1] = useState<NameAnalysis | null>(null);
     const [analysis2, setAnalysis2] = useState<NameAnalysis | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [battleCopied, setBattleCopied] = useState(false);
+    const searchParams = useSearchParams();
+
+    // Pre-fill from URL params
+    React.useEffect(() => {
+        const n1 = searchParams.get('name1');
+        const n2 = searchParams.get('name2');
+        if (n1) setName1(n1);
+        if (n2) setName2(n2);
+    }, [searchParams]);
 
     const handleBattle = () => {
         if (!name1.trim() || !name2.trim()) return;
-        
+
         setIsAnalyzing(true);
-        
+
         // Simulate loading for effect
         setTimeout(() => {
             const result1 = analyzeName(name1.trim());
@@ -70,10 +81,10 @@ export const BattleClient: React.FC = () => {
 
     const getWinner = (): 'name1' | 'name2' | 'tie' | null => {
         if (!analysis1 || !analysis2) return null;
-        
+
         const score1 = calculateScore(analysis1);
         const score2 = calculateScore(analysis2);
-        
+
         if (Math.abs(score1 - score2) < 3) return 'tie';
         return score1 > score2 ? 'name1' : 'name2';
     };
@@ -84,8 +95,8 @@ export const BattleClient: React.FC = () => {
         <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative">
             {/* Epic Battle Background */}
             <div className="absolute top-0 left-0 right-0 h-[500px] z-0 overflow-hidden">
-                <img 
-                    src="/images/battle-versus.png" 
+                <img
+                    src="/images/battle-versus.png"
                     alt=""
                     aria-hidden="true"
                     className="w-full h-full object-cover opacity-30 dark:opacity-20"
@@ -122,7 +133,7 @@ export const BattleClient: React.FC = () => {
                             CHALLENGER 1
                         </div>
                     </div>
-                    
+
                     <div className="flex justify-center items-center">
                         <button
                             onClick={handleBattle}
@@ -132,7 +143,7 @@ export const BattleClient: React.FC = () => {
                             {isAnalyzing ? '⚔️ Fighting...' : '⚔️ BATTLE!'}
                         </button>
                     </div>
-                    
+
                     <div className="relative">
                         <input
                             type="text"
@@ -210,7 +221,7 @@ export const BattleClient: React.FC = () => {
                             <div className="text-center text-xs text-slate-500">METRIC</div>
                             <div className="text-left font-bold text-purple-600">{analysis2.name}</div>
                         </div>
-                        
+
                         <MetricRow label="Softness (Bouba)" val1={analysis1.soundSymbolism.boubaScore} val2={analysis2.soundSymbolism.boubaScore} />
                         <MetricRow label="Warmth" val1={analysis1.socialImpression.warmthScore} val2={analysis2.socialImpression.warmthScore} />
                         <MetricRow label="Competence" val1={analysis1.socialImpression.competenceScore} val2={analysis2.socialImpression.competenceScore} />
@@ -222,10 +233,24 @@ export const BattleClient: React.FC = () => {
 
                     {/* Share Section */}
                     <div className="mt-12 text-center">
-                        <p className="text-slate-500 mb-4">Share your battle results!</p>
-                        <div className="flex justify-center gap-4">
+                        <p className="text-slate-500 mb-4 font-bold text-sm uppercase tracking-widest">Share your battle results!</p>
+                        <div className="flex flex-wrap justify-center gap-3">
+                            <button
+                                onClick={() => {
+                                    const url = `https://knowyourname.co.in/battle?name1=${encodeURIComponent(analysis1.name)}&name2=${encodeURIComponent(analysis2.name)}`;
+                                    navigator.clipboard.writeText(url);
+                                    setBattleCopied(true);
+                                    setTimeout(() => setBattleCopied(false), 2000);
+                                }}
+                                className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold uppercase tracking-wider text-xs shadow-lg hover:scale-105 transition-all ${battleCopied
+                                        ? 'bg-emerald-600 text-white shadow-emerald-500/30'
+                                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                                    }`}
+                            >
+                                {battleCopied ? '✓ Link Copied!' : '🔗 Copy Battle Link'}
+                            </button>
                             <a
-                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`⚔️ Name Battle: ${analysis1.name} vs ${analysis2.name}\n\n${winner === 'tie' ? "It's a TIE!" : `👑 ${winner === 'name1' ? analysis1.name : analysis2.name} WINS!`}\n\nTest your name at KnowYourName.co.in/battle`)}`}
+                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`⚔️ Name Battle: ${analysis1.name} vs ${analysis2.name}\n\n${winner === 'tie' ? "It's a TIE!" : `👑 ${winner === 'name1' ? analysis1.name : analysis2.name} WINS!`}\n\nTest your name: https://knowyourname.co.in/battle?name1=${encodeURIComponent(analysis1.name)}&name2=${encodeURIComponent(analysis2.name)}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-lg hover:scale-105 transition-transform"
@@ -233,7 +258,7 @@ export const BattleClient: React.FC = () => {
                                 Share on X
                             </a>
                             <a
-                                href={`https://wa.me/?text=${encodeURIComponent(`⚔️ Name Battle: ${analysis1.name} vs ${analysis2.name}\n\n${winner === 'tie' ? "It's a TIE!" : `👑 ${winner === 'name1' ? analysis1.name : analysis2.name} WINS!`}\n\nTest your name: knowyourname.co.in/battle`)}`}
+                                href={`https://wa.me/?text=${encodeURIComponent(`⚔️ Name Battle: ${analysis1.name} vs ${analysis2.name}\n\n${winner === 'tie' ? "It's a TIE!" : `👑 ${winner === 'name1' ? analysis1.name : analysis2.name} WINS!`}\n\nTest your name: https://knowyourname.co.in/battle?name1=${encodeURIComponent(analysis1.name)}&name2=${encodeURIComponent(analysis2.name)}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-lg hover:scale-105 transition-transform"

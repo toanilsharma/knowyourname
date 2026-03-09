@@ -26,7 +26,16 @@ export const AestheticsCard: React.FC<Props> = ({ analysis }) => {
                 {/* 1. The Spectral Palette */}
                 <div className="relative group">
                     <div className="flex justify-between items-end mb-3">
-                        <label className="text-xs font-bold uppercase tracking-widest text-slate-500">The Spectral Palette</label>
+                        <div className="flex items-center gap-1.5">
+                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500">The Spectral Palette</label>
+                            <div className="group/tooltip relative flex items-center justify-center w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 text-[10px] cursor-help font-bold border border-slate-200 dark:border-slate-700">
+                                ?
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-900 text-white text-[10px] leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50 pointer-events-none text-center">
+                                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45"></div>
+                                    Colors are deterministically mapped using population-level grapheme-color synesthesia data. <strong>Not random.</strong>
+                                </div>
+                            </div>
+                        </div>
                         <span className="text-xs text-slate-400 font-mono">(Simner et al., 2005)</span>
                     </div>
 
@@ -51,7 +60,16 @@ export const AestheticsCard: React.FC<Props> = ({ analysis }) => {
                 {/* 2. The Rhythm Engine */}
                 <div className="relative group">
                     <div className="flex justify-between items-end mb-3">
-                        <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Rhythm Engine</label>
+                        <div className="flex items-center gap-1.5">
+                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Rhythm Engine</label>
+                            <div className="group/tooltip relative flex items-center justify-center w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 text-[10px] cursor-help font-bold border border-slate-200 dark:border-slate-700">
+                                ?
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2 bg-slate-900 text-white text-[10px] leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50 pointer-events-none text-center">
+                                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45"></div>
+                                    Meter is computed algorithmically by identifying syllable boundaries and mapping primary/secondary vowel stress patterns.
+                                </div>
+                            </div>
+                        </div>
                         <span className="text-sm font-bold text-slate-900 dark:text-white">{prosody.meter}</span>
                     </div>
 
@@ -111,6 +129,49 @@ export const AestheticsCard: React.FC<Props> = ({ analysis }) => {
                             </div>
                         </div>
                     )}
+                </div>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* 4. The Shape of Sound */}
+                <div className="relative group">
+                    <div className="flex justify-between items-end mb-3">
+                        <div className="flex items-center gap-1.5">
+                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Acoustic Shape</label>
+                            <div className="group/tooltip relative flex items-center justify-center w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 text-[10px] cursor-help font-bold border border-slate-200 dark:border-slate-700">
+                                ?
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-2 bg-slate-900 text-white text-[10px] leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all z-50 pointer-events-none text-center">
+                                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45"></div>
+                                    The Bouba/Kiki effect proves humans universally map sounds to shapes. Hard consonants (K, T) sound "sharp", continuous vowels/nasals (M, O) sound "round".
+                                </div>
+                            </div>
+                        </div>
+                        <span className="text-sm font-bold text-slate-900 dark:text-white">{analysis.soundSymbolism.boubaScore}% Round</span>
+                    </div>
+
+                    <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl mb-2 border border-slate-100 dark:border-slate-700/50">
+                        <div className="flex justify-between text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-widest">
+                            <span>Sharp (Kiki)</span>
+                            <span>Round (Bouba)</span>
+                        </div>
+                        <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden relative mb-4">
+                            <div className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-rose-500 to-indigo-500 rounded-full transition-all" style={{ width: `${analysis.soundSymbolism.boubaScore}%` }}></div>
+                            <div className="absolute top-0 bottom-0 w-0.5 bg-slate-400 dark:bg-slate-500 left-1/2 z-10"></div>
+                        </div>
+
+                        <div className="flex items-start gap-4 text-sm text-slate-600 dark:text-slate-400">
+                            <div className="flex-1">
+                                <span className="block font-bold text-slate-800 dark:text-slate-200 mb-1 text-xs uppercase tracking-wider">Contextual Equivalents</span>
+                                {analysis.soundSymbolism.boubaScore > 60 ? (
+                                    <span className="text-xs">Acoustically similar to words like <strong>"Balloon"</strong>, <strong>"Aura"</strong>, or <strong>"Moon"</strong>. Your name absorbs acoustic energy, sounding soft and approachable.</span>
+                                ) : analysis.soundSymbolism.boubaScore < 40 ? (
+                                    <span className="text-xs">Acoustically similar to words like <strong>"Kick"</strong>, <strong>"Spike"</strong>, or <strong>"Tack"</strong>. Your name cuts through acoustic noise, sounding sharp and dominant.</span>
+                                ) : (
+                                    <span className="text-xs">Perfectly balanced between soft resonance and sharp edges.</span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>

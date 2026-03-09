@@ -24,7 +24,17 @@ export default function DisclaimerPage() {
             </section>
 
             <section className="space-y-4">
-                <h2 className="text-xl font-semibold text-slate-900 dark:text-white">2. No Professional Advice</h2>
+                <h2 className="text-xl font-semibold text-slate-900 dark:text-white">2. Scientific Foundation & Credits</h2>
+                <p>
+                    The structural analysis and insights provided by our engine are inspired by and built upon established, peer-reviewed research in the fields of quantitative linguistics, phonosemantics, and acoustic physics. We credit the foundational work of researchers such as V.S. Ramachandran & E.M. Hubbard (for the Bouba-Kiki effect), H. Song & N. Schwarz (on typing effort and cognitive fluency), and J. Simner et al. (on grapheme-color synesthesia).
+                </p>
+                <p>
+                    This is <strong>not</strong> an astrology, numerology, or fortune-telling tool. All outputs are data-driven measurements of the acoustic and visual properties of names. However, these correlations represent statistical tendencies in human perception, not deterministic truths about an individual's soul, personality, or destiny.
+                </p>
+            </section>
+
+            <section className="space-y-4">
+                <h2 className="text-xl font-semibold text-slate-900 dark:text-white">3. No Professional Advice</h2>
                 <p>
                     The analysis provided by our algorithms is based on linguistics and phonology. It does <strong>not</strong> contain psychological, medical, legal, or financial advice.
                     The structural analysis of a name should not be used as a basis for important life decisions, including but not limited to hiring, naming children, or relationship compatibility.
@@ -32,7 +42,7 @@ export default function DisclaimerPage() {
             </section>
 
             <section className="space-y-4">
-                <h2 className="text-xl font-semibold text-slate-900 dark:text-white">3. Advertising & Affiliates</h2>
+                <h2 className="text-xl font-semibold text-slate-900 dark:text-white">4. Advertising & Affiliates</h2>
                 <p>
                     The Site may contain advertisements, sponsored content, paid insertions, affiliate links, or other forms of monetization.
                 </p>
@@ -43,7 +53,7 @@ export default function DisclaimerPage() {
             </section>
 
             <section className="space-y-4">
-                <h2 className="text-xl font-semibold text-slate-900 dark:text-white">4. Limitation of Liability</h2>
+                <h2 className="text-xl font-semibold text-slate-900 dark:text-white">5. Limitation of Liability</h2>
                 <p>
                     Under no circumstance shall we have any liability to you for any loss or damage of any kind incurred as a result of the use of the site or reliance on any
                     information provided on the site. Your use of the site and your reliance on any information on the site is solely at your own risk.

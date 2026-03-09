@@ -45,8 +45,20 @@ export const Footer: React.FC = () => {
                         <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-xs">
                             A name-analysis tool that combines multiple linguistics metrics (phonotactics, sonority, and sound symbolism) into a shareable report.
                         </p>
-                        <div className="flex items-center gap-3 mt-2">
-                            <span className="text-xs text-slate-400 dark:text-slate-500 italic">Social channels coming soon</span>
+                        <div className="flex items-center gap-4 mt-4">
+                            {socialLinks.map((social) => (
+                                <a
+                                    key={social.name}
+                                    href={social.url}
+                                    title={social.name === 'Twitter' ? 'X (formerly Twitter)' : social.name}
+                                    className="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                                >
+                                    <span className="sr-only">{social.name}</span>
+                                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d={social.path} />
+                                    </svg>
+                                </a>
+                            ))}
                         </div>
                     </div>
 

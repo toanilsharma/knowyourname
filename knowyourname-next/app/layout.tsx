@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     template: "%s | Know Your Name",
   },
   alternates: {
-    canonical: './',
+    canonical: '/',
   },
   description:
     "What does your name actually say? Reveal the hidden linguistic psychology, keyboard ergonomics, and acoustic vibration of your name. 100% Science. No Horoscopes.",

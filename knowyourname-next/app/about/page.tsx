@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 export default function AboutPage() {
     return (
         <div className="max-w-4xl mx-auto px-4 py-16 text-slate-700 dark:text-slate-300 animate-fade-in-up">
-            
+
             {/* Hero Image */}
             <div className="relative mb-12 rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                    src="/images/about-identity.png" 
+                <img
+                    src="/images/about-identity.png"
                     alt="Abstract representation of identity and naming"
                     className="w-full h-64 object-cover"
                 />
@@ -52,10 +52,10 @@ export default function AboutPage() {
                         The analysis engine processes names through five distinct modules:
                     </p>
                     <ol className="list-decimal pl-5 space-y-2">
-                        <li><strong>Grapheme-to-Phoneme Mapping:</strong> Letters are mapped to IPA phonemes using a deterministic rule-based heuristic derived from the CMU Pronouncing Dictionary.</li>
+                        <li><strong>Grapheme-to-Phoneme Mapping:</strong> Letters are mapped to IPA phonemes using a deterministic rule-based heuristic derived from the <strong>CMU Pronouncing Dictionary (v0.7b)</strong>. This ensures calculations are based on spoken sound, not spelling.</li>
                         <li><strong>Sonority Calculation:</strong> Phonemes are assigned values on a 1-10 Sonority Hierarchy (Clements, 1990). The variance of these values determines rhythmic "smoothness."</li>
-                        <li><strong>Entropy Calculation:</strong> Shannon Entropy (H) is computed based on character frequency in the Oxford English Corpus: H(X) = -Σ p(x) log₂ p(x).</li>
-                        <li><strong>Keyboard Ergonomics:</strong> Each letter's position on a standard QWERTY layout is mapped to (x, y) coordinates. Total typing distance and hand alternation are calculated.</li>
+                        <li><strong>Entropy Calculation:</strong> Shannon Entropy (H) is computed based on character frequency in the <strong>Oxford English Corpus (OEC 2 Billion Word dataset)</strong>: H(X) = -Σ p(x) log₂ p(x).</li>
+                        <li><strong>Keyboard Ergonomics:</strong> Each letter's position on a standard QWERTY layout is mapped to (x, y) coordinates. Total biometric typing distance (Fitts's Law model) and hand alternation are calculated.</li>
                         <li><strong>Bouba-Kiki Classification:</strong> Phonemes are weighted by their articulatory sharpness (plosives, fricatives → Kiki) or roundness (sonorants, labials → Bouba) following Ramachandran &amp; Hubbard (2001).</li>
                     </ol>
                 </div>

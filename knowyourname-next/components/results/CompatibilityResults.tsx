@@ -31,8 +31,10 @@ export const CompatibilityResults: React.FC<CompatibilityResultsProps> = ({
 
     useEffect(() => {
         if (resultsRef.current) {
-            setTimeout(() => resultsRef.current?.focus(), 100);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                resultsRef.current?.focus();
+                resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 150);
         }
     }, [compatibility]);
 

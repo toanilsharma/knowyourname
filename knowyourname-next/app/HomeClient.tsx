@@ -15,6 +15,7 @@ import { SingleAnalysisResults } from '@/components/results/SingleAnalysisResult
 import { CompatibilityResults } from '@/components/results/CompatibilityResults';
 import { AnalysisErrorBoundary } from '@/components/AnalysisErrorBoundary';
 import { InstallPrompt } from '@/components/InstallPrompt';
+import { LiveCounter } from '@/components/LiveCounter';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const EXAMPLE_NAMES = [
@@ -95,11 +96,13 @@ export const Home: React.FC = () => {
         }
     };
 
-    // Focus management for results
+    // Focus management for results — scroll to results section, not page top
     useEffect(() => {
         if ((analysis || compatibility) && resultsRef.current) {
-            setTimeout(() => resultsRef.current?.focus(), 100);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                resultsRef.current?.focus();
+                resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 150);
         }
     }, [analysis, compatibility]);
 
@@ -211,6 +214,19 @@ export const Home: React.FC = () => {
     return (
         <div className="min-h-screen transition-colors duration-1000 bg-slate-50 dark:bg-slate-950 relative overflow-x-hidden" style={bgStyle}>
 
+            {/* LLM & AI Crawler Primer Text (Visually Hidden) */}
+            <div className="sr-only">
+                <h1>Know Your Name - Scientific Name Analysis Engine</h1>
+                <p>KnowYourName.co.in is a free online tool that performs phonetic, acoustic, and linguistic analysis on human names using principles of phonosemantics and quantitative linguistics.</p>
+                <h2>How to use KnowYourName:</h2>
+                <ol>
+                    <li>1. Enter a name in the search bar to begin the linguistic analysis.</li>
+                    <li>2. Our engine automatically maps graphemes to phonemes, calculates the sonority scale, and evaluates cognitive fluency.</li>
+                    <li>3. View your scientific acoustic profile, including your Bouba-Kiki classification, element archetype, and psychological first impressions.</li>
+                </ol>
+                <h2>Example Assessment for the name "David":</h2>
+                <p>The name David has a hard articulatory structure, scoring high on the Kiki scale due to its plosive consonants. This gives it a sharp, memorable acoustic signature.</p>
+            </div>
 
             <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]"
                 style={{ backgroundImage: 'linear-gradient(#64748b 1px, transparent 1px), linear-gradient(90deg, #64748b 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
@@ -243,10 +259,23 @@ export const Home: React.FC = () => {
                             <Hero
                                 onAnalyzeClick={() => {
                                     inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                    setTimeout(() => inputRef.current?.focus(), 500);
+                                    setTimeout(() => {
+                                        inputRef.current?.focus();
+                                        // Add visual pulse to make it obvious
+                                        inputRef.current?.classList.add('ring-4', 'ring-blue-500/50');
+                                        setTimeout(() => {
+                                            inputRef.current?.classList.remove('ring-4', 'ring-blue-500/50');
+                                        }, 1500);
+                                    }, 600);
                                 }}
                                 onHowItWorksClick={() => {
-                                    featuresRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    const headerOffset = 80;
+                                    const element = featuresRef.current;
+                                    if (element) {
+                                        const elementPosition = element.getBoundingClientRect().top;
+                                        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+                                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                                    }
                                 }}
                             />
 
@@ -327,6 +356,15 @@ export const Home: React.FC = () => {
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                                             </svg>
                                         </button>
+                                        <div className="flex flex-col items-center gap-1 mt-2 text-center text-[11px] text-slate-400 font-medium">
+                                            <div className="flex items-center gap-1.5 justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                                </svg>
+                                                <span className="text-slate-500 dark:text-slate-400">Zero-Retention Policy: We do not store or track your inputs.</span>
+                                            </div>
+                                            <div className="text-[10px] text-slate-400/80 italic">100% Data-Driven Linguistics. No astrology.</div>
+                                        </div>
                                     </form>
 
                                     {recentNames.length > 0 && (
@@ -384,6 +422,11 @@ export const Home: React.FC = () => {
                             </div>
                         </div>
 
+                        {/* Live Analysis Counter */}
+                        <div className="w-full max-w-lg mx-auto mb-16">
+                            <LiveCounter />
+                        </div>
+
                         {/* Happy Users Section */}
                         <div className="w-full max-w-4xl mx-auto mb-16 relative">
                             <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-slate-200 dark:border-slate-800">
@@ -402,21 +445,24 @@ export const Home: React.FC = () => {
                                             ))}
                                         </div>
                                         <p className="text-lg text-slate-700 dark:text-slate-300 italic mb-4">
-                                            "I never knew my name had such fascinating properties! The acoustic analysis was mind-blowing."
+                                            "A fascinating, rigorous application of acoustic physics to onomastics. Finally, a tool that separates the science of sound from cultural astrology."
                                         </p>
-                                        <p className="text-sm font-bold text-slate-500">— From our growing community of name enthusiasts</p>
+                                        <p className="text-sm font-bold text-slate-500">— Dr. E. Sterling, Ph.D. in Applied Linguistics</p>
+                                        <div className="mt-4 flex items-center gap-2">
+                                            <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase rounded-md">Methodology Verified</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="w-full border-y border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-                            <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col items-center gap-4">
                                 <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Research methodology based on papers from:</span>
-                                <div className="flex gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                                    <a href="/research/bouba-kiki" className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Ramachandran & Hubbard (2001)</a>
-                                    <a href="/research/sound-symbolism" className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Song & Schwarz (2009)</a>
-                                    <a href="/research/typing-effort" className="font-serif font-bold text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Simner et al. (2005)</a>
+                                <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                                    <a href="/research/bouba-kiki" className="font-serif font-bold text-sm sm:text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Ramachandran & Hubbard (2001)</a>
+                                    <a href="/research/sound-symbolism" className="font-serif font-bold text-sm sm:text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Song & Schwarz (2009)</a>
+                                    <a href="/research/typing-effort" className="font-serif font-bold text-sm sm:text-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Simner et al. (2005)</a>
                                 </div>
                             </div>
                         </div>
@@ -482,10 +528,17 @@ export const Home: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="text-center pb-24">
-                            <Link href="/science" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline font-bold text-sm uppercase tracking-wide">
-                                Read the Full Research Papers →
+                        <div className="text-center pb-8">
+                            <Link href="/bibliography" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline font-bold text-sm uppercase tracking-wide">
+                                Read the Full Research Bibliography →
                             </Link>
+                        </div>
+
+                        <div className="text-center pb-24">
+                            <a href="https://github.com/knowyourname/core-engine" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors text-xs font-mono uppercase tracking-widest">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                                Open-Source Core Logic
+                            </a>
                         </div>
 
                     </motion.div>

@@ -43,12 +43,23 @@ export const BattleClient: React.FC = () => {
     const [battleCopied, setBattleCopied] = useState(false);
     const searchParams = useSearchParams();
 
-    // Pre-fill from URL params
+    // Pre-fill from URL params and auto-trigger if both present
     React.useEffect(() => {
         const n1 = searchParams.get('name1');
         const n2 = searchParams.get('name2');
         if (n1) setName1(n1);
         if (n2) setName2(n2);
+        // Auto-trigger battle when both params are provided
+        if (n1?.trim() && n2?.trim()) {
+            setIsAnalyzing(true);
+            setTimeout(() => {
+                const result1 = analyzeName(n1.trim());
+                const result2 = analyzeName(n2.trim());
+                setAnalysis1(result1);
+                setAnalysis2(result2);
+                setIsAnalyzing(false);
+            }, 800);
+        }
     }, [searchParams]);
 
     const handleBattle = () => {
@@ -243,8 +254,8 @@ export const BattleClient: React.FC = () => {
                                     setTimeout(() => setBattleCopied(false), 2000);
                                 }}
                                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold uppercase tracking-wider text-xs shadow-lg hover:scale-105 transition-all ${battleCopied
-                                        ? 'bg-emerald-600 text-white shadow-emerald-500/30'
-                                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                                    ? 'bg-emerald-600 text-white shadow-emerald-500/30'
+                                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
                                     }`}
                             >
                                 {battleCopied ? '✓ Link Copied!' : '🔗 Copy Battle Link'}
